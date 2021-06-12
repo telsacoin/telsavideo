@@ -1,8 +1,0 @@
-1<?xml version="1.0" encoding="utf-8"?>
-2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.befovy.fijkplayer" >
-4
-5    <uses-sdk android:minSdkVersion="16" />
-5-->D:\Soft\flutter\.pub-cache\git\fijkplayer-e569e9ea7830a370d578709358e5ad2ece05992f\android\src\main\AndroidManifest.xml
-6
-7</manifest>

@@ -1,0 +1,39 @@
+{
+    "project_info": {
+      "project_number": "1017223649469",
+      "project_id": "charlie-wang",
+      "storage_bucket": "charlie-wang.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:1017223649469:android:2a2de0808aad1c37903fd4",
+          "android_client_info": {
+            "package_name": "com.example.telsavideo"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "1017223649469-d3j2gd88mg36varfed8r1sr46lqmum5n.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyDxg-cgzuZDgkgxkBiBhBg9cwDg4GiPkiI"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "1017223649469-d3j2gd88mg36varfed8r1sr46lqmum5n.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

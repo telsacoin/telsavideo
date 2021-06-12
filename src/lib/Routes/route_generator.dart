@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:telsavideo/Screens/homeScreen.dart';
-import 'package:telsavideo/Screens/loginScreen.dart';
+import 'package:telsavideo/screens/home.dart';
+import 'package:telsavideo/screens/login.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
