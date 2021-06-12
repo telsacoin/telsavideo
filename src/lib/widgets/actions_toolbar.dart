@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:telsavideo/common/icons.dart';
 
 class ActionsToolbar extends StatefulWidget {
@@ -50,11 +50,10 @@ class _ActionsToolbarState extends State<ActionsToolbar>
 
   @override
   Widget build(BuildContext context) {
-    FlutterMoneyFormatter fmf =
-        FlutterMoneyFormatter(amount: double.parse(widget.favorite.toString()));
+    MoneyFormatter fmf =
+        MoneyFormatter(amount: double.parse(widget.favorite.toString()));
 
-    FlutterMoneyFormatter fmf2 =
-        FlutterMoneyFormatter(amount: double.parse(widget.comments));
+    MoneyFormatter fmf2 = MoneyFormatter(amount: double.parse(widget.comments));
 
     return Align(
         alignment: Alignment.bottomRight,

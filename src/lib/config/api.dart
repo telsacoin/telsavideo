@@ -13,7 +13,8 @@ class RequestController {
 
   Future<String> getVideos() async {
     try {
-      var response = await http.get(url);
+      var response = await http.get(Uri.http(
+          host, "/aweme/v1/creator/data/billboard/", {"billboard_type": "4"}));
       return response.body;
     } catch (e) {
       return e.toString();
@@ -46,7 +47,7 @@ class RequestController {
 
   Future<String> getCookie() async {
     try {
-      var response = await http.get(host + "/share/item/");
+      var response = await http.get(Uri.http(host, "/share/item/"));
       return response.headers["set-cookie"];
     } catch (e) {
       return "error";

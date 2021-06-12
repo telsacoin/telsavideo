@@ -1,4 +1,0 @@
-#Thu May 27 01:17:30 CST 2021
-base.0=C\:\\Users\\charliewong\\Desktop\\TelsaVideo\\src\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

@@ -38,7 +38,7 @@ class _DouyinVideoPlayerState extends State<DouyinVideoPlayer> {
       alignment: Alignment.center,
       color: Colors.black,
       //height: double.infinity,
-      child: _controller.value.initialized
+      child: _controller.value.isInitialized
           ? GestureDetector(
               onTap: () {
                 print(_controller.value.aspectRatio);
