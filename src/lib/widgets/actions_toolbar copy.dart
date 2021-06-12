@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:telsavideo/common/icons.dart';
 
 class ActionsToolbar extends StatelessWidget {
@@ -19,11 +19,10 @@ class ActionsToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FlutterMoneyFormatter fmf =
-        FlutterMoneyFormatter(amount: double.parse(favorite.toString()));
+    MoneyFormatter fmf =
+        MoneyFormatter(amount: double.parse(favorite.toString()));
 
-    FlutterMoneyFormatter fmf2 =
-        FlutterMoneyFormatter(amount: double.parse(comments));
+    MoneyFormatter fmf2 = MoneyFormatter(amount: double.parse(comments));
 
     return Align(
         alignment: Alignment.bottomRight,

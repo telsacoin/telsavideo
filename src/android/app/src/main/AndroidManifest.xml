@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> 
-    用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -22,8 +21,15 @@
     -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="telsavideo"
+        android:label="DTok"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4564966649209280~8369418106"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

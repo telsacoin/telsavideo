@@ -1,30 +1,28 @@
 // ADD THIS IMPORT
-//import 'package:flutter/foundation.dart'
-//    show debugDefaultTargetPlatformOverride;
 import 'dart:async';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:telsavideo/Screens/homeScreen.dart';
-//import 'package:telsavideo/common/custom_proxy.dart';
+import 'package:package_info/package_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/Routes/route_generator.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:telsavideo/screens/login.dart';
 
-// void main() async {
-//   if (!kReleaseMode) {
-//     //final proxy = CustomProxy(ipAddress: "localhost", port: 8087);
-//     //proxy.enable();
-//   }
-//   // ADD THIS LINE
-//   debugDefaultTargetPlatformOverride = TargetPlatform.windows;
-//   runApp(MyApp());
-// }
+import 'components/api.dart';
+
+var videoData;
+
+// analytics
+FirebaseAnalytics analytics = new FirebaseAnalytics();
+var pubIndex = 0;
 
 Future<Null> main() async {
   FlutterError.onError = (FlutterErrorDetails details) async {
     if (!kReleaseMode) {
       FlutterError.dumpErrorToConsole(details);
-      //final proxy = CustomProxy(ipAddress: "localhost", port: 8087);
-      //proxy.enable();
     } else {
       Zone.current.handleUncaughtError(details.exception, details.stack);
     }
@@ -33,7 +31,42 @@ Future<Null> main() async {
   runZoned<Future<Null>>(() async {
     // ADD THIS LINE
     //debugDefaultTargetPlatformOverride = TargetPlatform.windows;
-    runApp(MyApp());
+
+    // ignore: invalid_use_of_visible_for_testing_member
+    SharedPreferences.setMockInitialValues({});
+
+    var _temp = {"user": await retrieveData("user")};
+    user = _temp["user"];
+
+    // set theme
+    var _tempTheme = await retrieveData("theme");
+    if (_tempTheme != null && _tempTheme != "value") {
+      print(_tempTheme);
+      selectedTheme = _tempTheme;
+    } else {
+      selectedTheme = "normal";
+    }
+
+    var internet = true;
+
+    // first start
+    dynamic _tempBuildNumber = "0";
+    int buildNumber = 1;
+    try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      buildNumber = int.parse(packageInfo.buildNumber);
+      //tempBuildNumber = await retrieveData("buildNumber");
+    } catch (e) {}
+
+    if (_tempBuildNumber == null ||
+        int.parse(_tempBuildNumber) < buildNumber && user == null) {
+      saveData("gateway", "https://video.dtube.top/ipfs/");
+      saveData("buildNumber", buildNumber.toString());
+      runApp(MyApp());
+    } else {
+      runApp(MyApp());
+    }
+
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
@@ -51,8 +84,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        // ... app-specific localization delegate[s] here
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('he', 'IL'), // Hebrew
+        const Locale('zh', 'CN'),
+        // ... other locales the app supports
+      ],
       //debugShowCheckedModeBanner: true,
-      title: 'Douyin App',
+      title: 'DTok',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -69,9 +113,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         //visualDensity: VisualDensity.adaptivePlatformDensity,
         //fontFamily: "Poppins",
-        textTheme: Theme.of(context)
-            .textTheme
-            .apply(bodyColor: Colors.white, displayColor: Colors.white),
+        primarySwatch: Colors.blue,
       ),
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
