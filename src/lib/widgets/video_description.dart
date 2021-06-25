@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:marquee_widget/marquee_widget.dart';
 
 class VideoDescription extends StatefulWidget {
-  final String userName;
-  final String description;
-  final String musicName;
-  final String authorName;
+  final String? userName;
+  final String? description;
+  final String? musicName;
+  final String? authorName;
 
   const VideoDescription(
       {this.userName, this.description, this.musicName, this.authorName});
@@ -16,7 +16,7 @@ class VideoDescription extends StatefulWidget {
 
 class VideoDescriptionState extends State<VideoDescription>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
   //Animation<Offset> _offsetAnimation;
 
   @override

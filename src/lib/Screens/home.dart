@@ -6,18 +6,18 @@ import 'package:telsavideo/common/icons.dart';
 //https://stackoverflow.com/questions/50667783/show-bottomsheet-beneath-bottomnavigationbar
 
 class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   int currentIndex = 0;
-  TabController _tabController;
-  PageController _pageController;
+  late TabController _tabController;
+  late PageController _pageController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final bool useRootNavigator = true;
-  Widget popup;
+  late Widget popup;
   final List<Tab> toptabs = <Tab>[
     Tab(
       child: Text('Following',
@@ -46,7 +46,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     _pageController = new PageController(initialPage: 0, keepPage: true);
   }
 
-  void onPageChange(int index, {PageController p, TabController t}) async {}
+  void onPageChange(int index, {PageController? p, TabController? t}) async {}
 
   @override
   void dispose() {
@@ -70,7 +70,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 allowImplicitScrolling: true,
                 controller: _pageController,
                 children: <Widget>[
-                  Trending(),
+                  Trending(
+                    key: _scaffoldKey,
+                  ),
                 ],
                 onPageChanged: (int index) {
                   setState(() {

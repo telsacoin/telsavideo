@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:quiver/time.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -57,10 +58,19 @@ class Steemit {
     return _tempArray;
   }
 
+  //get user data from user name
+  Future getUserData(username) async {
+    Dio dio = new Dio();
+    {
+      Response response =
+          await dio.get("https://steemit.com/" + username + ".json");
+      return response.data;
+    }
+  }
+
   Future getDiscussionsByHot() async {
     Dio dio = new Dio();
-    Response response =
-        await dio.get("https://dtubeapp.cf:2053/getDiscussions?by=hot");
+    Response response = await dio.get(url + "/getDiscussions?by=hot");
     return (response.data);
   }
 
@@ -196,7 +206,7 @@ int toInt(double doub) {
   return (multiplier * doub).round();
 }
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 initializeNotifications() {
   // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
   var initializationSettingsAndroid =
@@ -205,15 +215,13 @@ initializeNotifications() {
   var initializationSettings = new InitializationSettings(
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  flutterLocalNotificationsPlugin.initialize(initializationSettings,
+  flutterLocalNotificationsPlugin!.initialize(initializationSettings,
       onSelectNotification: onSelectNotification);
 }
 
-Future onSelectNotification(String payload) async {
-  if (payload != null) {
-    debugPrint('notification payload: ' + payload);
-    OpenFile.open("/storage/emulated/0/Download/" + payload);
-  }
+Future<dynamic> onSelectNotification(String? payload) async {
+  debugPrint('notification payload: ' + payload!);
+  OpenFile.open("/storage/emulated/0/Download/" + payload);
   /*await Navigator.push(
       context,
       new MaterialPageRoute(builder: (context) => new SecondScreen(payload)),
@@ -229,7 +237,7 @@ Future showNotification(String title, var body) async {
   var platformChannelSpecifics = new NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin
+  await flutterLocalNotificationsPlugin!
       .show(0, title, body, platformChannelSpecifics, payload: body);
 }
 
@@ -343,7 +351,7 @@ void saveData(var key, var data) async {
   prefs.setString(key, data);
 }
 
-void saveDataMap(var key, List data) async {
+void saveDataMap(var key, List<String> data) async {
   final prefs = await SharedPreferences.getInstance();
   prefs.setStringList(key, data);
 }
@@ -365,9 +373,9 @@ String linkify(String text) {
   var result = new RegExp(urlPattern, caseSensitive: false).allMatches(text);
 
   for (Match m in result) {
-    String match = m.group(0);
-    text =
-        text.replaceFirst(match, "<a href=\"" + match + "\">" + match + "</a>");
+    String? match = m.group(0);
+    text = text.replaceFirst(
+        match!, "<a href=\"" + match + "\">" + match + "</a>");
   }
   return text;
 }

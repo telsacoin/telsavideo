@@ -39,7 +39,7 @@ Future<void> main() async {
         default:
           {
             // Validate the authentication and the the steamid64.
-            String steamId = await openId.validate();
+            String? steamId = await openId.validate();
 
             // Save the steamid into the session.
             request.session['steamid'] = steamId;

@@ -9,23 +9,23 @@ import 'package:telsavideo/models/Douyin.dart';
 import 'package:telsavideo/screens/video.dart';
 
 class Trending extends StatefulWidget {
-  Trending({Key key}) : super(key: key);
+  Trending({required Key key}) : super(key: key);
   State<StatefulWidget> createState() => _TrendingState();
 }
 
 class _TrendingState extends State<Trending> {
-  PageController pageController;
-  BuildContext context;
+  late PageController pageController;
+  late BuildContext context;
   RequestController api = RequestController();
   List<Widget> videos = [];
-  VideoItem firstItem;
+  late VideoItem firstItem;
   bool isloaded = false;
   int length = 0;
   Future<void> getTrending() async {
     try {
       var dio = new Dio();
       dio.options.headers = api.headers;
-      var response = await dio.get(api.url);
+      var response = await dio.get(RequestController.url);
       Douyin tiktok = Douyin.fromJson(jsonDecode(response.data));
       tiktok.billboardData.forEach(
         (item) {
@@ -93,9 +93,9 @@ class _TrendingState extends State<Trending> {
       });
     getTrending()
         .then((value) => print('videos ${videos.length} was finished!'));
-    if (SchedulerBinding.instance.schedulerPhase ==
+    if (SchedulerBinding.instance!.schedulerPhase ==
         SchedulerPhase.persistentCallbacks) {
-      SchedulerBinding.instance
+      SchedulerBinding.instance!
           .addPostFrameCallback((_) => print('videos is loading!'));
     }
   }
@@ -109,7 +109,7 @@ class _TrendingState extends State<Trending> {
   @override
   Widget build(BuildContext context) {
     context = context;
-    WidgetsBinding.instance.addPostFrameCallback((callback) {
+    WidgetsBinding.instance!.addPostFrameCallback((callback) {
       // executes after build
       print(callback.inMilliseconds);
       if (callback.inMilliseconds > 0) {

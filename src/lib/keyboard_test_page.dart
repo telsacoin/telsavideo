@@ -81,12 +81,12 @@ class _KeyboardTestPageState extends State<KeyboardTestPage> {
     int keyCode;
     String logicalKey;
     String physicalKey;
-    switch (event.data.runtimeType) {
+    /*  switch (event.data.runtimeType) {
       case RawKeyEventDataMacOs:
-        final RawKeyEventDataMacOs data = event.data;
+        final RawKeyEventData data = event.data;
         keyCode = data.keyCode;
-        logicalKey = data.logicalKey.debugName;
-        physicalKey = data.physicalKey.debugName;
+        logicalKey = data.logicalKey.debugName!;
+        physicalKey = data.physicalKey.debugName!;
         break;
       case RawKeyEventDataLinux:
         final RawKeyEventDataLinux data = event.data;
@@ -102,14 +102,14 @@ class _KeyboardTestPageState extends State<KeyboardTestPage> {
         break;
       default:
         throw new Exception('Unsupported platform ${event.data.runtimeType}');
-    }
+    } */
 
-    _addMessage(
+    /* _addMessage(
         '${isKeyDown ? 'KeyDown' : 'KeyUp'}: $keyCode \nLogical key: $logicalKey\n'
         'Physical key: $physicalKey');
-  }
+  } */
 
-  void _addMessage(String message) {
+    /* void _addMessage(String message) {
     setState(() {
       _messages.add(message);
     });
@@ -117,6 +117,6 @@ class _KeyboardTestPageState extends State<KeyboardTestPage> {
       _scrollController.jumpTo(
         _scrollController.position.maxScrollExtent,
       );
-    });
+    });*/
   }
 }

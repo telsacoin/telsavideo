@@ -7,7 +7,7 @@ import 'package:telsavideo/widgets/player.dart';
 class VideoItem extends StatefulWidget {
   final VideoData data;
   final String videourl;
-  const VideoItem({Key key, @required this.data, this.videourl})
+  const VideoItem({Key? key, required this.data, required this.videourl})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _VideoItemState();

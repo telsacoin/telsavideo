@@ -10,7 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TapGestureRecognizer _myTapGestureRecognizer;
+  late TapGestureRecognizer _myTapGestureRecognizer;
   @override
   void initState() {
     super.initState();
