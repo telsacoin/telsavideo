@@ -26,7 +26,7 @@ class _TrendingState extends State<Trending> {
       var dio = new Dio();
       dio.options.headers = api.headers;
       var response = await dio.get(RequestController.url);
-      Douyin tiktok = Douyin.fromJson(jsonDecode(response.data));
+      /* Douyin tiktok = Douyin.fromJson(jsonDecode(response.data));
       tiktok.billboardData.forEach(
         (item) {
           setState(() {
@@ -36,7 +36,7 @@ class _TrendingState extends State<Trending> {
                 });
           });
         },
-      );
+      ); */
       setState(() {
         isloaded = true;
       });
@@ -46,13 +46,13 @@ class _TrendingState extends State<Trending> {
     }
   }
 
-  Future<int> getVideos(BillboardData v) async {
+  /* Future<int> getVideos(BillboardData v) async {
     try {
       var url = v.link.split("/")[5];
       var dio = new Dio();
       dio.options.headers = api.headers;
       var response = await dio.get(api.video + url + "&dytk");
-      VideoData videoData = VideoData.fromJson(jsonDecode(response.data));
+      /* VideoData videoData = VideoData.fromJson(jsonDecode(response.data));
       //获取无水印的视频地址
       api
           .getRedirects(videoData.itemList[0].video.playaddr.uri)
@@ -73,12 +73,12 @@ class _TrendingState extends State<Trending> {
                     )),
                   }
               })
-          .whenComplete(() => {length++});
+          .whenComplete(() => {length++}); */
     } catch (ex) {
       print(ex);
     }
     return length;
-  }
+  } */
 
   @override
   void initState() {

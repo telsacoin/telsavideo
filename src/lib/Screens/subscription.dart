@@ -8,7 +8,8 @@ class Subscription extends StatefulWidget {
 
 class _SubscriptionState extends State<Subscription>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _subscriptionScaffoldKey =
+      GlobalKey<ScaffoldState>(debugLabel: "_subscriptionScaffoldKey");
   @override
   Widget build(BuildContext context) {
     return Container(

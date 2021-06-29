@@ -5,7 +5,15 @@ import 'package:telsavideo/screens/trending.dart';
 import 'package:telsavideo/common/icons.dart';
 //https://stackoverflow.com/questions/50667783/show-bottomsheet-beneath-bottomnavigationbar
 
+bool _initialUriIsHandled = true;
+
+enum PlayerState {
+  playing,
+  stopped,
+}
+
 class Home extends StatefulWidget {
+  static const String id = "Homepage";
   const Home({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _HomeState();
@@ -15,7 +23,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   int currentIndex = 0;
   late TabController _tabController;
   late PageController _pageController;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _homeScaffoldKey =
+      GlobalKey<ScaffoldState>(debugLabel: "_homeScaffoldKey");
   final bool useRootNavigator = true;
   late Widget popup;
   final List<Tab> toptabs = <Tab>[
@@ -58,7 +67,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      //key: _homeScaffoldKey,
       body: Stack(
         //fit: StackFit.expand,
         children: <Widget>[
@@ -71,7 +80,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 controller: _pageController,
                 children: <Widget>[
                   Trending(
-                    key: _scaffoldKey,
+                    key: _homeScaffoldKey,
                   ),
                 ],
                 onPageChanged: (int index) {
@@ -118,7 +127,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
-      bottomNavigationBar: bottomItems(_scaffoldKey, context),
+      bottomNavigationBar: bottomItems(_homeScaffoldKey, context),
       drawer: Container(),
     );
   }
@@ -162,7 +171,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         ),
       );
   BottomNavigationBar bottomItems(
-      GlobalKey<ScaffoldState> _scaffoldKey, BuildContext context) {
+      GlobalKey<ScaffoldState> _homeScaffoldKey, BuildContext context) {
     return BottomNavigationBar(
       backgroundColor: Colors.black,
       selectedItemColor: Colors.white,

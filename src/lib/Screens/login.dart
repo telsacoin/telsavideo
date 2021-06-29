@@ -45,14 +45,14 @@ class _LoginState extends State<Login> {
                 },
                 color: Colors.black,
               ),
-              Text('帮助', style: TextStyle(color: Colors.black)),
+              Text('Help', style: TextStyle(color: Colors.black)),
             ],
           ),
           SizedBox(
             height: 150.0,
           ),
           Center(
-            child: Text('180****2520',
+            child: Text('917****33335',
                 style: TextStyle(color: Colors.black, fontSize: 38)),
           ),
           Center(
