@@ -1,4 +1,4 @@
-package com.example.telsavideo
+package com.telsa.dtok
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -38,6 +38,7 @@ dependencies:
   path_provider_platform_interface: ^2.0.0
   shared_preferences: ^2.0.6
   firebase_messaging: ^10.0.0
+  modal_bottom_sheet: ^2.0.0
   screen: ^0.0.5
   html: ^0.15.0
   uni_links: ^0.5.1
@@ -64,6 +65,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_html: ^2.1.0
   chewie: ^1.2.0
+  in_app_update: ^2.0.0
   video_launcher: 
      path: lib/flutter_video_launcher
   flutter_svg: ^0.22.0

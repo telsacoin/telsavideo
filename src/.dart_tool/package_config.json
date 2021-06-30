@@ -512,6 +512,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "in_app_update",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/in_app_update-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
       "packageUri": "lib/",
@@ -568,6 +574,12 @@
     {
       "name": "mime",
       "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/mime-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "modal_bottom_sheet",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/modal_bottom_sheet-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1100,7 +1112,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-06-28T16:19:42.366584Z",
+  "generated": "2021-06-29T16:23:53.609745Z",
   "generator": "pub",
   "generatorVersion": "2.13.3"
 }

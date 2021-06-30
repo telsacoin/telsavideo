@@ -1,19 +1,57 @@
+import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telsavideo/accounts/hiveaccount.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 var user;
 
 class Login extends StatefulWidget {
+  static const String id = "Login";
+
   @override
   State<StatefulWidget> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+  final GlobalKey<ScaffoldState> _scaffoldKeyLogin =
+      new GlobalKey<ScaffoldState>();
+
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+
   late TapGestureRecognizer _myTapGestureRecognizer;
+
+  Dio dio = Dio();
+
+  String? _loggedInMessage;
+
+  bool showSpinner = false;
+  bool _rememberMe = false;
+  String? phoneNumber;
+  String? username;
+  String? password;
+  String? registrationToken;
+
+  late Map<String, dynamic> _profile;
+
+  bool _loading = false;
+
+  var user;
+
   @override
   void initState() {
     super.initState();
+
+    _messaging.getToken().then((token) {
+      setState(() {
+        registrationToken = token;
+      });
+    });
+
     _myTapGestureRecognizer = TapGestureRecognizer()
       ..onTap = () {
         launch('https://open.douyin.com/platform');
@@ -24,6 +62,22 @@ class _LoginState extends State<Login> {
   void dispose() {
     _myTapGestureRecognizer.dispose();
     super.dispose();
+  }
+
+  void showInSnackBar(String value) {}
+
+  void sendOTP(String phoneNumber) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var map = Map<String, dynamic>();
+    map['mobile'] = phoneNumber;
+    map['user_id'] = prefs.getString('userId');
+
+    print(map.toString());
+    FormData formData = FormData.fromMap(map);
+
+    var response =
+        await dio.post('https://api.aureal.one/public/sendOTP', data: formData);
+    print(response.data);
   }
 
   @override
@@ -52,13 +106,15 @@ class _LoginState extends State<Login> {
             height: 150.0,
           ),
           Center(
-            child: Text('917****33335',
+            child: Text('DTok',
                 style: TextStyle(color: Colors.black, fontSize: 38)),
           ),
           Center(
-            child: Text('认证服务由中国电信提供',
-                style: TextStyle(
-                    color: Color.fromRGBO(53, 53, 53, 1), fontSize: 12)),
+            child: Text(
+              '   DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influencers and viewers in cryptocurrency, like a decentralized Tiktok.',
+              style:
+                  TextStyle(color: Color.fromRGBO(53, 53, 53, 1), fontSize: 12),
+            ),
           ),
           SizedBox(
             height: 50.0,
@@ -68,12 +124,16 @@ class _LoginState extends State<Login> {
             child: RaisedButton(
               color: Color.fromRGBO(252, 1, 86, 1),
               child: Text(
-                '本机号码一键登录',
+                'Hive Sign In',
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                showBottomSheet(
-                    context: context, builder: (context) => Login());
+                print("Hive Signer Activated");
+                showBarModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return HiveAccount();
+                    });
               },
             ),
           ),
@@ -85,7 +145,7 @@ class _LoginState extends State<Login> {
             child: OutlineButton(
               color: Color.fromRGBO(252, 1, 86, 1),
               child: Text(
-                '其他手机号码登录',
+                'Google Sign In',
                 style: TextStyle(color: Colors.black),
               ),
               onPressed: () {
@@ -102,22 +162,22 @@ class _LoginState extends State<Login> {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: '登录即表明同意',
+                  text: 'Sign in means to agree with',
                   style: TextStyle(color: Color.fromRGBO(53, 53, 53, 0.8)),
                 ),
                 TextSpan(text: '  '),
                 TextSpan(
-                  text: '用户协议',
+                  text: 'the user agreement',
                   style: TextStyle(color: Color.fromRGBO(0, 164, 219, 0.8)),
                 ),
                 TextSpan(text: '  '),
                 TextSpan(
-                  text: '和',
+                  text: 'and',
                   style: TextStyle(color: Color.fromRGBO(53, 53, 53, 0.8)),
                 ),
                 TextSpan(text: '  '),
                 TextSpan(
-                  text: '隐私政策',
+                  text: 'privacy policy',
                   style: TextStyle(color: Color.fromRGBO(0, 164, 219, 0.8)),
                 ),
               ],
@@ -128,12 +188,12 @@ class _LoginState extends State<Login> {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: '以及',
+                  text: 'and',
                   style: TextStyle(color: Color.fromRGBO(53, 53, 53, 0.8)),
                 ),
                 TextSpan(text: '  '),
                 TextSpan(
-                    text: '《中国电信认证服务条款》',
+                    text: '《DTOK Service Terms》',
                     style: TextStyle(color: Color.fromRGBO(0, 164, 219, 0.8)),
                     recognizer: _myTapGestureRecognizer),
               ],
@@ -143,7 +203,7 @@ class _LoginState extends State<Login> {
               flex: 1,
               child: Center(
                   heightFactor: 25.0,
-                  child: Text('其他方式登录',
+                  child: Text('Other ways to log in',
                       style:
                           TextStyle(color: Color.fromRGBO(0, 164, 219, 0.8))))),
         ],
