@@ -25,7 +25,7 @@ class _TrendingState extends State<Trending> {
     try {
       var dio = new Dio();
       dio.options.headers = api.headers;
-      var response = await dio.get(RequestController.url);
+      //var response = await dio.get(RequestController.url);
       /* Douyin tiktok = Douyin.fromJson(jsonDecode(response.data));
       tiktok.billboardData.forEach(
         (item) {

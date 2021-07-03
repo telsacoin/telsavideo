@@ -2,11 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/accounts/hiveaccount.dart';
+import 'package:telsavideo/common/sizeconfig.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import 'login/auth.dart';
 
 var user;
 
@@ -18,6 +23,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  //StreamSubscription<User> loginStateSubscription;
   final GlobalKey<ScaffoldState> _scaffoldKeyLogin =
       new GlobalKey<ScaffoldState>();
 
@@ -82,6 +88,9 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = Provider.of<AuthBloc>(context);
+    SizeConfig().init(context);
+
     return Container(
       color: Colors.white,
       padding:
@@ -143,14 +152,59 @@ class _LoginState extends State<Login> {
           SizedBox(
             width: double.infinity,
             child: OutlineButton(
-              color: Color.fromRGBO(252, 1, 86, 1),
-              child: Text(
-                'Google Sign In',
-                style: TextStyle(color: Colors.black),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.google,
+                        color: Colors.black,
+                        size: 16,
+                      ),
+                      SizedBox(width: 2.0),
+                      Text(
+                        'Google Sign In',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+                onPressed: () {
+                  authBloc.loginGoogle(context);
+                }),
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          SizedBox(
+            height: 2.0,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: OutlineButton(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.apple,
+                            color: Colors.black,
+                            size: 18,
+                          ),
+                          SizedBox(width: 2.0),
+                          Text("Apple Sign In")
+                        ])),
               ),
               onPressed: () {
-                showBottomSheet(
-                    context: context, builder: (context) => Login());
+                authBloc.loginApple(context);
               },
             ),
           ),

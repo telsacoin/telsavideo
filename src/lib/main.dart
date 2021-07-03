@@ -1,5 +1,6 @@
 // ADD THIS IMPORT
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,13 +11,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
+import 'package:in_app_update/in_app_update.dart';
 //import 'package:in_app_update/in_app_update.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:package_info/package_info.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/Routes/route_generator.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:telsavideo/screens/home.dart';
 import 'package:telsavideo/screens/login.dart';
+import 'package:telsavideo/screens/login/auth.dart';
+import 'package:telsavideo/screens/searchProvider.dart';
+import 'package:telsavideo/screens/settings/security/theme.dart';
+import 'package:telsavideo/screens/sortFilterPreference.dart';
 
 import 'components/api.dart';
 
@@ -121,11 +129,17 @@ Future<Null> main() async {
 
     if (_tempBuildNumber == null ||
         int.parse(_tempBuildNumber) < buildNumber && user == null) {
-      saveData("gateway", "https://video.dtube.top/ipfs/");
+      saveData("gateway", "https://video.telsacoin.io/ipfs/");
       saveData("buildNumber", buildNumber.toString());
-      runApp(MyApp());
+      runApp(ChangeNotifierProvider(
+        create: (_) => ThemeProvider(isLightTheme: isLightTheme),
+        child: AppStart(),
+      ));
     } else {
-      runApp(MyApp());
+      runApp(ChangeNotifierProvider(
+        create: (_) => ThemeProvider(isLightTheme: isLightTheme),
+        child: AppStart(),
+      ));
     }
 
     SystemUiOverlayStyle systemUiOverlayStyle =
@@ -140,8 +154,39 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
   print('{$error $stackTrace}');
 }
 
-class MyApp extends StatelessWidget {
-  /* AppUpdateInfo _updateInfo;
+class AppStart extends StatelessWidget {
+  const AppStart({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    return MyApp(
+      themeProvider: themeProvider,
+    );
+  }
+}
+
+class MyApp extends StatefulWidget with WidgetsBindingObserver {
+  final ThemeProvider themeProvider;
+
+  const MyApp({Key? key, required this.themeProvider}) : super(key: key);
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+class _MyAppState extends State<MyApp> {
+  bool? _flexibleUpdateAvailable = false;
+  String? _token;
+
+  void showSnack(String text) {
+    if (_scaffoldKey.currentContext != null) {
+      Scaffold.of(_scaffoldKey.currentContext!)
+          .showSnackBar(SnackBar(content: Text(text)));
+    }
+  }
+
+  late AppUpdateInfo _updateInfo;
   Future<void> checkForUpdate() async {
     try {
       if (Platform.isAndroid) {
@@ -149,6 +194,7 @@ class MyApp extends StatelessWidget {
           setState(() {
             _updateInfo = info;
           });
+          // ignore: invalid_return_type_for_catch_error
         }).catchError((error) => print(error));
 
         if (_updateInfo.updateAvailability ==
@@ -160,45 +206,64 @@ class MyApp extends StatelessWidget {
     } catch (e) {
       print(e);
     }
-  } */
+  }
+
+  @override
+  void initState() {
+    //check the update when app is ready to start
+    checkForUpdate();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void _showSnackBar(String msg) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      final context = _scaffoldKey.currentContext;
+      if (context != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(msg),
+        ));
+      }
+    });
+  }
+
+  int _messageCount = 0;
+
+  final navigatorKey = GlobalKey<NavigatorState>();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: [
-        // ... app-specific localization delegate[s] here
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', 'US'), // English
-        const Locale('he', 'IL'), // Hebrew
-        const Locale('zh', 'CN'),
-        // ... other locales the app supports
-      ],
-      //debugShowCheckedModeBanner: true,
-      title: 'DTok',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        //primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        //visualDensity: VisualDensity.adaptivePlatformDensity,
-        //fontFamily: "Poppins",
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
-    );
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
+    return ChangeNotifierProvider(
+        create: (context) => SearchProvider(),
+        child: Provider(
+          create: (context) => AuthBloc(),
+          child: ChangeNotifierProvider(
+              create: (context) => SortFilterPreferences(),
+              child: MaterialApp(
+                localizationsDelegates: [
+                  // ... app-specific localization delegate[s] here
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                supportedLocales: [
+                  const Locale('en', 'US'), // English
+                  const Locale('he', 'IL'), // Hebrew
+                  const Locale('zh', 'CN'),
+                  // ... other locales the app supports
+                ],
+                //debugShowCheckedModeBanner: true,
+                title: 'DTok',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                ),
+                initialRoute: '/',
+                onGenerateRoute: RouteGenerator.generateRoute,
+              )),
+        ));
   }
 }
