@@ -1,18 +1,19 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/adapter.dart';
 import 'package:telsavideo/services/interceptor.dart' as postreq;
 import 'package:telsavideo/screens/home.dart';
 import 'package:telsavideo/screens/onboarding/languageselection.dart';
 import 'package:telsavideo/common/SizeConfig.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+import '../constants.dart';
 
 class HiveAccount extends StatefulWidget {
   static const String id = "Hive Signer";
@@ -22,12 +23,47 @@ class HiveAccount extends StatefulWidget {
 }
 
 class _HiveAccountState extends State<HiveAccount> {
+  InAppWebViewController? webViewController;
+  InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+      crossPlatform: InAppWebViewOptions(
+        useShouldOverrideUrlLoading: true,
+        mediaPlaybackRequiresUserGesture: false,
+      ),
+      android: AndroidInAppWebViewOptions(
+        useHybridComposition: true,
+        saveFormData: true,
+      ),
+      ios: IOSInAppWebViewOptions(
+        allowsInlineMediaPlayback: true,
+      ));
+
+  PullToRefreshController? pullToRefreshController;
+  String url = "";
+  double progress = 0;
+  final urlController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     // Enable hybrid composition.
-    bool isAndroid = Platform.isIOS;
-    if (isAndroid) WebView.platform = SurfaceAndroidWebView();
+    pullToRefreshController = PullToRefreshController(
+      options: PullToRefreshOptions(
+        color: Colors.blue,
+      ),
+      onRefresh: () async {
+        if (Platform.isAndroid) {
+          webViewController?.reload();
+        } else if (Platform.isIOS) {
+          webViewController?.loadUrl(
+              urlRequest: URLRequest(url: await webViewController?.getUrl()));
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   postreq.Interceptor intercept = postreq.Interceptor();
@@ -47,69 +83,109 @@ class _HiveAccountState extends State<HiveAccount> {
         "Hive Auth running ###################################################");
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String url = 'https://api.aureal.one/public/userAuth';
+    String url = apiUrl + '/me';
     var map = Map<String, dynamic>();
     print(
         "Check this token **************************************************");
-    print(registrationToken);
-    map['identifier'] = prefs.getString('code');
-    map['registrationToken'] = registrationToken;
-    print(registrationToken);
+    //print(registrationToken);
+    map['code'] = prefs.getString('code');
+    map['username'] = prefs.getString('username');
+    //print(registrationToken);
 
-    FormData formData = FormData.fromMap(map);
-
-    var response = await dio.post(url, data: formData);
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback = (cert, host, port) {
+        return true;
+      };
+    };
+    var response = await dio.post(url, data: map);
 
     print("Check this data **************************************************");
-    print(response.data);
+    LinkedHashMap<String, dynamic> result = response.data;
+    print("the response data is " + json.encode(result).toString());
     if (response.statusCode == 200) {
-      prefs.setString('token', response.data['userData']['token']);
-      prefs.setString('userId', response.data['userData']['id']);
-      prefs.setString('userName', response.data['userData']['username']);
-      if (response.data['userData']['hive_username'] != null) {
-        prefs.setString(
-            'HiveUserName', response.data['userData']['hive_username']);
-        prefs.setString(
-            'access_token', response.data['userData']['hiveAccessToken']);
+      //prefs.setString('token', result['userData']['token']);
+      prefs.setString('userId', result['_id']);
+      prefs.setString('userName', result['name']);
+      if (result['hive_username'] != null) {
+        prefs.setString('HiveUserName', result['hive_username']);
+        //prefs.setString('access_token', response.data['userData']['hiveAccessToken']);
       }
 
       print("running uptill here//////////////");
-      if (response.data['userData']['olduser'] == true) {
+      if (result['olduser'] == true) {
         Navigator.popAndPushNamed(context, Home.id);
       } else {
-        Navigator.popAndPushNamed(context, SelectLanguage.id);
+        Navigator.popAndPushNamed(context, '/');
+        //Navigator.popAndPushNamed(context, SelectLanguage.id);
       }
     }
   }
 
-  void registerHiveUser() async {
-    String url = 'https://api.aureal.one/public/addHiveUser';
+  void getAccessToken() async {
+    String url = apiUrl + '/oauth2/token';
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var map = Map<String, dynamic>();
-    map['hive_username'] = prefs.getString('HiveUserName');
+    map['username'] = prefs.getString('username');
+    map['code'] = prefs.getString('code');
+
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback = (cert, host, port) {
+        return true;
+      };
+    };
+    print('get user token!');
+  }
+
+  void registerHiveUser() async {
+    String url = apiUrl + '/me';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var map = Map<String, dynamic>();
+    map['username'] = prefs.getString('username');
     map['user_id'] = prefs.getString('userId');
     map['code'] = prefs.getString('code');
 
-    FormData formData = FormData.fromMap(map);
-    print('test1');
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback = (cert, host, port) {
+        return true;
+      };
+    };
 
-    print(map.toString());
+    /* String? jsonString = await controller.getHtml();
+    var decodeSucceeded = false;
+    try {
+      var decodedJSON = json.decode(jsonStrin) as Map<String, dynamic>;
+      decodeSucceeded = true;
+      decodedJSON.forEach((key, value) {
+        prefs.setString('$key', value);
+      });
+    } on FormatException catch (e) {
+      print('The provided string is not valid JSON $e');
+    }
+    print('Decoding succeeded: $decodeSucceeded'); */
 
-    var response = await intercept.postRequest(formData, url);
+    var response = await dio.post(url,
+        data: map); //await intercept.postRequest(formData, url);
     print(
         '//////////////////////////////////////////////////////////////////////////////////');
-    prefs.setString(
-        'access_token', jsonDecode(response.toString())['access_token']);
-    print(prefs.getString('access_token'));
+    //prefs.setString('access_token', jsonDecode(response.toString())['access_token']);
+    Navigator.popAndPushNamed(context, '/');
+    /* print(prefs.getString('access_token'));
     if (prefs.getString('access_token') != null) {
-      Navigator.popAndPushNamed(context, Home.id);
-    }
+      //Navigator.popAndPushNamed(context, Home.id);
+      Navigator.popAndPushNamed(context, '/');
+    } */
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-
+    int times = 0;
+    Uri initialUrl = Uri.parse(
+        'https://hivesigner.com/login?client_id=telsacoin&response_type=code&redirect_uri=https%3A%2F%2Fapi.telsacoin.io%2Fapi%2Foauth2%2Ftoken&scope=offline,comment,vote,comment_option,custom_json');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -128,21 +204,27 @@ class _HiveAccountState extends State<HiveAccount> {
             width: MediaQuery.of(context).size.width,
             child: Builder(
               builder: (BuildContext context) {
-                return WebView(
-                  gestureRecognizers: Set()
-                    ..add(
-                      Factory<VerticalDragGestureRecognizer>(
-                        () => VerticalDragGestureRecognizer(),
-                      ), // or null
-                    ),
-                  javascriptMode: JavascriptMode.unrestricted,
-                  initialUrl:
-                      'https://hivesigner.com/oauth2/authorize?client_id=telsacoin&redirect_uri=%3Dhttp%253A%252F%252Flocalhost%253A3000%26&response_type=code&scope=offline,comment,vote,comment_option,custom_json',
-                  onPageStarted: (url) async {
+                return InAppWebView(
+                  initialUrlRequest: URLRequest(url: initialUrl),
+                  initialOptions: options,
+                  pullToRefreshController: pullToRefreshController,
+                  onWebViewCreated: (controller) {
+                    webViewController = controller;
+                  },
+                  onProgressChanged: (controller, i) {
+                    print("the progress is " + i.toString() + "%");
+                  },
+                  onLoadStop: (controller, url) async {
+                    var uri = Uri.parse(url.toString());
+                    print("the url is " + url.toString());
+                    //avoid the url fired seravel times
+                    if (!url!.host.contains("api.telsacoin.io")) return;
+                    print("the new url is " + url.toString());
+                    //pullToRefreshController!.endRefreshing();
+                    //this.url = url.toString();
+                    //urlController.text = this.url;
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-
-                    var uri = Uri.parse(url.toString());
                     uri.queryParameters.forEach((key, value) {
                       if (key == 'access_token' ||
                           key == 'username' ||
@@ -150,30 +232,42 @@ class _HiveAccountState extends State<HiveAccount> {
                         if (key == 'username' &&
                             prefs.getString('access_token') != null &&
                             prefs.getString('code') != null) {
-                          prefs.setString('HiveUserName', value);
+                          prefs.setString('username', value);
                           print(
                               "*************************************************************************************");
                           print(prefs.getString('code'));
                           print(
                               '*************************************************************************************');
                           // registerHiveUser();
-
                         } else {
                           prefs.setString('$key', value);
                         }
-
                         print(prefs.getString(key));
                         if (prefs.getString('code') != null) {
                           print(
                               'this is the code : ${prefs.getString('code')}');
                         }
                         if (prefs.getString('userId') != null) {
-                          registerHiveUser();
+                          if (times == 0) {
+                            registerHiveUser();
+                          }
                         } else {
-                          hiveAuth();
+                          if (times == 0) {
+                            hiveAuth();
+                          }
                         }
+                        times++;
                       }
                     });
+                  },
+                  androidOnPermissionRequest:
+                      (controller, origin, resources) async {
+                    return PermissionRequestResponse(
+                        resources: resources,
+                        action: PermissionRequestResponseAction.GRANT);
+                  },
+                  onConsoleMessage: (controller, consoleMessage) {
+                    print(consoleMessage);
                   },
                 );
               },
@@ -248,3 +342,61 @@ class _HiveAccountState extends State<HiveAccount> {
 // //                Navigator.popAndPushNamed(context, Home.id);
 //               },
 // );
+
+
+/* return InAppWebView(
+  initialUrlRequest: URLRequest(
+      url: Uri.parse(
+          'https://hivesigner.com/login?client_id=telsacoin&response_type=code&redirect_uri=https%3A%2F%2Fapi.telsacoin.io%2Fapi%2Foauth2%2Ftoken&scope=offline,comment,vote,comment_option,custom_json')),
+  //javascriptMode: JavascriptMode.unrestricted,
+  initialOptions: options,
+  pullToRefreshController: pullToRefreshController,
+  onWebViewCreated: (controller) {
+    webViewController = controller;
+  },
+  onProgressChanged: (controller, i) {
+    print(i);
+  },
+  onLoadStart: (controller, url) {
+    setState(() async {
+      this.url = url.toString();
+      urlController.text = this.url;
+
+      SharedPreferences prefs =
+          await SharedPreferences.getInstance();
+
+      var uri = Uri.parse(url.toString());
+      uri.queryParameters.forEach((key, value) {
+        if (key == 'access_token' ||
+            key == 'username' ||
+            key == 'code') {
+          if (key == 'username' &&
+              prefs.getString('access_token') != null &&
+              prefs.getString('code') != null) {
+            prefs.setString('HiveUserName', value);
+            print(
+                "*************************************************************************************");
+            print(prefs.getString('code'));
+            print(
+                '*************************************************************************************');
+            // registerHiveUser();
+
+          } else {
+            prefs.setString('$key', value);
+          }
+
+          print(prefs.getString(key));
+          if (prefs.getString('code') != null) {
+            print(
+                'this is the code : ${prefs.getString('code')}');
+          }
+          if (prefs.getString('userId') != null) {
+            registerHiveUser();
+          } else {
+            hiveAuth();
+          }
+        }
+      });
+    });
+  },
+); */

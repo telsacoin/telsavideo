@@ -65,12 +65,14 @@ class AuthBloc {
           if (response.data['userData']['hive_username'] != null) {
             prefs.setString(
                 'HiveUserName', response.data['userData']['hive_username']);
-            Navigator.popAndPushNamed(context, Home.id);
+            Navigator.popAndPushNamed(context, '/');
           } else {
-            Navigator.popAndPushNamed(context, HiveDetails.id);
+            Navigator.popAndPushNamed(context, '/');
+            //Navigator.popAndPushNamed(context, HiveDetails.id);
           }
         } else {
-          Navigator.popAndPushNamed(context, SelectLanguage.id);
+          //Navigator.popAndPushNamed(context, SelectLanguage.id);
+          Navigator.popAndPushNamed(context, '/');
         }
       } else {
         Fluttertoast.showToast(

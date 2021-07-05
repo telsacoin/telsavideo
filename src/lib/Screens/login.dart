@@ -115,14 +115,16 @@ class _LoginState extends State<Login> {
             height: 150.0,
           ),
           Center(
-            child: Text('DTok',
+            child: Text("DTok",
                 style: TextStyle(color: Colors.black, fontSize: 38)),
           ),
           Center(
             child: Text(
               '   DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influencers and viewers in cryptocurrency, like a decentralized Tiktok.',
-              style:
-                  TextStyle(color: Color.fromRGBO(53, 53, 53, 1), fontSize: 12),
+              style: TextStyle(
+                  color: Color.fromRGBO(53, 53, 53, 1),
+                  fontSize: 12,
+                  height: 1.25),
             ),
           ),
           SizedBox(
@@ -132,10 +134,22 @@ class _LoginState extends State<Login> {
             width: double.infinity,
             child: RaisedButton(
               color: Color.fromRGBO(252, 1, 86, 1),
-              child: Text(
-                'Hive Sign In',
-                style: TextStyle(color: Colors.white),
-              ),
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.apple,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                        SizedBox(width: 2.0),
+                        Text(
+                          "Hive Sign In",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ])),
               onPressed: () {
                 print("Hive Signer Activated");
                 showBarModalBottomSheet(
@@ -211,7 +225,7 @@ class _LoginState extends State<Login> {
           SizedBox(
             height: 5.0,
           ),
-          Center(
+          /* Center(
               child: RichText(
             text: TextSpan(
               children: [
@@ -219,25 +233,25 @@ class _LoginState extends State<Login> {
                   text: 'Sign in means to agree with',
                   style: TextStyle(color: Color.fromRGBO(53, 53, 53, 0.8)),
                 ),
-                TextSpan(text: '  '),
+                TextSpan(text: ' '),
                 TextSpan(
                   text: 'the user agreement',
                   style: TextStyle(color: Color.fromRGBO(0, 164, 219, 0.8)),
                 ),
-                TextSpan(text: '  '),
+                TextSpan(text: ' '),
                 TextSpan(
                   text: 'and',
                   style: TextStyle(color: Color.fromRGBO(53, 53, 53, 0.8)),
                 ),
-                TextSpan(text: '  '),
+                TextSpan(text: ' '),
                 TextSpan(
                   text: 'privacy policy',
                   style: TextStyle(color: Color.fromRGBO(0, 164, 219, 0.8)),
                 ),
               ],
             ),
-          )),
-          Center(
+          )), */
+          /* Center(
               child: RichText(
             text: TextSpan(
               children: [
@@ -252,7 +266,7 @@ class _LoginState extends State<Login> {
                     recognizer: _myTapGestureRecognizer),
               ],
             ),
-          )),
+          )), */
           Expanded(
               flex: 1,
               child: Center(

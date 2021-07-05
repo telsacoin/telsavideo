@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telsavideo/screens/login.dart';
+import 'package:telsavideo/screens/profiles/profile.dart';
 import 'package:telsavideo/screens/subscription.dart';
 import 'package:telsavideo/screens/trending.dart';
 import 'package:telsavideo/common/icons.dart';
@@ -21,8 +22,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   int currentIndex = 0;
-  late TabController _tabController;
-  late PageController _pageController;
+  TabController? _tabController;
+  PageController? _pageController;
   final GlobalKey<ScaffoldState> _homeScaffoldKey =
       GlobalKey<ScaffoldState>(debugLabel: "_homeScaffoldKey");
   final bool useRootNavigator = true;
@@ -45,13 +46,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
     _tabController = new TabController(length: toptabs.length, vsync: this)
       ..addListener(() {
-        if (_tabController.indexIsChanging) {
+        if (_tabController!.indexIsChanging) {
           //判断TabBar是否切换
-          print(_tabController.index);
-          onPageChange(_tabController.index, p: _pageController);
+          print(_tabController!.index);
+          onPageChange(_tabController!.index, p: _pageController);
         }
       });
-    _tabController.animateTo(1); //默认推荐选项卡
+    _tabController!.animateTo(1); //默认推荐选项卡
     _pageController = new PageController(initialPage: 0, keepPage: true);
   }
 
@@ -59,8 +60,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _tabController.dispose();
-    _pageController.dispose();
+    _tabController!.dispose();
+    _pageController!.dispose();
     super.dispose();
   }
 
@@ -133,6 +134,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   double createButtomWidth = 38.0;
+  // ignore: non_constant_identifier_names
+  double NavigationIconSize = 20.0;
   Widget get customCreateIcon => Container(
         width: 45.0,
         height: 27.0,
@@ -183,11 +186,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           print(index);
           switch (index) {
             case 0:
-              _tabController.animateTo(1); //默认推荐选项卡
-
+              _tabController!.animateTo(1); //默认推荐选项卡
               break;
             case 1:
-              popup = Subscription();
+              popup = Profile();
               break;
             case 2:
               popup = Subscription();
@@ -200,6 +202,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               break;
           }
         });
+        // ignore: unnecessary_null_comparison
         if (popup != null) {
           if (useRootNavigator) {
             showModalBottomSheet(
@@ -231,32 +234,47 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: SizedBox.shrink(),
+          icon: Icon(DouyinIcons.home,
+              color: Colors.white,
+              size: NavigationIconSize), //SizedBox.shrink(),
           title: Text(
             'Home',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
         BottomNavigationBarItem(
-            icon: Icon(DouyinIcons.search),
-            title: SizedBox.shrink(),
+            icon: Icon(
+              DouyinIcons.search,
+              color: Colors.white,
+              size: NavigationIconSize,
+            ),
+            title: Text(
+              'Search',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+            ), //SizedBox.shrink(),
             backgroundColor: Colors.white),
         BottomNavigationBarItem(
           icon: customCreateIcon,
           title: SizedBox.shrink(),
         ),
         BottomNavigationBarItem(
-          icon: SizedBox.shrink(), //Icon(DouyinIcons.messages),
+          icon: Icon(DouyinIcons.messages,
+              color: Colors.white,
+              size:
+                  NavigationIconSize), //SizedBox.shrink(), //Icon(DouyinIcons.messages),
           title: Text(
             'Messages',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
         BottomNavigationBarItem(
-          icon: SizedBox.shrink(), //Icon(DouyinIcons.profile),
+          icon: Icon(DouyinIcons.profile,
+              color: Colors.white,
+              size:
+                  NavigationIconSize), //SizedBox.shrink(), //Icon(DouyinIcons.profile),
           title: Text(
-            'Me',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            'Profile',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
       ],
