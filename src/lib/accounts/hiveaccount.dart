@@ -1,8 +1,9 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:developer';
 import 'package:dio/adapter.dart';
+import 'package:telsavideo/screens/profiles/profile.dart';
 import 'package:telsavideo/services/interceptor.dart' as postreq;
 import 'package:telsavideo/screens/home.dart';
 import 'package:telsavideo/screens/onboarding/languageselection.dart';
@@ -45,6 +46,8 @@ class _HiveAccountState extends State<HiveAccount> {
   @override
   void initState() {
     super.initState();
+    //check if user has authuzation
+    checkAuth();
     // Enable hybrid composition.
     pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
@@ -71,6 +74,20 @@ class _HiveAccountState extends State<HiveAccount> {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   Dio dio = Dio();
+
+  Future<void> checkAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', true);
+    var isLoggedIn = (prefs.getBool('isLoggedIn') == null)
+        ? false
+        : prefs.getBool('isLoggedIn');
+
+    if (isLoggedIn!) {
+      // wrong call in wrong place!
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Profile()));
+    }
+  }
 
   void hiveAuth() async {
     await _messaging.getToken().then((token) {
@@ -102,7 +119,7 @@ class _HiveAccountState extends State<HiveAccount> {
 
     print("Check this data **************************************************");
     LinkedHashMap<String, dynamic> result = response.data;
-    print("the response data is " + json.encode(result).toString());
+    print("the response data is " + json.encode(result));
     if (response.statusCode == 200) {
       //prefs.setString('token', result['userData']['token']);
       prefs.setString('userId', result['_id']);
@@ -111,6 +128,8 @@ class _HiveAccountState extends State<HiveAccount> {
         prefs.setString('HiveUserName', result['hive_username']);
         //prefs.setString('access_token', response.data['userData']['hiveAccessToken']);
       }
+
+      prefs.setString('hiveData', json.encode(result));
 
       print("running uptill here//////////////");
       if (result['olduser'] == true) {
@@ -124,7 +143,6 @@ class _HiveAccountState extends State<HiveAccount> {
 
   void getAccessToken() async {
     String url = apiUrl + '/oauth2/token';
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var map = Map<String, dynamic>();
     map['username'] = prefs.getString('username');
@@ -137,6 +155,18 @@ class _HiveAccountState extends State<HiveAccount> {
       };
     };
     print('get user token!');
+
+    var response = await dio.post(url,
+        data: map); //await intercept.postRequest(formData, url);
+    log('//////////////////////////////////////////////////////////////////////////////////');
+    if (response.statusCode == 200) {
+      Map<String, dynamic> result = response.data;
+      result.forEach((key, value) {
+        prefs.setString('$key', value);
+      });
+
+      hiveAuth();
+    }
   }
 
   void registerHiveUser() async {
@@ -249,11 +279,13 @@ class _HiveAccountState extends State<HiveAccount> {
                         }
                         if (prefs.getString('userId') != null) {
                           if (times == 0) {
-                            registerHiveUser();
+                            getAccessToken();
+                            //registerHiveUser();
                           }
                         } else {
                           if (times == 0) {
-                            hiveAuth();
+                            getAccessToken();
+                            //hiveAuth();
                           }
                         }
                         times++;
@@ -267,7 +299,7 @@ class _HiveAccountState extends State<HiveAccount> {
                         action: PermissionRequestResponseAction.GRANT);
                   },
                   onConsoleMessage: (controller, consoleMessage) {
-                    print(consoleMessage);
+                    log(consoleMessage.message);
                   },
                 );
               },
@@ -278,6 +310,8 @@ class _HiveAccountState extends State<HiveAccount> {
     );
   }
 }
+
+//https://stackoverflow.com/questions/62236740/how-to-add-circularprogressindicator-when-loading-web-page-using-flutter-inappwe
 
 // InAppWebView(
 // initialFile:
