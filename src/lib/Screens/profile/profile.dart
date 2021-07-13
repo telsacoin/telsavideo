@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart' show rootBundle;
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter/cupertino.dart';
@@ -252,7 +254,7 @@ class _Profiletate extends State<Profile> {
                                     border: Border.all(
                                         color: Colors.white, width: 2.0),
                                     image: DecorationImage(
-                                      image: NetworkImage(
+                                      image: CachedNetworkImageProvider(
                                           '${snapshot.data!.userMetadata.profile.coverImage}'),
                                       fit: BoxFit.cover,
                                     ),
@@ -290,9 +292,9 @@ class _Profiletate extends State<Profile> {
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                           border: Border.all(
-                                              color: Colors.white70,
+                                              color: Colors.black87,
                                               width: 2.0),
-                                          color: Colors.black,
+                                          color: Colors.white10,
                                         ),
                                         child: Text(
                                           'Edit Profile',
@@ -406,20 +408,30 @@ class _Profiletate extends State<Profile> {
                             ),
                           ),
                         ),
-                        bottom: TabBar(
-                          tabs: [
-                            Tab(
-                              child: Icon(Icons.dashboard, color: Colors.white),
+                        bottom: PreferredSize(
+                          preferredSize: Size.fromHeight(48),
+                          child: Material(
+                            color: Colors.white10,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10)),
+                            child: TabBar(
+                              tabs: [
+                                Tab(
+                                  child: Icon(Icons.dashboard,
+                                      color: Colors.white),
+                                ),
+                                Tab(
+                                  child: Icon(Icons.favorite_border,
+                                      color: Colors.white),
+                                ),
+                                Tab(
+                                  child: Icon(Icons.bookmark_border,
+                                      color: Colors.white),
+                                ),
+                              ],
                             ),
-                            Tab(
-                              child: Icon(Icons.favorite_border,
-                                  color: Colors.white),
-                            ),
-                            Tab(
-                              child: Icon(Icons.bookmark_border,
-                                  color: Colors.white),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ];
