@@ -25,7 +25,7 @@ class TermOfUse extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                  'DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influencers and viewers in cryptocurrency, like a decentralized Tiktok.',
                   style: TextStyle(
                     fontSize: 17.0,
                     fontWeight: FontWeight.w500,
@@ -35,7 +35,7 @@ class TermOfUse extends StatelessWidget {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                  'DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influencers and viewers in cryptocurrency, like a decentralized Tiktok.',
                   style: TextStyle(
                     fontSize: 17.0,
                     fontWeight: FontWeight.w500,
@@ -45,7 +45,7 @@ class TermOfUse extends StatelessWidget {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                  'DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influencers and viewers in cryptocurrency, like a decentralized Tiktok.',
                   style: TextStyle(
                     fontSize: 17.0,
                     fontWeight: FontWeight.w500,
@@ -55,7 +55,7 @@ class TermOfUse extends StatelessWidget {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                  'TLSA Video is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
                   style: TextStyle(
                     fontSize: 17.0,
                     fontWeight: FontWeight.w500,
