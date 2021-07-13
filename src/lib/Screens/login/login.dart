@@ -17,8 +17,8 @@ class _LoginState extends State<Login> {
   String phoneNumber = '';
   String? phoneIsoCode;
   final TextEditingController controller = TextEditingController();
-  String initialCountry = 'IN';
-  PhoneNumber number = PhoneNumber(isoCode: 'IN');
+  String initialCountry = 'US';
+  PhoneNumber number = PhoneNumber(isoCode: 'US');
   void onPhoneNumberChange(
       String number, String internationalizedPhoneNumber, String isoCode) {
     setState(() {
