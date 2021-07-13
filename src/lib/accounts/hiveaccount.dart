@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
 import 'package:dio/adapter.dart';
-import 'package:telsavideo/screens/profiles/profile.dart';
+import 'package:telsavideo/screens/profile/profile.dart';
 import 'package:telsavideo/services/interceptor.dart' as postreq;
 import 'package:telsavideo/screens/home.dart';
 import 'package:telsavideo/screens/onboarding/languageselection.dart';

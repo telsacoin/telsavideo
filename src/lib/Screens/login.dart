@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/accounts/hiveaccount.dart';
 import 'package:telsavideo/common/sizeconfig.dart';
-import 'package:telsavideo/screens/profiles/profile.dart';
+import 'package:telsavideo/screens/profile/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

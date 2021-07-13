@@ -83,6 +83,8 @@ dependencies:
   toast: ^0.1.5
   fluttertoast: ^8.0.3
   upgrader: any
+  carousel_pro: ^1.0.0
+  custom_switch: any
 
   flutter_inappwebview: ^5.3.2
   firebase_auth: ^1.2.0
@@ -114,9 +116,15 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/icons/
     - assets/images/
     - assets/user.json
+    - assets/slider/
+    - assets/dance/
+    - assets/laugh/
+    - assets/food/
+    - assets/user_profile/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

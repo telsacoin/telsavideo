@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/Routes/route_generator.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:telsavideo/appBehaviour/my_behaviour.dart';
 import 'package:telsavideo/screens/login.dart';
 import 'package:telsavideo/screens/login/auth.dart';
 import 'package:telsavideo/screens/searchProvider.dart';
@@ -246,6 +247,7 @@ class _MyAppState extends State<MyApp> {
           child: ChangeNotifierProvider(
               create: (context) => SortFilterPreferences(),
               child: MaterialApp(
+                debugShowCheckedModeBanner: false,
                 localizationsDelegates: [
                   // ... app-specific localization delegate[s] here
                   GlobalMaterialLocalizations.delegate,
@@ -260,10 +262,24 @@ class _MyAppState extends State<MyApp> {
                 //debugShowCheckedModeBanner: true,
                 title: 'DTok',
                 theme: ThemeData(
-                  primarySwatch: Colors.amber,
+                  textSelectionTheme: TextSelectionThemeData(
+                    cursorColor: Colors.white,
+                  ),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  primarySwatch: Colors.red,
+                  primaryColor: Colors.black,
+                  indicatorColor: Colors.white,
+                  tabBarTheme: TabBarTheme(),
                 ),
                 initialRoute: '/',
                 onGenerateRoute: RouteGenerator.generateRoute,
+                builder: (context, child) {
+                  return ScrollConfiguration(
+                    behavior: MyBehavior(),
+                    child: child!,
+                  );
+                },
               )),
         ));
   }

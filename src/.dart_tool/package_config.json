@@ -98,6 +98,12 @@
       "languageVersion": "2.10"
     },
     {
+      "name": "carousel_pro",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_pro-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "carousel_slider",
       "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-3.0.0",
       "packageUri": "lib/",
@@ -186,6 +192,12 @@
       "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "custom_switch",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/custom_switch-0.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
     },
     {
       "name": "dart_style",
@@ -1178,7 +1190,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-07-12T12:35:04.388340Z",
+  "generated": "2021-07-13T09:57:13.619042Z",
   "generator": "pub",
   "generatorVersion": "2.13.3"
 }

@@ -19,3 +19,18 @@ Widget get Loading => Container(
         ),
       ),
     );
+
+// the small loading
+Widget get Sloading => Container(
+      width: 48,
+      height: 48,
+      color: Colors.black,
+      child: Center(
+        child: GFLoader(
+          type: GFLoaderType.circle,
+          loaderColorOne: Colors.blueAccent,
+          //loaderColorTwo: Colors.white,
+          loaderColorThree: Colors.pink,
+        ),
+      ),
+    );

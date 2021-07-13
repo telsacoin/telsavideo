@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:telsavideo/screens/login.dart';
-import 'package:telsavideo/screens/profiles/profile.dart';
-import 'package:telsavideo/screens/search.dart';
+import 'package:telsavideo/constants.dart';
+import 'package:telsavideo/screens/profile/profile.dart';
+import 'package:telsavideo/screens/search/search.dart';
 import 'package:telsavideo/screens/subscription.dart';
 import 'package:telsavideo/screens/trending.dart';
 import 'package:telsavideo/common/icons.dart';
@@ -53,7 +52,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           onPageChange(_tabController!.index, p: _pageController);
         }
       });
-    _tabController!.animateTo(1); //默认推荐选项卡
+    //default tab
+    _tabController!.animateTo(1);
     _pageController = new PageController(initialPage: 0, keepPage: true);
   }
 
@@ -133,7 +133,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   late List<Widget> _widgetOptions = <Widget>[
     createHome,
-    Profile(),
+    Search(),
     Profile(),
     Profile(),
     Profile()
@@ -161,7 +161,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               margin: EdgeInsets.only(left: 10.0),
               width: createButtomWidth,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 250, 45, 108),
+                color: kPrimaryColor,
                 borderRadius: BorderRadius.circular(7.0),
               ),
             ),
