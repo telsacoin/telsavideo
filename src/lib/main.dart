@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -12,21 +11,19 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:in_app_update/in_app_update.dart';
-//import 'package:in_app_update/in_app_update.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/Routes/route_generator.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:telsavideo/screens/home.dart';
 import 'package:telsavideo/screens/login.dart';
 import 'package:telsavideo/screens/login/auth.dart';
 import 'package:telsavideo/screens/searchProvider.dart';
 import 'package:telsavideo/screens/settings/security/theme.dart';
 import 'package:telsavideo/screens/sortFilterPreference.dart';
-
 import 'components/api.dart';
+import 'package:stack_trace/stack_trace.dart';
 
 var videoData;
 
@@ -60,6 +57,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<Null> main() async {
   //ensure the app initial
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (kDebugMode) {
+    Chain.capture(() {});
+  }
 
   await Firebase.initializeApp();
   // Set the background messaging handler early on, as a named top-level function
@@ -259,7 +260,7 @@ class _MyAppState extends State<MyApp> {
                 //debugShowCheckedModeBanner: true,
                 title: 'DTok',
                 theme: ThemeData(
-                  primarySwatch: Colors.blue,
+                  primarySwatch: Colors.amber,
                 ),
                 initialRoute: '/',
                 onGenerateRoute: RouteGenerator.generateRoute,

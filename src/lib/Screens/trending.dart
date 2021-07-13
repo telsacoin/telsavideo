@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:telsavideo/config/api.dart';
 import 'package:telsavideo/models/Douyin.dart';
+import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/video.dart';
 
 class Trending extends StatefulWidget {
@@ -144,17 +145,7 @@ class _TrendingState extends State<Trending> {
         //);
         children: videos.length == 0
             ? <Widget>[
-                Container(
-                  color: Colors.black,
-                  child: Center(
-                    child: GFLoader(
-                      type: GFLoaderType.circle,
-                      loaderColorOne: Colors.blueAccent,
-                      loaderColorTwo: Colors.white,
-                      loaderColorThree: Colors.pink,
-                    ),
-                  ),
-                )
+                Loading,
               ]
             : videos);
   }

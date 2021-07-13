@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/accounts/hiveaccount.dart';
 import 'package:telsavideo/common/sizeconfig.dart';
+import 'package:telsavideo/screens/profiles/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -34,7 +36,6 @@ class _LoginState extends State<Login> {
   Dio dio = Dio();
 
   String? _loggedInMessage;
-
   bool showSpinner = false;
   bool _rememberMe = false;
   String? phoneNumber;
@@ -86,11 +87,25 @@ class _LoginState extends State<Login> {
     print(response.data);
   }
 
+  Future<void> checkAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', true);
+    var isLoggedIn = (prefs.getBool('isLoggedIn') == null)
+        ? false
+        : prefs.getBool('isLoggedIn');
+
+    if (isLoggedIn!) {
+      // wrong call in wrong place!
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Profile()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authBloc = Provider.of<AuthBloc>(context);
     SizeConfig().init(context);
-
+    checkAuth();
     return Container(
       color: Colors.white,
       padding:

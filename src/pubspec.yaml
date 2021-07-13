@@ -98,6 +98,7 @@ dependencies:
   page_transition: ^1.1.7+6
 
 dev_dependencies:
+  stack_trace: ^1.10.0
   build_runner: ^2.0.4
   json_serializable: ^4.1.3
   flutter_test:
@@ -115,6 +116,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/user.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

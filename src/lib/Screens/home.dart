@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:telsavideo/screens/login.dart';
 import 'package:telsavideo/screens/profiles/profile.dart';
+import 'package:telsavideo/screens/search.dart';
 import 'package:telsavideo/screens/subscription.dart';
 import 'package:telsavideo/screens/trending.dart';
 import 'package:telsavideo/common/icons.dart';
@@ -47,7 +49,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     _tabController = new TabController(length: toptabs.length, vsync: this)
       ..addListener(() {
         if (_tabController!.indexIsChanging) {
-          //判断TabBar是否切换
           print(_tabController!.index);
           onPageChange(_tabController!.index, p: _pageController);
         }
@@ -65,11 +66,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //key: _homeScaffoldKey,
-      body: Stack(
+  Widget get createHome => Stack(
         //fit: StackFit.expand,
         children: <Widget>[
           TabBarView(
@@ -99,16 +96,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 elevation: 0,
                 centerTitle: true,
                 leading: IconButton(
-                    icon: Icon(Icons.tv),
+                    icon: Icon(
+                      Icons.tv,
+                      color: Colors.white,
+                    ),
                     onPressed: () {
-                      print('点击了直播按钮');
+                      print('click live');
                     }),
                 actions: <Widget>[
-                  //导航栏右侧菜单
                   IconButton(
-                      icon: Icon(Icons.search),
+                      icon: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                      ),
                       onPressed: () {
-                        print('点击了搜索按钮');
+                        print('click search');
                       }),
                 ],
                 title: TabBar(
@@ -127,7 +129,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ],
           ),
         ],
-      ),
+      );
+
+  late List<Widget> _widgetOptions = <Widget>[
+    createHome,
+    Profile(),
+    Profile(),
+    Profile(),
+    Profile()
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      //key: _homeScaffoldKey,
+      body: _widgetOptions.elementAt(currentIndex),
       bottomNavigationBar: bottomItems(_homeScaffoldKey, context),
       drawer: Container(),
     );
@@ -173,6 +189,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ],
         ),
       );
+
   BottomNavigationBar bottomItems(
       GlobalKey<ScaffoldState> _homeScaffoldKey, BuildContext context) {
     return BottomNavigationBar(
@@ -183,27 +200,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       onTap: (int index) {
         setState(() {
           currentIndex = index;
-          print(index);
-          switch (index) {
-            case 0:
-              _tabController!.animateTo(1); //默认推荐选项卡
-              break;
-            case 1:
-              popup = Profile();
-              break;
-            case 2:
-              popup = Subscription();
-              break;
-            case 3:
-              popup = Login();
-              break;
-            case 4:
-              popup = Login();
-              break;
-          }
         });
         // ignore: unnecessary_null_comparison
-        if (popup != null) {
+        /*  if (popup != null) {
           if (useRootNavigator) {
             showModalBottomSheet(
                 useRootNavigator: useRootNavigator,
@@ -228,7 +227,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   );
                 });
           }
-        }
+        } */
       },
       currentIndex: currentIndex,
       type: BottomNavigationBarType.fixed,

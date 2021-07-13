@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telsavideo/accounts/hiveaccount.dart';
 import 'package:telsavideo/screens/home.dart';
 import 'package:telsavideo/screens/login.dart';
 import 'package:telsavideo/screens/profiles/profile.dart';
@@ -18,6 +19,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Container());
       case '/profile':
         return MaterialPageRoute(builder: (_) => Profile());
+      case '/hive':
+        return MaterialPageRoute(builder: (_) => HiveAccount());
       default:
         return _errorRoute();
     }

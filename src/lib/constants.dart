@@ -6,4 +6,6 @@ const Color kSecondaryColor = Color(0xff606060);
 
 const Color kPrimaryColor = Color(0xff161616);
 
+const Color kFontColor = Color(0xffe0e0e0);
+
 const String apiUrl = "https://api.telsacoin.io/api";
