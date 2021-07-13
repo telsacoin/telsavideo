@@ -162,6 +162,10 @@ dio_cookie_manager
 2.12
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/dio_cookie_manager-2.0.0/
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/dio_cookie_manager-2.0.0/lib/
+equatable
+2.0
+file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/equatable-1.2.6/
+file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/equatable-1.2.6/lib/
 expandable
 2.12
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/expandable-5.0.1/
@@ -294,6 +298,10 @@ flutter_signin_button
 2.12
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_signin_button-2.0.0/
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_signin_button-2.0.0/lib/
+flutter_spinkit
+2.5
+file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-4.1.2+1/
+file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-4.1.2+1/lib/
 flutter_svg
 2.12
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.22.0/
@@ -378,6 +386,10 @@ intl
 2.12
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib/
+intl_phone_number_input
+2.6
+file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/intl_phone_number_input-0.4.6+2/
+file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/intl_phone_number_input-0.4.6+2/lib/
 io
 2.12
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/io-1.0.0/
@@ -394,6 +406,10 @@ json_serializable
 2.12
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/json_serializable-4.1.3/
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/json_serializable-4.1.3/lib/
+libphonenumber
+1.19
+file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/libphonenumber-1.0.2/
+file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/libphonenumber-1.0.2/lib/
 logging
 2.12
 file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/logging-1.0.1/

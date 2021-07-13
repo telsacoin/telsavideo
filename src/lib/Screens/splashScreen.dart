@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:telsavideo/screens/login.dart';
+import 'package:telsavideo/screens/login/login.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
-                      'TikStar',
+                      'DTOK',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 35.0,

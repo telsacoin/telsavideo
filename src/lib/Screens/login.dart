@@ -82,8 +82,8 @@ class _LoginState extends State<Login> {
     print(map.toString());
     FormData formData = FormData.fromMap(map);
 
-    var response =
-        await dio.post('https://api.aureal.one/public/sendOTP', data: formData);
+    var response = await dio.post('https://api.telsacoin.io/public/sendOTP',
+        data: formData);
     print(response.data);
   }
 

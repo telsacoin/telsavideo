@@ -85,7 +85,8 @@ dependencies:
   upgrader: any
   carousel_pro: ^1.0.0
   custom_switch: any
-
+  flutter_spinkit: ^4.1.2
+  intl_phone_number_input: ^0.4.6+2
   flutter_inappwebview: ^5.3.2
   firebase_auth: ^1.2.0
   flutter_signin_button: ^2.0.0

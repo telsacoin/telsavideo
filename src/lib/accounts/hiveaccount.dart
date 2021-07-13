@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:dio/adapter.dart';
 import 'package:telsavideo/screens/profile/profile.dart';
 import 'package:telsavideo/services/interceptor.dart' as postreq;
-import 'package:telsavideo/screens/home.dart';
+import 'package:telsavideo/screens/home/home.dart';
 import 'package:telsavideo/screens/onboarding/languageselection.dart';
 import 'package:telsavideo/common/SizeConfig.dart';
 import 'package:dio/dio.dart';
@@ -133,7 +133,7 @@ class _HiveAccountState extends State<HiveAccount> {
 
       print("running uptill here//////////////");
       if (result['olduser'] == true) {
-        Navigator.popAndPushNamed(context, Home.id);
+        Navigator.popAndPushNamed(context, '/');
       } else {
         Navigator.popAndPushNamed(context, '/');
         //Navigator.popAndPushNamed(context, SelectLanguage.id);

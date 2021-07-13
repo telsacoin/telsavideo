@@ -23,6 +23,7 @@ import 'package:telsavideo/screens/login/auth.dart';
 import 'package:telsavideo/screens/searchProvider.dart';
 import 'package:telsavideo/screens/settings/security/theme.dart';
 import 'package:telsavideo/screens/sortFilterPreference.dart';
+import 'package:telsavideo/screens/splashScreen.dart';
 import 'components/api.dart';
 import 'package:stack_trace/stack_trace.dart';
 
@@ -248,6 +249,7 @@ class _MyAppState extends State<MyApp> {
               create: (context) => SortFilterPreferences(),
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
+                home: SplashScreen(),
                 localizationsDelegates: [
                   // ... app-specific localization delegate[s] here
                   GlobalMaterialLocalizations.delegate,
@@ -272,8 +274,8 @@ class _MyAppState extends State<MyApp> {
                   indicatorColor: Colors.white,
                   tabBarTheme: TabBarTheme(),
                 ),
-                initialRoute: '/',
-                onGenerateRoute: RouteGenerator.generateRoute,
+                /* initialRoute: '/',
+                onGenerateRoute: RouteGenerator.generateRoute, */
                 builder: (context, child) {
                   return ScrollConfiguration(
                     behavior: MyBehavior(),

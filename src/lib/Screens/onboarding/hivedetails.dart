@@ -1,6 +1,5 @@
 import 'package:telsavideo/accounts/hiveaccount.dart';
 import 'package:telsavideo/services/launchurl.dart';
-import 'package:telsavideo/screens/home.dart';
 import 'package:telsavideo/common/sizeconfig.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:flutter/material.dart';
@@ -234,7 +233,7 @@ class HiveDetails extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: InkWell(
                             onTap: () {
-                              Navigator.popAndPushNamed(context, Home.id);
+                              Navigator.popAndPushNamed(context, 'Home');
                               // Navigator.pushNamedAndRemoveUntil(
                               //     context, HiveAccount.id, (route) => false);
                             },

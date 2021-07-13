@@ -10,8 +10,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../home.dart';
-
 class AuthService {
   final _auth = FirebaseAuth.instance;
 
@@ -134,7 +132,7 @@ class AuthBloc {
           if (response.data['userData']['hive_username'] != null) {
             prefs.setString(
                 'HiveUserName', response.data['userData']['hive_username']);
-            Navigator.popAndPushNamed(context, Home.id);
+            Navigator.popAndPushNamed(context, 'Home');
           } else {
             Navigator.popAndPushNamed(context, HiveDetails.id);
           }

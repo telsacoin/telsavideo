@@ -14,14 +14,14 @@ enum PlayerState {
   stopped,
 }
 
-class Home extends StatefulWidget {
+class Home1 extends StatefulWidget {
   static const String id = "Homepage";
-  const Home({Key? key}) : super(key: key);
+  const Home1({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home1> with SingleTickerProviderStateMixin {
   int currentIndex = 0;
   TabController? _tabController;
   PageController? _pageController;
