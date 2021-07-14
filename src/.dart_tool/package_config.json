@@ -21,7 +21,7 @@
     },
     {
       "name": "args",
-      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/args-2.1.1",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/args-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -412,6 +412,12 @@
     {
       "name": "flutter_inappwebview",
       "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_inappwebview-5.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.9.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1214,7 +1220,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-07-13T17:22:03.214910Z",
+  "generated": "2021-07-14T14:08:56.734005Z",
   "generator": "pub",
   "generatorVersion": "2.13.3"
 }

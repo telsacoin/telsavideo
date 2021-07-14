@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:page_transition/page_transition.dart';
+import 'package:telsavideo/screens/login/hiveaccount.dart';
 import 'package:telsavideo/screens/signup/register.dart';
 
 class Login extends StatefulWidget {
@@ -181,11 +183,56 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: 30.0),
                     InkWell(
+                      onTap: () {
+                        print("Hive Signer Activated");
+                        /* showBarModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return HiveAccount();
+                            }); */
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HiveAccount()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Color(0xFFFFFEFE),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Image.asset(
+                                'assets/hive.png',
+                                height: 25.0,
+                                fit: BoxFit.fitHeight,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Log in with Hive',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.red[900],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
                       onTap: () {},
                       child: Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: EdgeInsets.all(10.0),
                         child: Container(
-                          padding: EdgeInsets.all(15.0),
+                          padding: EdgeInsets.all(10.0),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),
@@ -217,9 +264,9 @@ class _LoginState extends State<Login> {
                     InkWell(
                       onTap: () {},
                       child: Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: EdgeInsets.all(10.0),
                         child: Container(
-                          padding: EdgeInsets.all(15.0),
+                          padding: EdgeInsets.all(10.0),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),

@@ -45,7 +45,7 @@ class AuthBloc {
       GoogleSignInAuthentication googleKey = await result!.authentication;
       print(googleKey.idToken.toString());
       print(googleKey.accessToken.toString());
-      String url = 'https://api.aureal.one/public/userAuth';
+      String url = 'https://api.telsacoin.io/api/userAuth';
       var map = Map<String, dynamic>();
       map['identifier'] = googleKey.idToken.toString();
       map['registrationToken'] = registrationToken;
@@ -113,7 +113,7 @@ class AuthBloc {
               ? credential.familyName.toString()
               : '');
       print(credential.authorizationCode.toString());
-      String url = 'https://api.aureal.one/public/userAuth';
+      String url = 'https://api.telsacoin.io/api/userAuth';
       var map = Map<String, dynamic>();
       map['identifier'] = credential.authorizationCode.toString();
       map['registrationToken'] = registrationToken;

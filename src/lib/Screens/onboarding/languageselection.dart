@@ -29,7 +29,7 @@ class _SelectLanguageState extends State<SelectLanguage> {
   var selectedLanguages = [];
 
   void getLanguages() async {
-    String url = 'https://api.aureal.one/public/getLanguage';
+    String url = 'https://api.telsacoin.io/api/getLanguage';
 
     try {
       http.Response response = await http.get(Uri.parse(url));
@@ -45,7 +45,7 @@ class _SelectLanguageState extends State<SelectLanguage> {
   }
 
   void selectLanguage() async {
-    String url = 'https://api.aureal.one/private/addUserLanguage';
+    String url = 'https://api.telsacoin.io/private/addUserLanguage';
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String key = '';
 

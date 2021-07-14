@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:telsavideo/accounts/hiveaccount.dart';
+import 'package:telsavideo/screens/login/hiveaccount.dart';
 import 'package:telsavideo/common/sizeconfig.dart';
 import 'package:telsavideo/screens/profile/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,14 +17,14 @@ import 'login/auth.dart';
 
 var user;
 
-class Login extends StatefulWidget {
+class Login1 extends StatefulWidget {
   static const String id = "Login";
 
   @override
   State<StatefulWidget> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login1> {
   //StreamSubscription<User> loginStateSubscription;
   final GlobalKey<ScaffoldState> _scaffoldKeyLogin =
       new GlobalKey<ScaffoldState>();

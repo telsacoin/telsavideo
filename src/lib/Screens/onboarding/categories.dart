@@ -22,7 +22,7 @@ class _OnboardingCategoriesState extends State<OnboardingCategories> {
   postreq.Interceptor intercept = postreq.Interceptor();
 
   void getCategories() async {
-    String url = 'https://api.aureal.one/public/getCategory';
+    String url = 'https://api.telsacoin.io/api/getCategory';
 
     try {
       http.Response response = await http.get(Uri.parse(url));
@@ -39,7 +39,7 @@ class _OnboardingCategoriesState extends State<OnboardingCategories> {
 
   void sendCategories() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String url = 'https://api.aureal.one/private/addUserCategory';
+    String url = 'https://api.telsacoin.io/private/addUserCategory';
     var map = Map<String, dynamic>();
     map['user_id'] = prefs.getString('userId');
     String key = '';

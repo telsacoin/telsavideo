@@ -18,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/Routes/route_generator.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:telsavideo/appBehaviour/my_behaviour.dart';
-import 'package:telsavideo/screens/login.dart';
+import 'package:telsavideo/screens/login_copy.dart';
 import 'package:telsavideo/screens/login/auth.dart';
 import 'package:telsavideo/screens/searchProvider.dart';
 import 'package:telsavideo/screens/settings/security/theme.dart';
@@ -241,48 +241,41 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
     ]);
 
-    return ChangeNotifierProvider(
-        create: (context) => SearchProvider(),
-        child: Provider(
-          create: (context) => AuthBloc(),
-          child: ChangeNotifierProvider(
-              create: (context) => SortFilterPreferences(),
-              child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                home: SplashScreen(),
-                localizationsDelegates: [
-                  // ... app-specific localization delegate[s] here
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                ],
-                supportedLocales: [
-                  const Locale('en', 'US'), // English
-                  const Locale('he', 'IL'), // Hebrew
-                  const Locale('zh', 'CN'),
-                  // ... other locales the app supports
-                ],
-                //debugShowCheckedModeBanner: true,
-                title: 'DTok',
-                theme: ThemeData(
-                  textSelectionTheme: TextSelectionThemeData(
-                    cursorColor: Colors.white,
-                  ),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  primarySwatch: Colors.red,
-                  primaryColor: Colors.black,
-                  indicatorColor: Colors.white,
-                  tabBarTheme: TabBarTheme(),
-                ),
-                /* initialRoute: '/',
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
+      localizationsDelegates: [
+        // ... app-specific localization delegate[s] here
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('he', 'IL'), // Hebrew
+        const Locale('zh', 'CN'),
+        // ... other locales the app supports
+      ],
+      //debugShowCheckedModeBanner: true,
+      title: 'DTok',
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.white,
+        ),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        primarySwatch: Colors.red,
+        primaryColor: Colors.black,
+        indicatorColor: Colors.white,
+        tabBarTheme: TabBarTheme(),
+      ),
+      /* initialRoute: '/',
                 onGenerateRoute: RouteGenerator.generateRoute, */
-                builder: (context, child) {
-                  return ScrollConfiguration(
-                    behavior: MyBehavior(),
-                    child: child!,
-                  );
-                },
-              )),
-        ));
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: child!,
+        );
+      },
+    );
   }
 }

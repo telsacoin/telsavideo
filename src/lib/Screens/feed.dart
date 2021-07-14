@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:telsavideo/screens/login/login.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:telsavideo/components/api.dart';
 import 'package:telsavideo/screens/videolist.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telsavideo/screens/login.dart';
+import 'package:telsavideo/screens/login_copy.dart';
 import 'dart:convert';
 
 var apiData4;
@@ -105,7 +106,8 @@ class BuildFeedState extends State<BuildFeed> {
                                         )),
                                     new FlatButton(
                                         onPressed: () {
-                                          launch("https://about.d.tube/#faq1");
+                                          launch(
+                                              "https://video.telsacoin.io/#faq1");
                                         },
                                         child: new Text(
                                           "Trouble logging in? Visit the FAQ",

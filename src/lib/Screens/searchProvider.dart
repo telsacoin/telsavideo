@@ -68,7 +68,7 @@ class SearchProvider extends ChangeNotifier {
       _query = searchQuery;
       prefs = await SharedPreferences.getInstance();
       String url =
-          'https://api.aureal.one/public/search?user_id=&word=${_query}';
+          'https://api.telsacoin.io/api/search?user_id=&word=${_query}';
 
       http.Response response = await http.get(Uri.parse(url));
       print(response.body);

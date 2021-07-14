@@ -132,13 +132,13 @@ Widget _placeholderImage(
             ? Container(
                 width: MediaQuery.of(context).size.width,
                 child: Image.network(
-                  "https://snap1.d.tube/ipfs/" + imgURL,
+                  "https://video.telsacoin.io/ipfs/" + imgURL,
                   fit: BoxFit.fitHeight,
                 ),
               )
             : Container(
                 child: Image.network(
-                  "https://snap1.d.tube/ipfs/" + imgURL,
+                  "https://video.telsacoin.io/ipfs/" + imgURL,
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -203,9 +203,9 @@ Widget _placeholderImage(
       ],
     );
   } catch (e) {
-    print("EX" + e.toString());
+    print("ex" + e.toString());
     return Image.network(
-      "https://snap1.d.tube/ipfs/Qma585tFzjmzKemYHmDZoKMZHo8Ar7YMoDAS66LzrM2Lm1",
+      "https://video.telsacoin.io/ipfs/Qma585tFzjmzKemYHmDZoKMZHo8Ar7YMoDAS66LzrM2Lm1",
       fit: BoxFit.scaleDown,
     );
   }
@@ -459,7 +459,7 @@ class VideoScreenState extends State<VideoScreen> {
       'steem',
       'steemit'
     ],
-    contentUrl: 'https://d.tube',
+    contentUrl: 'https://video.telsacoin.io',
     childDirected: false,
     designedForFamilies:
         false, // or MobileAdGender.female, MobileAdGender.unknown
@@ -533,7 +533,7 @@ class VideoScreenState extends State<VideoScreen> {
           autoPlay: true,
           looping: false,
           placeholder: new Container(
-              child: Image.network("https://snap1.d.tube/ipfs/" +
+              child: Image.network("https://video.telsacoin.io/ipfs/" +
                   widget.meta['video']['info']['snaphash'])),
         );
 
@@ -545,7 +545,7 @@ class VideoScreenState extends State<VideoScreen> {
 //          autoPlay: true,
 //          looping: false,
 //          placeholder: new Container(
-//              child: Image.network("https://snap1.d.tube/ipfs/" +
+//              child: Image.network("https://video.telsacoin.io/ipfs/" +
 //                  widget.meta['video']['info']['snaphash'])),
 //        );
       });
@@ -710,10 +710,11 @@ class VideoScreenState extends State<VideoScreen> {
                                       icon: const Icon(Icons.share),
                                       color: theme(selectedTheme)["accent"],
                                       onPressed: () {
-                                        Share.share("https://d.tube/v/" +
-                                            widget.data["author"] +
-                                            "/" +
-                                            widget.data["permlink"]);
+                                        Share.share(
+                                            "https://video.telsacoin.io/v/" +
+                                                widget.data["author"] +
+                                                "/" +
+                                                widget.data["permlink"]);
                                       },
                                     ),
                                     new IconButton(
@@ -1253,7 +1254,7 @@ downloadFile(var url, bool audio, contextListViewBuilder, title) async {
     String filename = title.replaceAll(" ", "_").replaceAll(".", "") +
         (audio ? ".mp3" : ".mp4");
 
-    url = "https://video.dtube.top/ipfs/" + url;
+    url = "https://video.telsacoin.io/ipfs/" + url;
     print(url);
     final taskId = await FlutterDownloader.enqueue(
         url: url,
@@ -1285,5 +1286,5 @@ downloadFile(var url, bool audio, contextListViewBuilder, title) async {
     print(response);
     */
   }
-  //launchURL("https://video.dtube.top/ipfs/QmcL62wVn2pHrBrrWXjmtP7TnJtwzXGCY8bYQSEUfjyZpD");
+  //launchURL("https://video.telsacoin.io/ipfs/QmcL62wVn2pHrBrrWXjmtP7TnJtwzXGCY8bYQSEUfjyZpD");
 }

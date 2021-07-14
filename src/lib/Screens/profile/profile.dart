@@ -11,7 +11,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/models/HiveData.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
-import 'package:telsavideo/screens/login.dart';
+import 'package:telsavideo/screens/login/login.dart';
 import 'package:telsavideo/screens/profile/profile_setting.dart';
 import 'package:telsavideo/screens/profile/profile_tab_item.dart';
 import 'package:telsavideo/screens/profile/term_of_use.dart';

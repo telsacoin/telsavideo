@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:telsavideo/accounts/hiveaccount.dart';
+import 'package:telsavideo/screens/login/hiveaccount.dart';
 import 'package:telsavideo/screens/home/home.dart';
-import 'package:telsavideo/screens/login.dart';
+import 'package:telsavideo/screens/login/login.dart';
 import 'package:telsavideo/screens/profile/profile.dart';
 
 class RouteGenerator {

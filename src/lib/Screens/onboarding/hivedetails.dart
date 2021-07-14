@@ -1,4 +1,4 @@
-import 'package:telsavideo/accounts/hiveaccount.dart';
+import 'package:telsavideo/screens/login/hiveaccount.dart';
 import 'package:telsavideo/services/launchurl.dart';
 import 'package:telsavideo/common/sizeconfig.dart';
 import 'package:telsavideo/constants.dart';

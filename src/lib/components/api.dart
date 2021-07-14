@@ -118,14 +118,14 @@ class Steemit {
   Future getDiscussionsByTrending() async {
     Dio dio = new Dio();
     Response response =
-        await dio.get("https://dtubeapp.cf:2053/getDiscussions?by=trending");
+        await dio.get("https://video.telsacoin.io/getDiscussions?by=trending");
     return (response.data);
   }
 
   Future getDiscussionsByCreated() async {
     Dio dio = new Dio();
     Response response =
-        await dio.get("https://dtubeapp.cf:2053/getDiscussions?by=created");
+        await dio.get("https://video.telsacoin.io/getDiscussions?by=created");
     return (response.data);
   }
 
@@ -148,7 +148,7 @@ class Steemit {
               ]
             ]
           })
-        : await dio.get("https://dtubeapp.cf:2053/getDiscussions?by=feed");
+        : await dio.get("https://video.telsacoin.io/getDiscussions?by=feed");
     return (response.data);
   }
 
@@ -189,7 +189,7 @@ class Steemit {
   Future getDiscussionsBySearch(var search) async {
     Dio dio = new Dio();
     Response response =
-        await dio.get("https://dtubeapp.cf:2053/search?q=$search");
+        await dio.get("https://video.telsacoin.io/search?q=$search");
     return (response.data);
   }
 

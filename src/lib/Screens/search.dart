@@ -190,7 +190,7 @@ class _CreatorProfileScreenState extends State<CreatorProfileScreen> {
                               InkWell(
                                 onTap: () async {
                                   const url =
-                                      'https://www.instagram.com/umang.donda.7/';
+                                      'https://www.instagram.com/tlsacoin/';
                                   if (await canLaunch(url)) {
                                     await launch(url);
                                   } else {
