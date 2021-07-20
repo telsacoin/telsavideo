@@ -3,9 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+// ignore: unused_import
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telsavideo/constants.dart';
+import 'package:telsavideo/screens/home/home.dart';
 import 'package:telsavideo/screens/login/hiveaccount.dart';
 import 'package:telsavideo/screens/signup/register.dart';
 
@@ -29,10 +33,24 @@ class _LoginState extends State<Login> {
     });
   }
 
+  Future<void> checkAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isLoggedIn = (prefs.getBool('isLoggedIn') == null)
+        ? false
+        : prefs.getBool('isLoggedIn');
+
+    if (isLoggedIn!) {
+      // wrong call in wrong place!
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    checkAuth();
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -52,11 +70,13 @@ class _LoginState extends State<Login> {
                   end: Alignment.bottomCenter,
                   stops: [0.1, 0.3, 0.5, 0.7, 0.9],
                   colors: [
-                    Colors.black.withOpacity(0.4),
-                    Colors.black.withOpacity(0.55),
-                    Colors.black.withOpacity(0.7),
-                    Colors.black.withOpacity(0.8),
-                    Colors.black.withOpacity(1.0),
+                    kBgColorTop.withOpacity(0.4),
+                    kBgColorTop.withOpacity(0.55),
+                    kBgColorBottom.withOpacity(0.7),
+                    kBgColorBottom.withOpacity(0.8),
+                    kBgColorBottom.withOpacity(1.0),
+                    /* kBgColorTop.withOpacity(0.4),
+                    kBgColorBottom.withOpacity(1.0), */
                   ],
                 ),
               ),

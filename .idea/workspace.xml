@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6ed58c31-fc12-4a13-b402-0882d2d038c0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/src/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/src/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/src/.packages" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/src/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/android/app/src/main/kotlin/com/example/flutter_app/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/src/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/Screens/home/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/Screens/home/home.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/Screens/login/hiveaccount.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/Screens/login/hiveaccount.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/Screens/login/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/Screens/login/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/widgets/video_description.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/widgets/video_description.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/src/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/readme.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:\Program Files\JetBrains\IntelliJ IDEA 2020.2.3\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1vZhFvPbBYsp3zcJSTOdsCkwyZ6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../tools/dart-sdk" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/src/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/src/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6ed58c31-fc12-4a13-b402-0882d2d038c0" name="Default Changelist" comment="" />
+      <created>1626775419867</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1626775419867</updated>
+      <workItem from="1626775422065" duration="579000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="699" y="375" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1626775842765">
+      <screen x="0" y="0" width="2490" height="1440" />
+    </state>
+    <state x="699" y="375" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2490.1440/2560.0.1858.1080@0.0.2490.1440" timestamp="1626775842765" />
+    <state x="974" y="510" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1626775532816">
+      <screen x="0" y="0" width="2490" height="1440" />
+    </state>
+    <state x="974" y="510" key="#com.intellij.ide.util.TreeFileChooserDialog/0.0.2490.1440/2560.0.1858.1080@0.0.2490.1440" timestamp="1626775532816" />
+    <state x="1025" y="494" key="FileChooserDialogImpl" timestamp="1626775667782">
+      <screen x="0" y="0" width="2490" height="1440" />
+    </state>
+    <state x="1025" y="494" key="FileChooserDialogImpl/0.0.2490.1440/2560.0.1858.1080@0.0.2490.1440" timestamp="1626775667782" />
+    <state x="746" y="384" key="SettingsEditor" timestamp="1626775885119">
+      <screen x="0" y="0" width="2490" height="1440" />
+    </state>
+    <state x="746" y="384" key="SettingsEditor/0.0.2490.1440/2560.0.1858.1080@0.0.2490.1440" timestamp="1626775885119" />
+  </component>
+</project>

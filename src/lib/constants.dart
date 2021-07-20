@@ -8,4 +8,9 @@ const Color kPrimaryColor = Color(0xff161616);
 
 const Color kFontColor = Color(0xffe0e0e0);
 
+const Color kBgColorTop = Color(0xff6e00ff);
+const Color kBgColorBottom = Color(0xffa307dd);
+
 const String apiUrl = "https://api.telsacoin.io/api";
+
+const String apiDevUrl = "http://10.0.2.2:3000/api";

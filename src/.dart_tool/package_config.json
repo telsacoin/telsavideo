@@ -38,6 +38,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "bloc",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/bloc-7.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0",
       "packageUri": "lib/",
@@ -372,6 +378,12 @@
       "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_billing-0.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.1"
+    },
+    {
+      "name": "flutter_bloc",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-7.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_blurhash",
@@ -1220,7 +1232,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-07-14T14:08:56.734005Z",
+  "generated": "2021-07-20T15:21:00.028280Z",
   "generator": "pub",
   "generatorVersion": "2.13.3"
 }

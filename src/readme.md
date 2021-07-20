@@ -11,3 +11,6 @@ gradlew signingReport
 Use the command flutter clean on the terminal before running the application.
 
 Following the Firebase SDK Instructions properly will save you lots of time.
+
+# add app icon  common
+flutter pub run flutter_launcher_icons:main

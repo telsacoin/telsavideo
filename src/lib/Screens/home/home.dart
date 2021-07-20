@@ -1,8 +1,19 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/adapter.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:telsavideo/screens/profile.dart';
+import 'package:marquee_widget/marquee_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telsavideo/common/icons.dart';
+import 'package:telsavideo/constants.dart';
+import 'package:telsavideo/models/videolist.dart';
+import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:telsavideo/screens/notifications_messages/notifications.dart';
 import 'package:telsavideo/screens/record_video/record_video.dart';
@@ -27,30 +38,76 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool like = false;
   late VideoPlayerController _controller;
   late AnimationController animationController;
+  late Future<List<Video>> videos;
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.8);
   // ScrollController _scrollController = ScrollController(initialScrollOffset:0);
   PageController foryouController = new PageController();
 
+  Future<List<Video>> getVideos() async {
+    List<Video> video = List.empty();
+    String url = apiUrl;
+    if (kDebugMode) {
+      url = apiDevUrl;
+    }
+    url += "/get_posts_by_filters";
+    Dio dio = new Dio();
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback = (cert, host, port) {
+        return true;
+      };
+    };
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var code = prefs.getString('code');
+    var map = Map<String, dynamic>();
+    map["filters"] = "trending";
+    var query = Map<String, dynamic>();
+    query["tag"] = "telsacoin";
+    query["limit"] = 10;
+    map["query"] = query;
+
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'authorization': code
+    };
+    try {
+      var response = await dio.post(url,
+          data: map, options: Options(contentType: "application/json"));
+      print(response);
+      print(url);
+      if (response.statusCode == 200) {
+        video = List<Video>.from(json
+            .decode(json.encode(response.data))
+            .map((x) => Video.fromJson(x)));
+      }
+    } catch (e) {
+      print(e);
+    }
+    return video;
+  }
+
   @override
   void initState() {
     super.initState();
+    videos = getVideos();
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 5));
     animationController.repeat();
-    _controller = VideoPlayerController.asset('assets/vod_1.mp4')
-      ..initialize().then((value) {
-        _controller.play();
-        _controller.setLooping(true);
-        setState(() {});
-      });
+    _controller =
+        VideoPlayerController.network('https://telsacoin.io/tslacoin2.mp4')
+          ..initialize().then((value) {
+            _controller.pause();
+            _controller.setLooping(true);
+            setState(() {});
+          });
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
     animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -128,241 +185,288 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     return true;
   }
 
+  formatTags(String json_metadata) {
+    return json.decode(json_metadata)["tags"][0];
+  }
+
   // Home Screen Code Start
   homescreen() {
     if (foryou) {
-      return PageView.builder(
-          controller: foryouController,
-          onPageChanged: (index) {
-            setState(() {
-              _controller.seekTo(Duration.zero);
-              _controller.play();
-            });
-          },
-          scrollDirection: Axis.vertical,
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Stack(
-              children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: RawMaterialButton(
-                    padding: EdgeInsets.all(0.0),
-                    onPressed: () {
-                      setState(() {
-                        if (play) {
-                          _controller.pause();
-                          play = !play;
-                        } else {
-                          _controller.play();
-                          play = !play;
-                        }
-                      });
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: VideoPlayer(_controller),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 70),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 100,
-                      height: 100,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 10, bottom: 10),
-                            child: Text(
-                              '@saraalikhan',
-                              style: TextStyle(color: Colors.white),
+      return FutureBuilder<List<Video>>(
+          future: videos,
+          builder: (context, snapshot) {
+            print(snapshot.connectionState);
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading;
+            } else if (snapshot.hasData) {
+              return PageView.builder(
+                  controller: foryouController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _controller.seekTo(Duration.zero);
+                      _controller.play();
+                    });
+                  },
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    var video = snapshot.data![index];
+                    return Stack(
+                      children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: RawMaterialButton(
+                            padding: EdgeInsets.all(0.0),
+                            onPressed: () {
+                              setState(() {
+                                if (play) {
+                                  _controller.pause();
+                                  play = !play;
+                                } else {
+                                  _controller.play();
+                                  play = !play;
+                                }
+                              });
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              child: VideoPlayer(_controller),
                             ),
                           ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10, bottom: 10),
-                              child: Text.rich(
-                                TextSpan(children: <TextSpan>[
-                                  TextSpan(text: 'Eiffel Tower '),
-                                  TextSpan(
-                                      text: '#beautiful\n',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  TextSpan(
-                                      text: 'See the translation',
-                                      style: TextStyle(fontSize: 12))
-                                ]),
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14),
-                              )),
-                          Container(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Icon(Icons.music_note,
-                                    size: 16, color: Colors.white),
-                                Text('R10 - Oboy',
-                                    style: TextStyle(color: Colors.white))
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                    padding: EdgeInsets.only(bottom: 65, right: 10),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Container(
-                        width: 70,
-                        height: 400,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(bottom: 23),
-                              width: 40,
-                              height: 50,
-                              child: Stack(
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 70),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width - 100,
+                              height: 100,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CreatorProfileScreen()));
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: Colors.white,
-                                      child: CircleAvatar(
-                                        radius: 19,
-                                        backgroundColor: Colors.black,
-                                        backgroundImage:
-                                            AssetImage('assets/spook.png'),
-                                      ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 10, bottom: 10),
+                                    child: Text(
+                                      '@${video.author}',
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                   ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: CircleAvatar(
-                                      radius: 10,
-                                      backgroundColor:
-                                          Color(0xfd2c58).withOpacity(1),
-                                      child: Center(
-                                          child: Icon(Icons.add,
-                                              size: 15, color: Colors.white)),
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 10, bottom: 10),
+                                      child: Text.rich(
+                                        TextSpan(children: <TextSpan>[
+                                          TextSpan(text: '${video.title}'),
+                                          TextSpan(
+                                              text:
+                                                  '#${formatTags(video.jsonMetadata)}\n',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          TextSpan(
+                                              text: '${video.body}',
+                                              style: TextStyle(fontSize: 12))
+                                        ]),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 14),
+                                      )),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.music_note,
+                                            size: 16, color: Colors.white),
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
+                                          width: 150,
+                                          child: Marquee(
+                                            child: Text(
+                                                '${video.title} - ${video.title}',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                            direction: Axis.horizontal,
+                                            textDirection: TextDirection.ltr,
+                                            animationDuration:
+                                                Duration(seconds: 1),
+                                            directionMarguee:
+                                                DirectionMarguee.oneDirection,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.only(bottom: 25),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        like = !like;
-                                      });
-                                    },
-                                    child: Icon(Icons.favorite,
-                                        size: 30.0,
-                                        color:
-                                            (like) ? Colors.red : Colors.white),
-                                  ),
-                                  SizedBox(height: 3.0),
-                                  Text(
-                                    '427.9K',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {},
+                          ),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(bottom: 65, right: 10),
+                            child: Align(
+                              alignment: Alignment.bottomRight,
                               child: Container(
-                                padding: EdgeInsets.only(bottom: 20),
+                                width: 70,
+                                height: 400,
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
-                                    Transform(
-                                        alignment: Alignment.center,
-                                        transform: Matrix4.rotationY(math.pi),
-                                        child: Icon(Icons.sms,
-                                            size: 30, color: Colors.white)),
-                                    SizedBox(height: 3.0),
-                                    Text(
-                                      '2051',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w500,
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 23),
+                                      width: 40,
+                                      height: 50,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CreatorProfileScreen()));
+                                            },
+                                            child: CircleAvatar(
+                                              radius: 20,
+                                              backgroundColor: Colors.white,
+                                              child: CircleAvatar(
+                                                radius: 19,
+                                                backgroundColor: Colors.black,
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                        "https://images.hive.blog/u/${video.author}/avatar"),
+                                              ),
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: CircleAvatar(
+                                              radius: 10,
+                                              backgroundColor: Color(0xfd2c58)
+                                                  .withOpacity(1),
+                                              child: Center(
+                                                  child: Icon(Icons.add,
+                                                      size: 15,
+                                                      color: Colors.white)),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
+                                    Container(
+                                      padding: EdgeInsets.only(bottom: 25),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                like = !like;
+                                              });
+                                            },
+                                            child: Icon(Icons.favorite,
+                                                size: 30.0,
+                                                color: (like)
+                                                    ? Colors.red
+                                                    : Colors.white),
+                                          ),
+                                          SizedBox(height: 3.0),
+                                          Text(
+                                            '${video.activeVotes.length}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Container(
+                                        padding: EdgeInsets.only(bottom: 20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Transform(
+                                                alignment: Alignment.center,
+                                                transform: Matrix4.rotationY(0),
+                                                child: Icon(
+                                                    DouyinIcons.chat_bubble,
+                                                    size: 30,
+                                                    color: Colors.white)),
+                                            SizedBox(height: 3.0),
+                                            Text(
+                                              '${video.replies.length}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(bottom: 50),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Transform(
+                                              alignment: Alignment.center,
+                                              transform:
+                                                  Matrix4.rotationY(math.pi),
+                                              child: Icon(Icons.reply,
+                                                  size: 30,
+                                                  color: Colors.white)),
+                                          SizedBox(height: 3.0),
+                                          Text(
+                                            'Share',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    AnimatedBuilder(
+                                      animation: animationController,
+                                      child: CircleAvatar(
+                                        radius: 22,
+                                        backgroundColor:
+                                            Color(0x222222).withOpacity(1),
+                                        child: CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                                  "https://images.hive.blog/u/${video.author}/small"),
+                                        ),
+                                      ),
+                                      builder: (context, _widget) {
+                                        return Transform.rotate(
+                                            angle:
+                                                animationController.value * 6.3,
+                                            child: _widget);
+                                      },
+                                    )
                                   ],
                                 ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(bottom: 50),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Transform(
-                                      alignment: Alignment.center,
-                                      transform: Matrix4.rotationY(math.pi),
-                                      child: Icon(Icons.reply,
-                                          size: 30, color: Colors.white)),
-                                  SizedBox(height: 3.0),
-                                  Text(
-                                    'Share',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            AnimatedBuilder(
-                              animation: animationController,
-                              child: CircleAvatar(
-                                radius: 22,
-                                backgroundColor: Color(0x222222).withOpacity(1),
-                                child: CircleAvatar(
-                                  radius: 12,
-                                  backgroundImage:
-                                      AssetImage('assets/oboy.jpg'),
-                                ),
-                              ),
-                              builder: (context, _widget) {
-                                return Transform.rotate(
-                                    angle: animationController.value * 6.3,
-                                    child: _widget);
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    ))
-              ],
-            );
+                            ))
+                      ],
+                    );
+                  });
+            } else {
+              return Loading;
+            }
           });
     } else {
       _controller.play();
@@ -466,17 +570,21 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Padding(
+                  InkWell(
+                    child: Padding(
                       padding: EdgeInsets.only(bottom: 15),
                       child: CircleAvatar(
                         backgroundColor: Colors.black,
                         backgroundImage: AssetImage('assets/spook.png'),
                         radius: 30,
-                      )),
+                      ),
+                    ),
+                    onTap: () => {_controller.pause()},
+                  ),
                   Padding(
                       padding: EdgeInsets.only(bottom: 6),
                       child:
-                          Text('Sara', style: TextStyle(color: Colors.white))),
+                          Text('DTok', style: TextStyle(color: Colors.white))),
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -484,7 +592,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                           MaterialPageRoute(
                               builder: (context) => CreatorProfileScreen()));
                     },
-                    child: Text('@saraalikhan',
+                    child: Text('@telsacoin',
                         style: TextStyle(color: Colors.white.withOpacity(0.5))),
                   ),
                   Container(

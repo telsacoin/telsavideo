@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  ffi: ^1.1.2
+  flutter_bloc: ^7.0.1
   json_annotation: ^4.0.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -112,9 +114,11 @@ dev_dependencies:
 
 
 flutter_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
-  image_path: "assets/icon.png"
+  image_path: "assets/dtok.png"
+  adaptive_icon_background: "assets/appbackground.png" # only available for Android 8.0 devices and above
+  #adaptive_icon_foreground: "assets/appbackground.png" # only available for Android 8.0 devices and above
 
 module:
   androidX: true

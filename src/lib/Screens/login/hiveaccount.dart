@@ -3,10 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
 import 'package:dio/adapter.dart';
-import 'package:telsavideo/screens/profile/profile.dart';
-import 'package:telsavideo/services/interceptor.dart' as postreq;
 import 'package:telsavideo/screens/home/home.dart';
-import 'package:telsavideo/screens/onboarding/languageselection.dart';
+import 'package:telsavideo/services/interceptor.dart' as postreq;
 import 'package:telsavideo/common/SizeConfig.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -77,7 +75,7 @@ class _HiveAccountState extends State<HiveAccount> {
 
   Future<void> checkAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLoggedIn', true);
+    //prefs.setBool('isLoggedIn', true);
     var isLoggedIn = (prefs.getBool('isLoggedIn') == null)
         ? false
         : prefs.getBool('isLoggedIn');
@@ -85,7 +83,7 @@ class _HiveAccountState extends State<HiveAccount> {
     if (isLoggedIn!) {
       // wrong call in wrong place!
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Profile()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
     }
   }
 
@@ -121,7 +119,7 @@ class _HiveAccountState extends State<HiveAccount> {
     LinkedHashMap<String, dynamic> result = response.data;
     print("the response data is " + json.encode(result));
     if (response.statusCode == 200) {
-      //prefs.setString('token', result['userData']['token']);
+      prefs.setBool('isLoggedIn', true);
       prefs.setString('userId', result['_id']);
       prefs.setString('userName', result['name']);
       if (result['hive_username'] != null) {
@@ -217,7 +215,7 @@ class _HiveAccountState extends State<HiveAccount> {
     Uri initialUrl = Uri.parse(
         'https://hivesigner.com/login?client_id=telsacoin&response_type=code&redirect_uri=https%3A%2F%2Fapi.telsacoin.io%2Fapi%2Foauth2%2Ftoken&scope=offline,comment,vote,comment_option,custom_json');
     return Scaffold(
-      appBar: AppBar(
+      /* appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
@@ -225,7 +223,7 @@ class _HiveAccountState extends State<HiveAccount> {
           textScaleFactor: 0.75,
           style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal! * 4),
         ),
-      ),
+      ), */
       body: ListView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         children: [

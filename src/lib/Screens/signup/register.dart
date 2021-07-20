@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:telsavideo/screens/signup/otp.dart';
 
+import '../../constants.dart';
+
 class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,11 +29,11 @@ class Register extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   stops: [0.1, 0.3, 0.5, 0.7, 0.9],
                   colors: [
-                    Colors.black.withOpacity(0.4),
-                    Colors.black.withOpacity(0.55),
-                    Colors.black.withOpacity(0.7),
-                    Colors.black.withOpacity(0.8),
-                    Colors.black.withOpacity(1.0),
+                    kBgColorTop.withOpacity(0.4),
+                    kBgColorTop.withOpacity(0.55),
+                    kBgColorBottom.withOpacity(0.7),
+                    kBgColorBottom.withOpacity(0.8),
+                    kBgColorBottom.withOpacity(1.0),
                   ],
                 ),
               ),
