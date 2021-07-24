@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:country_codes/country_codes.dart';
 // ignore: unused_import
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -23,6 +24,8 @@ class _LoginState extends State<Login> {
   String phoneNumber = '';
   String? phoneIsoCode;
   final TextEditingController controller = TextEditingController();
+  CountryDetails details = CountryCodes.detailsForLocale();
+  Locale locale = CountryCodes.getDeviceLocale()!;
   String initialCountry = 'US';
   PhoneNumber number = PhoneNumber(isoCode: 'US');
   void onPhoneNumberChange(

@@ -101,6 +101,7 @@ dependencies:
   expandable: ^5.0.1
   sign_in_with_apple: ^3.0.0
   page_transition: ^1.1.7+6
+  country_codes: ^2.0.1 
 
 dev_dependencies:
   stack_trace: ^1.10.0
@@ -135,12 +136,12 @@ flutter:
     - assets/
     - assets/icons/
     - assets/images/
-    - assets/user.json
     - assets/slider/
     - assets/dance/
     - assets/laugh/
     - assets/food/
     - assets/user_profile/
+    - assets/user.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

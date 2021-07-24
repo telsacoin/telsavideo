@@ -182,6 +182,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "country_codes",
+      "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/country_codes-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "crypto",
       "rootUri": "file:///D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1",
       "packageUri": "lib/",
@@ -1232,7 +1238,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-07-20T15:21:00.028280Z",
+  "generated": "2021-07-22T13:56:38.303435Z",
   "generator": "pub",
   "generatorVersion": "2.13.3"
 }

@@ -212,6 +212,13 @@
             </list>
           </value>
         </entry>
+        <entry key="country_codes">
+          <value>
+            <list>
+              <option value="D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/country_codes-2.0.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="crypto">
           <value>
             <list>
@@ -1465,6 +1472,7 @@
       <root url="file://D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
       <root url="file://D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/convert-3.0.1/lib" />
       <root url="file://D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/cookie_jar-3.0.1/lib" />
+      <root url="file://D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/country_codes-2.0.1/lib" />
       <root url="file://D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1/lib" />
       <root url="file://D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/csslib-0.17.0/lib" />
       <root url="file://D:/Soft/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.3/lib" />

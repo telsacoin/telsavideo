@@ -7,7 +7,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
@@ -16,17 +15,12 @@ import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:telsavideo/Routes/route_generator.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:telsavideo/appBehaviour/my_behaviour.dart';
-import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/screens/login_copy.dart';
-import 'package:telsavideo/screens/login/auth.dart';
-import 'package:telsavideo/screens/searchProvider.dart';
 import 'package:telsavideo/screens/settings/security/theme.dart';
-import 'package:telsavideo/screens/sortFilterPreference.dart';
 import 'package:telsavideo/screens/splashScreen.dart';
-import 'blocs/ipfs/ipfs_bloc.dart';
+import 'package:country_codes/country_codes.dart';
 import 'components/api.dart';
 import 'package:stack_trace/stack_trace.dart';
 
@@ -62,7 +56,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<Null> main() async {
   //ensure the app initial
   WidgetsFlutterBinding.ensureInitialized();
-
+  await CountryCodes.init();
   if (kDebugMode) {
     Chain.capture(() {});
   }
