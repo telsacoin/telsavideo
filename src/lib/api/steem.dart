@@ -1,4 +1,4 @@
-import 'package:telsavideo/models/models.dart';
+import 'package:telsavideo/models/user.dart';
 import 'post.dart';
 import 'relationship.dart';
 import 'reply.dart';

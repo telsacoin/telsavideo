@@ -10,7 +10,10 @@ const Color kFontColor = Color(0xffe0e0e0);
 
 const Color kBgColorTop = Color(0xff6e00ff);
 const Color kBgColorBottom = Color(0xffa307dd);
+const Color kButtomColor = Color.fromRGBO(252, 1, 86, 1);
 
 const String apiUrl = "https://api.telsacoin.io/api";
 
-const String apiDevUrl = "http://10.0.2.2:3000/api";
+const String apiDevUrl = "http://10.0.2.2:8181/api";
+
+const String apiPortail = "http://47.95.209.198/api";

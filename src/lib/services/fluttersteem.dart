@@ -10,7 +10,7 @@ import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/services/endpoints.dart';
 import 'package:telsavideo/api/impl/steem.dart';
 import 'package:telsavideo/models/impl_models.dart';
-import 'package:telsavideo/models/models.dart';
+import 'package:telsavideo/models/user.dart';
 import 'package:telsavideo/services/requestor.dart';
 import 'package:telsavideo/services/scopes.dart';
 

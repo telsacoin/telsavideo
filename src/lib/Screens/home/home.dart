@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:developer' as develop;
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,6 +12,7 @@ import 'package:marquee_widget/marquee_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/common/icons.dart';
 import 'package:telsavideo/constants.dart';
+import 'package:telsavideo/models/video/DTok.dart';
 import 'package:telsavideo/models/videolist.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
@@ -38,19 +39,19 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool like = false;
   late VideoPlayerController _controller;
   late AnimationController animationController;
-  late Future<List<Video>> videos;
+  late Future<DTok> videos;
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.8);
   // ScrollController _scrollController = ScrollController(initialScrollOffset:0);
   PageController foryouController = new PageController();
 
-  Future<List<Video>> getVideos() async {
-    List<Video> video = List.empty();
+  Future<DTok> getVideos() async {
     String url = apiUrl;
     if (kDebugMode) {
       url = apiDevUrl;
     }
-    url += "/get_posts_by_filters";
+    //url += "/get_posts_by_filters";
+    url += "/recommend/item_list";
     Dio dio = new Dio();
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (client) {
@@ -58,7 +59,23 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
         return true;
       };
     };
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    DTok dTok = new DTok();
+    try {
+      var response = await dio.get(url);
+      print(response);
+
+      var data = json.encode(response.data);
+      var dData = json.decode(data);
+
+      DTok dTok = DTok.fromJson(dData);
+      print(dTok);
+      return dTok;
+    } catch (e) {
+      print(e);
+    }
+    return dTok;
+
+    /* SharedPreferences prefs = await SharedPreferences.getInstance();
     var code = prefs.getString('code');
     var map = Map<String, dynamic>();
     map["filters"] = "trending";
@@ -83,8 +100,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
       }
     } catch (e) {
       print(e);
-    }
-    return video;
+    } */
+    //return DTok();
   }
 
   @override
@@ -185,14 +202,14 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     return true;
   }
 
-  formatTags(String json_metadata) {
+  /* formatTags(String json_metadata) {
     return json.decode(json_metadata)["tags"][0];
-  }
+  } */
 
   // Home Screen Code Start
   homescreen() {
     if (foryou) {
-      return FutureBuilder<List<Video>>(
+      return FutureBuilder<DTok>(
           future: videos,
           builder: (context, snapshot) {
             print(snapshot.connectionState);
@@ -203,14 +220,22 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                   controller: foryouController,
                   onPageChanged: (index) {
                     setState(() {
+                      /* _controller = VideoPlayerController.network(
+                          snapshot.data!.itemList![index].video!.playAddr!)
+                        ..initialize().then((value) {
+                          _controller.pause();
+                          _controller.setLooping(true);
+                          setState(() {});
+                        }); */
                       _controller.seekTo(Duration.zero);
                       _controller.play();
+                      //_controller.se
                     });
                   },
                   scrollDirection: Axis.vertical,
-                  itemCount: snapshot.data!.length,
+                  itemCount: snapshot.data!.itemList!.length,
                   itemBuilder: (context, index) {
-                    var video = snapshot.data![index];
+                    var video = snapshot.data!.itemList![index];
                     return Stack(
                       children: <Widget>[
                         Container(
@@ -250,7 +275,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                     padding:
                                         EdgeInsets.only(left: 10, bottom: 10),
                                     child: Text(
-                                      '@${video.author}',
+                                      '@${video.author!.nickname}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -259,14 +284,13 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                           EdgeInsets.only(left: 10, bottom: 10),
                                       child: Text.rich(
                                         TextSpan(children: <TextSpan>[
-                                          TextSpan(text: '${video.title}'),
+                                          TextSpan(text: '${video.desc}'),
                                           TextSpan(
-                                              text:
-                                                  '#${formatTags(video.jsonMetadata)}\n',
+                                              text: '#${video.desc!}\n',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                           TextSpan(
-                                              text: '${video.body}',
+                                              text: '1111',
                                               style: TextStyle(fontSize: 12))
                                         ]),
                                         style: TextStyle(
@@ -283,8 +307,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                               top: 5.0, bottom: 5.0),
                                           width: 150,
                                           child: Marquee(
-                                            child: Text(
-                                                '${video.title} - ${video.title}',
+                                            child: Text('111 - 222',
                                                 style: TextStyle(
                                                     color: Colors.white)),
                                             direction: Axis.horizontal,
@@ -335,7 +358,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                                 backgroundColor: Colors.black,
                                                 backgroundImage:
                                                     CachedNetworkImageProvider(
-                                                        "https://images.hive.blog/u/${video.author}/avatar"),
+                                                        video.author!
+                                                                .avatarMedium ??
+                                                            ""),
                                               ),
                                             ),
                                           ),
@@ -374,7 +399,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                           ),
                                           SizedBox(height: 3.0),
                                           Text(
-                                            '${video.activeVotes.length}',
+                                            '${video.stats!.diggCount}',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 12.0,
@@ -401,7 +426,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                                     color: Colors.white)),
                                             SizedBox(height: 3.0),
                                             Text(
-                                              '${video.replies.length}',
+                                              '${video.stats!.commentCount}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12.0,

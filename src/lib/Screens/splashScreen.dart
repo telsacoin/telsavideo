@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/screens/login/login.dart';
+import 'package:telsavideo/screens/signup/signup.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -56,16 +57,25 @@ class _SplashScreenState extends State<SplashScreen> {
                 backgroundColor: Colors.transparent,
                 body: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      'DTOK',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 35.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/dtok.png',
+                          width: 48,
+                          alignment: Alignment.center,
+                        ),
+                        Center(
+                          child: Text(
+                            'DTOK',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 35.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ]),
                 ),
               ),
             ),

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:telsavideo/api/user.dart';
-import 'package:telsavideo/models/models.dart';
+import 'package:telsavideo/models/user.dart';
 import 'package:telsavideo/services/requestor.dart';
 
 const String _accountsRoot = '/get_accounts';

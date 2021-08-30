@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:telsavideo/models/models.dart';
+import 'package:telsavideo/models/user.dart';
 
 /// An abstraction to extract relationship information from Steem
 /// https://v2.steemconnect.com/docs/steemjs#api/

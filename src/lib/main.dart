@@ -20,7 +20,7 @@ import 'package:telsavideo/appBehaviour/my_behaviour.dart';
 import 'package:telsavideo/screens/login_copy.dart';
 import 'package:telsavideo/screens/settings/security/theme.dart';
 import 'package:telsavideo/screens/splashScreen.dart';
-import 'package:country_codes/country_codes.dart';
+//import 'package:country_codes/country_codes.dart';
 import 'components/api.dart';
 import 'package:stack_trace/stack_trace.dart';
 
@@ -56,7 +56,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<Null> main() async {
   //ensure the app initial
   WidgetsFlutterBinding.ensureInitialized();
-  await CountryCodes.init();
+  //await CountryCodes.init();
   if (kDebugMode) {
     Chain.capture(() {});
   }
@@ -266,7 +266,7 @@ class _MyAppState extends State<MyApp> {
         tabBarTheme: TabBarTheme(),
       ),
       /* initialRoute: '/',
-                onGenerateRoute: RouteGenerator.generateRoute, */
+     onGenerateRoute: RouteGenerator.generateRoute, */
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: MyBehavior(),

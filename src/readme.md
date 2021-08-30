@@ -12,5 +12,30 @@ Use the command flutter clean on the terminal before running the application.
 
 Following the Firebase SDK Instructions properly will save you lots of time.
 
+# the project structure
+[lib\screen
+[lib\models
+[lib\service
+
+# generate model
+`
+ flutter pub run build_runner build
+`
+
 # add app icon  common
+`
 flutter pub run flutter_launcher_icons:main
+`
+
+# build apk
+`
+flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --no-sound-null-safety
+`
+
+
+# known issue
+`
+../../../development/flutter/packages/flutter/lib/src/material/scaffold.dart:1963:24: Context: Found this candidate, but the arguments don't match.
+  static ScaffoldState of(BuildContext context) {
+`
+

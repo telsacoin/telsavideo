@@ -14,9 +14,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { 
-            url 'https://maven.testfairy.com'
-        }
         maven {
             url 'https://maven.aliyun.com/repository/google'
         }

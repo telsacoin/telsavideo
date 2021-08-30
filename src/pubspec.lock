@@ -211,13 +211,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  country_codes:
-    dependency: "direct main"
-    description:
-      name: country_codes
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   crypto:
     dependency: transitive
     description:
@@ -345,7 +338,7 @@ packages:
       name: firebase_analytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.1.2"
+    version: "8.2.0"
   firebase_analytics_platform_interface:
     dependency: transitive
     description:
@@ -382,12 +375,12 @@ packages:
     source: hosted
     version: "1.3.1"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.4.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -491,6 +484,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0"
+  flutter_form_builder:
+    dependency: "direct main"
+    description:
+      name: flutter_form_builder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.1"
   flutter_html:
     dependency: "direct main"
     description:

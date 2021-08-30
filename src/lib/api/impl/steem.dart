@@ -1,5 +1,5 @@
 import 'package:telsavideo/api/api.dart';
-import 'package:telsavideo/models/models.dart';
+import 'package:telsavideo/models/user.dart';
 import 'package:telsavideo/services/requestor.dart';
 import 'post.dart';
 import 'relationship.dart';

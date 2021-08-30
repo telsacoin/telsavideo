@@ -311,9 +311,12 @@ class _OTPScreenState extends State<OTPScreen> {
                             end: Alignment.bottomRight,
                             stops: [0.1, 0.5, 0.9],
                             colors: [
-                              Colors.red[300]!.withOpacity(0.8),
+                              /* Colors.red[300]!.withOpacity(0.8),
                               Colors.red[500]!.withOpacity(0.8),
-                              Colors.red[800]!.withOpacity(0.8),
+                              Colors.red[800]!.withOpacity(0.8), */
+                              kButtomColor.withOpacity(0.8),
+                              kButtomColor.withOpacity(0.8),
+                              kButtomColor.withOpacity(0.8),
                             ],
                           ),
                         ),
