@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:telsavideo/constants.dart';
-import 'package:telsavideo/screens/login/login.dart';
-import 'package:telsavideo/screens/signup/signup.dart';
+import 'package:telsavideo/screens/home/home.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Duration(seconds: 3),
         () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Login()),
+              MaterialPageRoute(builder: (context) => Home()),
             ));
   }
 

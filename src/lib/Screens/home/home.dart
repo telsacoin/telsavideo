@@ -2,18 +2,18 @@ import 'dart:convert';
 import 'dart:developer' as develop;
 import 'dart:io';
 
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:marquee_widget/marquee_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/common/icons.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/models/video/DTok.dart';
-import 'package:telsavideo/models/videolist.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:telsavideo/screens/notifications_messages/notifications.dart';
@@ -38,6 +38,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool home = true;
   bool like = false;
   late VideoPlayerController _controller;
+  late Future _initializeVideoPlayerFuture;
   late AnimationController animationController;
   late Future<DTok> videos;
   PageController pageController =
@@ -111,13 +112,15 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 5));
     animationController.repeat();
-    _controller =
-        VideoPlayerController.network('https://telsacoin.io/tslacoin2.mp4')
-          ..initialize().then((value) {
-            _controller.pause();
-            _controller.setLooping(true);
-            setState(() {});
-          });
+    _controller = VideoPlayerController.file(new File("path"));
+    _initializeVideoPlayerFuture = _controller.initialize();
+    //_controller = _controller.initialize();
+    /* VideoPlayerController.network('https://telsacoin.io/tslacoin2.mp4')
+      ..initialize().then((value) {
+        _controller.pause();
+        _controller.setLooping(true);
+        setState(() {});
+      }); */
   }
 
   @override
@@ -220,13 +223,14 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                   controller: foryouController,
                   onPageChanged: (index) {
                     setState(() {
-                      /* _controller = VideoPlayerController.network(
-                          snapshot.data!.itemList![index].video!.playAddr!)
+                      _controller = VideoPlayerController.network(snapshot
+                              .data!.itemList![index].video!.playAddr ??
+                          snapshot.data!.itemList![index].video!.downloadAddr!)
                         ..initialize().then((value) {
-                          _controller.pause();
+                          _controller.play();
                           _controller.setLooping(true);
                           setState(() {});
-                        }); */
+                        });
                       _controller.seekTo(Duration.zero);
                       _controller.play();
                       //_controller.se
@@ -286,11 +290,11 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                         TextSpan(children: <TextSpan>[
                                           TextSpan(text: '${video.desc}'),
                                           TextSpan(
-                                              text: '#${video.desc!}\n',
+                                              text: '',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                           TextSpan(
-                                              text: '1111',
+                                              text: '',
                                               style: TextStyle(fontSize: 12))
                                         ]),
                                         style: TextStyle(
@@ -307,7 +311,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                               top: 5.0, bottom: 5.0),
                                           width: 150,
                                           child: Marquee(
-                                            child: Text('111 - 222',
+                                            child: Text('${video.music!.title}',
                                                 style: TextStyle(
                                                     color: Colors.white)),
                                             direction: Axis.horizontal,
@@ -472,7 +476,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                           radius: 12,
                                           backgroundImage:
                                               CachedNetworkImageProvider(
-                                                  "https://images.hive.blog/u/${video.author}/small"),
+                                                  '${video.author!.avatarMedium}'),
                                         ),
                                       ),
                                       builder: (context, _widget) {

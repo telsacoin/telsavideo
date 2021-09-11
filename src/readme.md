@@ -22,6 +22,14 @@ Following the Firebase SDK Instructions properly will save you lots of time.
  flutter pub run build_runner build
 `
 
+
+https://www.cnblogs.com/dalianpai/p/12347272.html
+buttom
+background-color: #e33100!important;
+box-shadow: 0 15px 18px -6px rgb(227 49 0 / 65%)
+
+
+
 # add app icon  common
 `
 flutter pub run flutter_launcher_icons:main
@@ -38,4 +46,5 @@ flutter build apk --target-platform android-arm,android-arm64,android-x64 --spli
 ../../../development/flutter/packages/flutter/lib/src/material/scaffold.dart:1963:24: Context: Found this candidate, but the arguments don't match.
   static ScaffoldState of(BuildContext context) {
 `
+
 
