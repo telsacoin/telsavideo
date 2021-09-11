@@ -12,6 +12,7 @@ import 'package:flutter/gestures.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:marquee_widget/marquee_widget.dart';
 import 'package:telsavideo/common/icons.dart';
+import 'package:telsavideo/common/utils.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/models/video/DTok.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
@@ -112,8 +113,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 5));
     animationController.repeat();
-    _controller = VideoPlayerController.file(new File("path"));
-    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller = VideoPlayerController.network("")..initialize();
     //_controller = _controller.initialize();
     /* VideoPlayerController.network('https://telsacoin.io/tslacoin2.mp4')
       ..initialize().then((value) {
@@ -229,11 +229,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                         ..initialize().then((value) {
                           _controller.play();
                           _controller.setLooping(true);
-                          setState(() {});
                         });
                       _controller.seekTo(Duration.zero);
                       _controller.play();
-                      //_controller.se
                     });
                   },
                   scrollDirection: Axis.vertical,
@@ -283,23 +281,20 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 10, bottom: 10),
-                                      child: Text.rich(
-                                        TextSpan(children: <TextSpan>[
-                                          TextSpan(text: '${video.desc}'),
-                                          TextSpan(
-                                              text: '',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                          TextSpan(
-                                              text: '',
-                                              style: TextStyle(fontSize: 12))
-                                        ]),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 14),
-                                      )),
+                                  Expanded(
+                                      child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 10, bottom: 15),
+                                          child: Text.rich(
+                                            TextSpan(children: <TextSpan>[
+                                              TextSpan(text: '${video.desc}'),
+                                            ]),
+                                            //softWrap: false,
+                                            //overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14),
+                                          ))),
                                   Container(
                                     padding: EdgeInsets.only(left: 10),
                                     child: Row(
@@ -403,7 +398,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                           ),
                                           SizedBox(height: 3.0),
                                           Text(
-                                            '${video.stats!.diggCount}',
+                                            '${formattedNumber(video.stats!.diggCount)}',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 12.0,
@@ -430,7 +425,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                                     color: Colors.white)),
                                             SizedBox(height: 3.0),
                                             Text(
-                                              '${video.stats!.commentCount}',
+                                              '${formattedNumber(video.stats!.commentCount!)}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12.0,
