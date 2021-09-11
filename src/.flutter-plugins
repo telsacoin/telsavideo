@@ -1,4 +1,5 @@
 # This is a generated file; do not edit or check into version control.
+camera=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/camera-0.9.2+2/
 device_info=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/device_info-2.0.2/
 fijkplayer=/Users/cw/development/flutter/.pub-cache/git/fijkplayer-e569e9ea7830a370d578709358e5ad2ece05992f/
 firebase_admob=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_admob-0.11.2/
@@ -17,6 +18,7 @@ flutter_downloader=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.
 flutter_ffmpeg=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_ffmpeg-0.4.0/
 flutter_inappwebview=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_inappwebview-5.3.2/
 flutter_local_notifications=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-6.0.0/
+flutter_plugin_android_lifecycle=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.3/
 fluttertoast=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.7/
 google_sign_in=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-5.0.4/
 google_sign_in_web=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.10.0/
@@ -46,7 +48,7 @@ url_launcher_macos=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.
 url_launcher_web=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_web-2.0.1/
 url_launcher_windows=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_windows-2.0.0/
 video_launcher=/Users/cw/development/flutter/.pub-cache/git/flutter_video_launcher-c0be3d3213bd1240459e5a9cb407e91a512e28c5/
-video_player=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-2.1.6/
+video_player=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-2.2.0/
 video_player_web=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/video_player_web-2.0.1/
 wakelock=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/wakelock-0.5.2/
 wakelock_macos=/Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/wakelock_macos-0.1.0+1/

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as develop;
 import 'dart:io';
@@ -39,7 +40,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool home = true;
   bool like = false;
   late VideoPlayerController _controller;
-  late Future _initializeVideoPlayerFuture;
+  late VideoPlayerController _musicController;
   late AnimationController animationController;
   late Future<DTok> videos;
   PageController pageController =
@@ -114,6 +115,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
         AnimationController(vsync: this, duration: Duration(seconds: 5));
     animationController.repeat();
     _controller = VideoPlayerController.network("")..initialize();
+    _musicController = VideoPlayerController.network("")..initialize();
     //_controller = _controller.initialize();
     /* VideoPlayerController.network('https://telsacoin.io/tslacoin2.mp4')
       ..initialize().then((value) {
@@ -205,6 +207,29 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     return true;
   }
 
+  late Timer _timer;
+
+  // start Timer
+  void _startTimer() async {
+    develop.log("timer is running at " + DateTime.now().toString());
+    final Duration duration = Duration(seconds: 1);
+    cancelTimer();
+    _timer = Timer.periodic(duration, (timer) {
+      if (this.mounted) {
+        setState(() {});
+      }
+      if (_controller.value.isInitialized) {
+        cancelTimer();
+      }
+    });
+  }
+
+  void cancelTimer() async {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+  }
+
   /* formatTags(String json_metadata) {
     return json.decode(json_metadata)["tags"][0];
   } */
@@ -227,11 +252,22 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                               .data!.itemList![index].video!.playAddr ??
                           snapshot.data!.itemList![index].video!.downloadAddr!)
                         ..initialize().then((value) {
+                          develop.log("loaded");
+                          _startTimer();
                           _controller.play();
-                          _controller.setLooping(true);
                         });
                       _controller.seekTo(Duration.zero);
-                      _controller.play();
+                      _controller.setLooping(true);
+                      _controller.initialize();
+
+                      _musicController =
+                          _musicController = VideoPlayerController.network(
+                              snapshot.data!.itemList![index].music!.playUrl!)
+                            ..initialize().then((value) {
+                              _musicController.play();
+                            });
+                      _musicController.seekTo(Duration.zero);
+                      _musicController.setLooping(true);
                     });
                   },
                   scrollDirection: Axis.vertical,
@@ -259,7 +295,13 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height,
-                              child: VideoPlayer(_controller),
+                              child: _controller.value.isInitialized
+                                  ? AspectRatio(
+                                      aspectRatio:
+                                          _controller.value.aspectRatio,
+                                      child: VideoPlayer(_controller),
+                                    )
+                                  : Loading,
                             ),
                           ),
                         ),
@@ -284,7 +326,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                   Expanded(
                                       child: Container(
                                           padding: EdgeInsets.only(
-                                              left: 10, bottom: 15),
+                                              left: 10, bottom: 5),
                                           child: Text.rich(
                                             TextSpan(children: <TextSpan>[
                                               TextSpan(text: '${video.desc}'),

@@ -104,6 +104,18 @@
       "languageVersion": "2.10"
     },
     {
+      "name": "camera",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/camera-0.9.2+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "camera_platform_interface",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/camera_platform_interface-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "carousel_pro",
       "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_pro-1.0.0",
       "packageUri": "lib/",
@@ -178,6 +190,12 @@
     {
       "name": "cookie_jar",
       "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/cookie_jar-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "cross_file",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/cross_file-0.3.1+5",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -466,6 +484,12 @@
     {
       "name": "flutter_math_fork",
       "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_math_fork-0.3.3+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_plugin_android_lifecycle",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1143,13 +1167,13 @@
     },
     {
       "name": "video_player",
-      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-2.1.6",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-2.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "video_player_platform_interface",
-      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/video_player_platform_interface-4.1.0",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/video_player_platform_interface-4.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1238,7 +1262,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-08-23T16:07:37.816688Z",
+  "generated": "2021-09-11T19:05:34.358490Z",
   "generator": "pub",
   "generatorVersion": "2.13.4"
 }

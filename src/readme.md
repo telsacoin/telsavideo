@@ -44,6 +44,8 @@ flutter build apk --target-platform android-arm,android-arm64,android-x64 --spli
 # known issue
 `
 ../../../development/flutter/packages/flutter/lib/src/material/scaffold.dart:1963:24: Context: Found this candidate, but the arguments don't match.
+  311 line
+  final ScaffoldState scaffold = Scaffold.of(context);
   static ScaffoldState of(BuildContext context) {
 `
 
