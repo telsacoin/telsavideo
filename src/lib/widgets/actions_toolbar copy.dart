@@ -9,7 +9,11 @@ class ActionsToolbar extends StatelessWidget {
   final String coverImg;
 
   const ActionsToolbar(
-      {Key key, this.favorite, this.comments, this.userImg, this.coverImg});
+      {Key? key,
+      required this.favorite,
+      required this.comments,
+      required this.userImg,
+      required this.coverImg});
 
   static const double ActionWidgetSize = 60.0;
   static const double ActionIconSize = 35.0;
@@ -45,7 +49,8 @@ class ActionsToolbar extends StatelessWidget {
         ));
   }
 
-  Widget _getSocialAction({String title, IconData icon, bool isShare = false}) {
+  Widget _getSocialAction(
+      {String? title, IconData? icon, bool isShare = false}) {
     return Container(
         margin: EdgeInsets.only(top: 15.0),
         width: 60.0,
@@ -55,12 +60,12 @@ class ActionsToolbar extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: isShare ? 5.0 : 2.0),
             child:
-                Text(title, style: TextStyle(fontSize: isShare ? 10.0 : 12.0)),
+                Text(title!, style: TextStyle(fontSize: isShare ? 10.0 : 12.0)),
           )
         ]));
   }
 
-  Widget _getFollowAction({String pictureUrl}) {
+  Widget _getFollowAction({String? pictureUrl}) {
     return Container(
         margin: EdgeInsets.symmetric(vertical: 10.0),
         width: 60.0,
@@ -106,10 +111,10 @@ class ActionsToolbar extends StatelessWidget {
   }
 
   LinearGradient get musicGradient => LinearGradient(colors: [
-        Colors.grey[800],
-        Colors.grey[900],
-        Colors.grey[900],
-        Colors.grey[800]
+        Colors.grey[800]!,
+        Colors.grey[900]!,
+        Colors.grey[900]!,
+        Colors.grey[800]!
       ], stops: [
         0.0,
         0.4,

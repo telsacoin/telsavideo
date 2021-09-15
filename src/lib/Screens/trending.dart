@@ -6,27 +6,28 @@ import 'package:flutter/scheduler.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:telsavideo/config/api.dart';
 import 'package:telsavideo/models/Douyin.dart';
+import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/video.dart';
 
 class Trending extends StatefulWidget {
-  Trending({Key key}) : super(key: key);
+  Trending({required Key key}) : super(key: key);
   State<StatefulWidget> createState() => _TrendingState();
 }
 
 class _TrendingState extends State<Trending> {
-  PageController pageController;
-  BuildContext context;
+  late PageController pageController;
+  late BuildContext context;
   RequestController api = RequestController();
   List<Widget> videos = [];
-  VideoItem firstItem;
+  late VideoItem firstItem;
   bool isloaded = false;
   int length = 0;
   Future<void> getTrending() async {
     try {
       var dio = new Dio();
       dio.options.headers = api.headers;
-      var response = await dio.get(api.url);
-      Douyin tiktok = Douyin.fromJson(jsonDecode(response.data));
+      //var response = await dio.get(RequestController.url);
+      /* Douyin tiktok = Douyin.fromJson(jsonDecode(response.data));
       tiktok.billboardData.forEach(
         (item) {
           setState(() {
@@ -36,7 +37,7 @@ class _TrendingState extends State<Trending> {
                 });
           });
         },
-      );
+      ); */
       setState(() {
         isloaded = true;
       });
@@ -46,13 +47,13 @@ class _TrendingState extends State<Trending> {
     }
   }
 
-  Future<int> getVideos(BillboardData v) async {
+  /* Future<int> getVideos(BillboardData v) async {
     try {
       var url = v.link.split("/")[5];
       var dio = new Dio();
       dio.options.headers = api.headers;
       var response = await dio.get(api.video + url + "&dytk");
-      VideoData videoData = VideoData.fromJson(jsonDecode(response.data));
+      /* VideoData videoData = VideoData.fromJson(jsonDecode(response.data));
       //获取无水印的视频地址
       api
           .getRedirects(videoData.itemList[0].video.playaddr.uri)
@@ -73,12 +74,12 @@ class _TrendingState extends State<Trending> {
                     )),
                   }
               })
-          .whenComplete(() => {length++});
+          .whenComplete(() => {length++}); */
     } catch (ex) {
       print(ex);
     }
     return length;
-  }
+  } */
 
   @override
   void initState() {
@@ -93,9 +94,9 @@ class _TrendingState extends State<Trending> {
       });
     getTrending()
         .then((value) => print('videos ${videos.length} was finished!'));
-    if (SchedulerBinding.instance.schedulerPhase ==
+    if (SchedulerBinding.instance!.schedulerPhase ==
         SchedulerPhase.persistentCallbacks) {
-      SchedulerBinding.instance
+      SchedulerBinding.instance!
           .addPostFrameCallback((_) => print('videos is loading!'));
     }
   }
@@ -109,7 +110,7 @@ class _TrendingState extends State<Trending> {
   @override
   Widget build(BuildContext context) {
     context = context;
-    WidgetsBinding.instance.addPostFrameCallback((callback) {
+    WidgetsBinding.instance!.addPostFrameCallback((callback) {
       // executes after build
       print(callback.inMilliseconds);
       if (callback.inMilliseconds > 0) {
@@ -144,17 +145,7 @@ class _TrendingState extends State<Trending> {
         //);
         children: videos.length == 0
             ? <Widget>[
-                Container(
-                  color: Colors.black,
-                  child: Center(
-                    child: GFLoader(
-                      type: GFLoaderType.circle,
-                      loaderColorOne: Colors.blueAccent,
-                      loaderColorTwo: Colors.white,
-                      loaderColorThree: Colors.pink,
-                    ),
-                  ),
-                )
+                Loading,
               ]
             : videos);
   }

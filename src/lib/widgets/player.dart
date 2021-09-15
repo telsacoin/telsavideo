@@ -4,13 +4,13 @@ import 'package:video_player/video_player.dart';
 
 class DouyinVideoPlayer extends StatefulWidget {
   final String url;
-  const DouyinVideoPlayer({this.url});
+  const DouyinVideoPlayer({required this.url});
   @override
   State<StatefulWidget> createState() => _DouyinVideoPlayerState();
 }
 
 class _DouyinVideoPlayerState extends State<DouyinVideoPlayer> {
-  VideoPlayerController _controller;
+  late VideoPlayerController _controller;
   //Future<void> _initializeVideoPlayerFuture;
   @override
   void initState() {

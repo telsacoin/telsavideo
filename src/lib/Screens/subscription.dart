@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:telsavideo/screens/login.dart';
+import 'package:telsavideo/screens/login/login.dart';
+import 'package:telsavideo/screens/login_copy.dart';
 
 class Subscription extends StatefulWidget {
   @override
@@ -8,7 +9,8 @@ class Subscription extends StatefulWidget {
 
 class _SubscriptionState extends State<Subscription>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _subscriptionScaffoldKey =
+      GlobalKey<ScaffoldState>(debugLabel: "_subscriptionScaffoldKey");
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +23,7 @@ class _SubscriptionState extends State<Subscription>
             SizedBox(height: 20),
             Center(
               child: Text(
-                '你还没有登录',
+                'You was not logged in',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
@@ -31,7 +33,7 @@ class _SubscriptionState extends State<Subscription>
             SizedBox(height: 10),
             Center(
               child: Text(
-                '登录账号，查看你关注的精彩内容',
+                'Log on your account，watch the exciting content you care about',
                 style: TextStyle(
                     color: Color.fromRGBO(253, 253, 253, 0.6),
                     fontSize: 14.0,
@@ -44,7 +46,7 @@ class _SubscriptionState extends State<Subscription>
               child: RaisedButton(
                 color: Color.fromRGBO(252, 1, 86, 1),
                 child: Text(
-                  '登录',
+                  'Sign In',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {

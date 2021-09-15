@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // Convert a number to Human readable format (e.g. 1.5k, 5m, 1b)
-String formattedNumber(int numberToFormat) {
+String formattedNumber(dynamic numberToFormat) {
   var _formattedNumber = NumberFormat.compactCurrency(
     decimalDigits: 2,
     symbol:

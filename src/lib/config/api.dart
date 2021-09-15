@@ -2,9 +2,9 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 
 class RequestController {
-  //static String host = "https://www.tiktok.com/";
-  static String host = "https://creator.douyin.com";
-  String url = host + "/aweme/v1/creator/data/billboard/?billboard_type=4";
+  static String host = "https://ipfs.io/ipfs/";
+  static String url =
+      host + "/aweme/v1/creator/data/billboard/?billboard_type=4";
 
   String video =
       "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=";
@@ -33,7 +33,7 @@ class RequestController {
             contentType: "text/html; charset=utf-8",
             followRedirects: false,
             validateStatus: (status) {
-              return status < 500;
+              return status! < 500;
             }),
       );
       if (response.statusCode == 302) {
@@ -45,7 +45,7 @@ class RequestController {
     }
   }
 
-  Future<String> getCookie() async {
+  Future<String?> getCookie() async {
     try {
       var response = await http.get(Uri.http(host, "/share/item/"));
       return response.headers["set-cookie"];

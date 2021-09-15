@@ -3,13 +3,13 @@ import 'package:money_formatter/money_formatter.dart';
 import 'package:telsavideo/common/icons.dart';
 
 class ActionsToolbar extends StatefulWidget {
-  final int favorite;
-  final String comments;
-  final String userImg;
-  final String coverImg;
+  final int? favorite;
+  final String? comments;
+  final String? userImg;
+  final String? coverImg;
 
   const ActionsToolbar(
-      {Key key, this.favorite, this.comments, this.userImg, this.coverImg});
+      {Key? key, this.favorite, this.comments, this.userImg, this.coverImg});
 
   @override
   State<StatefulWidget> createState() => new _ActionsToolbarState();
@@ -22,7 +22,7 @@ class _ActionsToolbarState extends State<ActionsToolbar>
   static const double ShareActionIconSize = 25.0;
   static const double ProfileImageSize = 50.0;
   static const double PlusIconSize = 20.0;
-  AnimationController animationController;
+  late AnimationController animationController;
 
   @override
   void initState() {
@@ -53,7 +53,8 @@ class _ActionsToolbarState extends State<ActionsToolbar>
     MoneyFormatter fmf =
         MoneyFormatter(amount: double.parse(widget.favorite.toString()));
 
-    MoneyFormatter fmf2 = MoneyFormatter(amount: double.parse(widget.comments));
+    MoneyFormatter fmf2 =
+        MoneyFormatter(amount: double.parse(widget.comments!));
 
     return Align(
         alignment: Alignment.bottomRight,
@@ -76,7 +77,8 @@ class _ActionsToolbarState extends State<ActionsToolbar>
         ));
   }
 
-  Widget _getSocialAction({String title, IconData icon, bool isShare = false}) {
+  Widget _getSocialAction(
+      {String? title, IconData? icon, bool isShare = false}) {
     return InkWell(
       onTap: () {
         //Navigator.pushNamed(context, title);
@@ -92,14 +94,14 @@ class _ActionsToolbarState extends State<ActionsToolbar>
                 color: Colors.grey[300]),
             Padding(
               padding: EdgeInsets.only(top: isShare ? 5.0 : 2.0),
-              child: Text(title,
+              child: Text(title!,
                   style: TextStyle(fontSize: isShare ? 10.0 : 12.0)),
             )
           ])),
     );
   }
 
-  Widget _getFollowAction({String pictureUrl}) {
+  Widget _getFollowAction({String? pictureUrl}) {
     return Container(
         margin: EdgeInsets.symmetric(vertical: 10.0),
         width: ActionWidgetSize,
@@ -138,17 +140,17 @@ class _ActionsToolbarState extends State<ActionsToolbar>
               //borderRadius: BorderRadius.circular(ProfileImageSize / 2)),
               image: DecorationImage(
                   image: NetworkImage(
-                    widget.userImg,
+                    widget.userImg!,
                   ),
                   fit: BoxFit.cover),
             )));
   }
 
   LinearGradient get musicGradient => LinearGradient(colors: [
-        Colors.grey[800],
-        Colors.grey[900],
-        Colors.grey[900],
-        Colors.grey[800]
+        Colors.grey[800]!,
+        Colors.grey[900]!,
+        Colors.grey[900]!,
+        Colors.grey[800]!
       ], stops: [
         0.0,
         0.4,
@@ -178,12 +180,12 @@ class _ActionsToolbarState extends State<ActionsToolbar>
                   gradient: musicGradient,
                   //border: Border.all(color: Colors.black87, width: 11.0),
                   image: DecorationImage(
-                    image: NetworkImage(widget.coverImg),
+                    image: NetworkImage(widget.coverImg!),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              builder: (BuildContext context, Widget _widget) {
+              builder: (BuildContext context, Widget? _widget) {
                 return Transform.rotate(
                   angle: animationController.value * 6.3,
                   child: _widget,

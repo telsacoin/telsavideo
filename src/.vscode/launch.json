@@ -3,10 +3,26 @@
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
-  "configurations": [{
-    "name": "Dart Mobile App",
-    "request": "launch",
-    "type": "dart",
-    "flutterMode": "debug",
-  }]
+  "configurations": [
+
+    {
+      "name": "DTOK App",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--no-sound-null-safety"
+      ],
+    }, {
+      "name": "DTOK Web",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--web-port=5000",
+        "--web-enable-expression-evaluation",
+        "--no-sound-null-safety"
+      ],
+    }
+  ]
 }

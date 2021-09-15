@@ -5,9 +5,9 @@ import 'package:telsavideo/widgets/actions_toolbar.dart';
 import 'package:telsavideo/widgets/player.dart';
 
 class VideoItem extends StatefulWidget {
-  final VideoData data;
+  final Object data;
   final String videourl;
-  const VideoItem({Key key, @required this.data, this.videourl})
+  const VideoItem({Key? key, required this.data, required this.videourl})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _VideoItemState();
@@ -23,7 +23,7 @@ class _VideoItemState extends State<VideoItem> {
             url: widget.videourl,
           ),
           //title(),
-          VideoDescription(
+          /* VideoDescription(
             description: widget.data.itemList[0].desc,
             musicName: widget.data.itemList[0].music.title,
             authorName: widget.data.itemList[0].music.author,
@@ -35,7 +35,7 @@ class _VideoItemState extends State<VideoItem> {
             userImg: widget.data.itemList[0].author.avatarMedium.urlList[0],
             favorite: widget.data.itemList[0].statistics.diggCount,
             coverImg: widget.data.itemList[0].music.covermedium.urlList[0],
-          ),
+          ), */
         ],
       ),
     );
