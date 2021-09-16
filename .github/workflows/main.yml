@@ -10,7 +10,7 @@ jobs:
       with:
         java-version: '12.x'
     - uses: dart-lang/setup-dart@v1.0
-        with:
+      with:
           sdk: '2.13.4'
     - uses: subosito/flutter-action@v1.5.3
       with:
