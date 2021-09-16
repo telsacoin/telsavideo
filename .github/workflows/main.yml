@@ -9,12 +9,12 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: '12.x'
-    - uses: dart-lang/setup-dart@v1.0
-      with:
-          sdk: '2.13.4'
+    # - uses: dart-lang/setup-dart@v1.0
+    #  with:
+    #      sdk: '2.13.4'
     - uses: subosito/flutter-action@v1.5.3
       with:
-        flutter-version: '2.0.5'
+        flutter-version: '2.2.3'
     - name : flutter pub get
       working-directory: ./src
       run: flutter pub get
