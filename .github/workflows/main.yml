@@ -18,9 +18,9 @@ jobs:
     - name : flutter pub get
       working-directory: ./src
       run: flutter pub get
-    - name : flutter test
-      working-directory: ./src
-      run: flutter test
+    #- name : flutter test
+    #  working-directory: ./src
+    #  run: flutter test
     - name : flutter build apk
       working-directory: ./src
       run: flutter build apk --debug --split-per-abi
