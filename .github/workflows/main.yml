@@ -12,9 +12,7 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         flutter-version: '1.7.8+hotfix.4'
-    - name: change workspace
-      run: |
-        cd ./src
+    - working-directory: ./src
     - run: flutter pub get
     - run: flutter test
     - run: flutter build apk --debug --split-per-abi
