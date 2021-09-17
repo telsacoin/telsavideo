@@ -1,13 +1,13 @@
 // ADD THIS IMPORT
 import 'dart:async';
 import 'dart:io';
-import 'package:firebase_analytics/firebase_analytics.dart';
+//import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+//import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -17,7 +17,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:telsavideo/appBehaviour/my_behaviour.dart';
-import 'package:telsavideo/screens/login_copy.dart';
 import 'package:telsavideo/screens/settings/security/theme.dart';
 import 'package:telsavideo/screens/splashScreen.dart';
 //import 'package:country_codes/country_codes.dart';
@@ -27,7 +26,7 @@ import 'package:stack_trace/stack_trace.dart';
 var videoData;
 
 // analytics
-FirebaseAnalytics analytics = new FirebaseAnalytics();
+//FirebaseAnalytics analytics = new FirebaseAnalytics();
 var pubIndex = 0;
 
 /// Define a top-level named handler which background/terminated messages will
@@ -72,9 +71,9 @@ Future<Null> main() async {
 
   final appDocumentDirectory =
       await pathProvider.getApplicationDocumentsDirectory();
-  await FlutterDownloader.initialize(
+  /* await FlutterDownloader.initialize(
       debug: true // optional: set false to disable printing logs to console
-      );
+      ); */
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
@@ -105,7 +104,7 @@ Future<Null> main() async {
     SharedPreferences.setMockInitialValues({});
 
     var _temp = {"user": await retrieveData("user")};
-    user = _temp["user"];
+    var user = _temp["user"];
 
     // set theme
     var _tempTheme = await retrieveData("theme");

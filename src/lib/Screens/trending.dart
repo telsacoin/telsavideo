@@ -3,9 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:getflutter/getflutter.dart';
+//import 'package:getflutter/getflutter.dart';
 import 'package:telsavideo/config/api.dart';
-import 'package:telsavideo/models/Douyin.dart';
+//import 'package:telsavideo/models/Douyin.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/video.dart';
 

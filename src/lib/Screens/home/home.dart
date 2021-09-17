@@ -107,6 +107,29 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     //return DTok();
   }
 
+  late Timer _timer;
+
+  // start Timer
+  void _startTimer() async {
+    develop.log("timer is running at " + DateTime.now().toString());
+    final Duration duration = Duration(seconds: 1);
+    cancelTimer();
+    _timer = Timer.periodic(duration, (timer) {
+      if (this.mounted) {
+        setState(() {});
+      }
+      if (_controller.value.isInitialized) {
+        cancelTimer();
+      }
+    });
+  }
+
+  void cancelTimer() async {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -116,6 +139,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     animationController.repeat();
     _controller = VideoPlayerController.network("")..initialize();
     _musicController = VideoPlayerController.network("")..initialize();
+    _startTimer();
     //_controller = _controller.initialize();
     /* VideoPlayerController.network('https://telsacoin.io/tslacoin2.mp4')
       ..initialize().then((value) {
@@ -128,8 +152,19 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
+    _musicController.dispose();
     animationController.dispose();
     super.dispose();
+  }
+
+  void disposeVideo() {
+    cancelTimer();
+    if (_controller.value.isPlaying) {
+      _controller.dispose();
+    }
+    //_controller.dispose();
+    //_musicController.dispose();
+    //animationController.dispose();
   }
 
   @override
@@ -207,29 +242,6 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     return true;
   }
 
-  late Timer _timer;
-
-  // start Timer
-  void _startTimer() async {
-    develop.log("timer is running at " + DateTime.now().toString());
-    final Duration duration = Duration(seconds: 1);
-    cancelTimer();
-    _timer = Timer.periodic(duration, (timer) {
-      if (this.mounted) {
-        setState(() {});
-      }
-      if (_controller.value.isInitialized) {
-        cancelTimer();
-      }
-    });
-  }
-
-  void cancelTimer() async {
-    if (_timer != null) {
-      _timer.cancel();
-    }
-  }
-
   /* formatTags(String json_metadata) {
     return json.decode(json_metadata)["tags"][0];
   } */
@@ -247,6 +259,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
               return PageView.builder(
                   controller: foryouController,
                   onPageChanged: (index) {
+                    //when the video is changing, release the previous video instance.
+                    disposeVideo();
                     setState(() {
                       _controller = VideoPlayerController.network(snapshot
                               .data!.itemList![index].video!.playAddr ??
@@ -273,7 +287,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                   scrollDirection: Axis.vertical,
                   itemCount: snapshot.data!.itemList!.length,
                   itemBuilder: (context, index) {
-                    var video = snapshot.data!.itemList![index];
+                    var item = snapshot.data!.itemList![index];
                     return Stack(
                       children: <Widget>[
                         Container(
@@ -319,17 +333,17 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                     padding:
                                         EdgeInsets.only(left: 10, bottom: 10),
                                     child: Text(
-                                      '@${video.author!.nickname}',
+                                      '@${item.author!.nickname}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
                                   Expanded(
                                       child: Container(
                                           padding: EdgeInsets.only(
-                                              left: 10, bottom: 5),
+                                              left: 10, bottom: 10),
                                           child: Text.rich(
                                             TextSpan(children: <TextSpan>[
-                                              TextSpan(text: '${video.desc}'),
+                                              TextSpan(text: '${item.desc}'),
                                             ]),
                                             //softWrap: false,
                                             //overflow: TextOverflow.ellipsis,
@@ -348,7 +362,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                               top: 5.0, bottom: 5.0),
                                           width: 150,
                                           child: Marquee(
-                                            child: Text('${video.music!.title}',
+                                            child: Text('${item.music!.title}',
                                                 style: TextStyle(
                                                     color: Colors.white)),
                                             direction: Axis.horizontal,
@@ -399,7 +413,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                                 backgroundColor: Colors.black,
                                                 backgroundImage:
                                                     CachedNetworkImageProvider(
-                                                        video.author!
+                                                        item.author!
                                                                 .avatarMedium ??
                                                             ""),
                                               ),
@@ -440,7 +454,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                           ),
                                           SizedBox(height: 3.0),
                                           Text(
-                                            '${formattedNumber(video.stats!.diggCount)}',
+                                            '${formattedNumber(item.stats!.diggCount)}',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 12.0,
@@ -467,7 +481,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                                     color: Colors.white)),
                                             SizedBox(height: 3.0),
                                             Text(
-                                              '${formattedNumber(video.stats!.commentCount!)}',
+                                              '${formattedNumber(item.stats!.commentCount!)}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12.0,
@@ -513,7 +527,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                           radius: 12,
                                           backgroundImage:
                                               CachedNetworkImageProvider(
-                                                  '${video.author!.avatarMedium}'),
+                                                  '${item.author!.avatarMedium}'),
                                         ),
                                       ),
                                       builder: (context, _widget) {

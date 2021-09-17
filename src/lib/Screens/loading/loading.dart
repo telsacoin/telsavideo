@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:getflutter/components/loader/gf_loader.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:getflutter/types/gf_loader_type.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 
 // the loading widget
 //common widget

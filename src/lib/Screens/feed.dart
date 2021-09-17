@@ -170,14 +170,15 @@ class BuildFeedState extends State<BuildFeed> {
                                     description = json.decode(
                                             data['json_metadata'])["video"]
                                         ["content"]["description"];
-                                    videoItemList.add(buildRow(
+                                    /* videoItemList.add(buildRow(
                                         data,
                                         index,
                                         title,
                                         description,
                                         permlink,
                                         context,
-                                        false));
+                                        false) 
+                                        );*/
                                   }
                                 }
                               }

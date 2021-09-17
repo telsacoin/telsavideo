@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 
 // Convert a number to Human readable format (e.g. 1.5k, 5m, 1b)
 String formattedNumber(dynamic numberToFormat) {
+  if (double.parse(numberToFormat.toString()) < 1000) {
+    return numberToFormat.toString();
+  }
   var _formattedNumber = NumberFormat.compactCurrency(
     decimalDigits: 2,
     symbol:

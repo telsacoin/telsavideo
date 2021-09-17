@@ -1,5 +1,4 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:custom_switch/custom_switch.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:telsavideo/screens/home/home.dart';
 
@@ -177,10 +176,10 @@ class _PostState extends State<Post> {
                     ),
                   ),
                 ),
-                CustomSwitch(
+                FlutterSwitch(
                   activeColor: Colors.red,
                   value: comment,
-                  onChanged: (value) {
+                  onToggle: (value) {
                     setState(() {
                       comment = value;
                     });
@@ -207,10 +206,10 @@ class _PostState extends State<Post> {
                     ),
                   ),
                 ),
-                CustomSwitch(
+                FlutterSwitch(
                   activeColor: Colors.red,
                   value: save,
-                  onChanged: (value) {
+                  onToggle: (value) {
                     setState(() {
                       save = value;
                     });
