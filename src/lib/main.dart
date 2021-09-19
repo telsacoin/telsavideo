@@ -64,24 +64,25 @@ Future<Null> main() async {
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  if (!kIsWeb) {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
 
-  final appDocumentDirectory =
-      await pathProvider.getApplicationDocumentsDirectory();
-  /* await FlutterDownloader.initialize(
+    final appDocumentDirectory =
+        await pathProvider.getApplicationDocumentsDirectory();
+    /* await FlutterDownloader.initialize(
       debug: true // optional: set false to disable printing logs to console
       ); */
+    Hive.init(appDocumentDirectory.path);
+  }
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
   );
-
-  Hive.init(appDocumentDirectory.path);
 
   FlutterError.onError = (FlutterErrorDetails details) async {
     if (!kReleaseMode) {

@@ -3,26 +3,21 @@ import 'dart:convert';
 import 'dart:developer' as develop;
 import 'dart:io';
 
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:marquee_widget/marquee_widget.dart';
-import 'package:telsavideo/common/icons.dart';
-import 'package:telsavideo/common/utils.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/models/video/DTok.dart';
+import 'package:telsavideo/screens/home/videoplayer.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:telsavideo/screens/notifications_messages/notifications.dart';
 import 'package:telsavideo/screens/record_video/record_video.dart';
 import 'package:telsavideo/screens/search/search.dart';
 import 'package:video_player/video_player.dart';
-import 'dart:math' as math;
 import 'package:telsavideo/screens/profile/profile.dart';
 
 class Home extends StatefulWidget {
@@ -40,8 +35,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool home = true;
   bool like = false;
   late VideoPlayerController _controller;
-  late VideoPlayerController _musicController;
-  late AnimationController animationController;
+  //late VideoPlayerController _musicController;
+  //late AnimationController animationController;
   late Future<DTok> videos;
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.8);
@@ -107,64 +102,23 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     //return DTok();
   }
 
-  late Timer _timer;
-
-  // start Timer
-  void _startTimer() async {
-    develop.log("timer is running at " + DateTime.now().toString());
-    final Duration duration = Duration(seconds: 1);
-    cancelTimer();
-    _timer = Timer.periodic(duration, (timer) {
-      if (this.mounted) {
-        setState(() {});
-      }
-      if (_controller.value.isInitialized) {
-        cancelTimer();
-      }
-    });
-  }
-
-  void cancelTimer() async {
-    if (_timer != null) {
-      _timer.cancel();
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     videos = getVideos();
-    animationController =
+    _controller = VideoPlayerController.network("")..initialize();
+/*     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 5));
     animationController.repeat();
-    _controller = VideoPlayerController.network("")..initialize();
-    _musicController = VideoPlayerController.network("")..initialize();
-    _startTimer();
-    //_controller = _controller.initialize();
-    /* VideoPlayerController.network('https://telsacoin.io/tslacoin2.mp4')
-      ..initialize().then((value) {
-        _controller.pause();
-        _controller.setLooping(true);
-        setState(() {});
-      }); */
+    _musicController = VideoPlayerController.network("")..initialize(); */
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _musicController.dispose();
-    animationController.dispose();
-    super.dispose();
-  }
-
-  void disposeVideo() {
-    cancelTimer();
-    if (_controller.value.isPlaying) {
-      _controller.dispose();
-    }
-    //_controller.dispose();
     //_musicController.dispose();
     //animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -260,9 +214,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                   controller: foryouController,
                   onPageChanged: (index) {
                     //when the video is changing, release the previous video instance.
-                    disposeVideo();
+                    //disposeVideo();
                     setState(() {
-                      _controller = VideoPlayerController.network(snapshot
+                      /* _controller = VideoPlayerController.network(snapshot
                               .data!.itemList![index].video!.playAddr ??
                           snapshot.data!.itemList![index].video!.downloadAddr!)
                         ..initialize().then((value) {
@@ -272,7 +226,6 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                         });
                       _controller.seekTo(Duration.zero);
                       _controller.setLooping(true);
-                      _controller.initialize();
 
                       _musicController =
                           _musicController = VideoPlayerController.network(
@@ -281,14 +234,15 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                               _musicController.play();
                             });
                       _musicController.seekTo(Duration.zero);
-                      _musicController.setLooping(true);
+                      _musicController.setLooping(true); */
                     });
                   },
                   scrollDirection: Axis.vertical,
                   itemCount: snapshot.data!.itemList!.length,
                   itemBuilder: (context, index) {
                     var item = snapshot.data!.itemList![index];
-                    return Stack(
+                    return Videoplayer(item: item);
+                    /* return Stack( 
                       children: <Widget>[
                         Container(
                           width: double.infinity,
@@ -319,6 +273,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                           ),
                         ),
+                        //video buttom context,like auther name,video description,muisc title.
                         Padding(
                           padding: EdgeInsets.only(bottom: 70),
                           child: Align(
@@ -381,6 +336,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                           ),
                         ),
+                        //left action buttom,digg,comments,share
                         Padding(
                             padding: EdgeInsets.only(bottom: 65, right: 10),
                             child: Align(
@@ -543,6 +499,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                             ))
                       ],
                     );
+                    */
                   });
             } else {
               return Loading;
