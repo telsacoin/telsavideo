@@ -63,3 +63,8 @@ adb uninstall "com.telsa.dtok"
 
 # how to setup build apk
 https://github.com/marketplace/actions/flutter-action
+
+# upgrade gradlew
+```bash
+./gradlew wrapper --gradle-version 7
+```
