@@ -1,7 +1,4 @@
-on: 
-  push:
-    tags:
-    - '*' 
+on: push
 name: Test, Build and Release apk
 jobs:
   build:
@@ -40,5 +37,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         working-directory: ./src
+        tag: "${{ steps.release_tag.outputs.new_tag }}"
         artifacts: "build/app/outputs/apk/debug/*.apk"
         token: ${{ secrets.RELEASE_TOKEN }}
