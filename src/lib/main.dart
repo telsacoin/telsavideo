@@ -107,7 +107,7 @@ Future<Null> main() async {
   runZoned<Future<Null>>(() async {
     // ADD THIS LINE
     //debugDefaultTargetPlatformOverride = TargetPlatform.windows;
-
+    //test build
     if (kDebugMode) {
       PluginManager.instance // 注册插件
         ..register(WidgetInfoInspector())
