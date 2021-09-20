@@ -218,6 +218,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "device_info",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/device_info-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "device_info_platform_interface",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/device_info_platform_interface-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "dio",
       "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/dio-4.0.0",
       "packageUri": "lib/",
@@ -256,6 +268,12 @@
     {
       "name": "file",
       "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "file_utils",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/file_utils-1.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -422,6 +440,42 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_ume",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_ume-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_ume_kit_console",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_ume_kit_console-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_ume_kit_device",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_ume_kit_device-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_ume_kit_perf",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_ume_kit_perf-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_ume_kit_show_code",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_ume_kit_show_code-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_ume_kit_ui",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_ume_kit_ui-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_web_plugins",
       "rootUri": "file:///Users/cw/development/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
@@ -460,6 +514,12 @@
     {
       "name": "glob",
       "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/glob-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "globbing",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/globbing-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -986,6 +1046,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "system_info",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/system_info-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "term_glyph",
       "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0",
       "packageUri": "lib/",
@@ -1112,6 +1178,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "vm_service",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/vm_service-7.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "wakelock",
       "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/wakelock-0.5.2",
       "packageUri": "lib/",
@@ -1190,7 +1262,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-09-19T14:11:06.517363Z",
+  "generated": "2021-09-20T08:19:24.410792Z",
   "generator": "pub",
   "generatorVersion": "2.13.4"
 }
