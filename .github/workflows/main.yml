@@ -19,17 +19,17 @@ jobs:
       working-directory: ./src
       run: flutter pub get
     - name: Setting key
-      run: echo $ENCODED_KEYSTORE | base64 --decode > android/app/keystore.jks
-      working-directory: ./src
       env:
           ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
+      working-directory: ./src
+      run: echo $ENCODED_KEYSTORE | base64 --decode > android/app/keystore.jks
     - name : flutter build apk
       working-directory: ./src
-      run: flutter build apk --debug --split-per-abi
       env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
+      run: flutter build apk --debug --split-per-abi
     - name : flutter build ios --release --no-codesign
       working-directory: ./src
       run : flutter build ios --release --no-codesign
