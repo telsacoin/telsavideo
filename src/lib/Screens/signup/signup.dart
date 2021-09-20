@@ -130,7 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fontSize: 16.0,
                             fontWeight: FontWeight.w500,
                           ),
-                          autoValidate: false,
+                          autoValidateMode: AutovalidateMode.disabled,
                           selectorTextStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 16.0,
@@ -150,7 +150,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             border: InputBorder.none,
                           ),
-                          selectorType: PhoneInputSelectorType.DIALOG,
+                          selectorConfig: SelectorConfig(
+                              selectorType: PhoneInputSelectorType.DIALOG),
                         ),
                       ),
                     ),

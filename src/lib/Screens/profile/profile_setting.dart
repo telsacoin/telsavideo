@@ -1,4 +1,4 @@
-import 'package:custom_switch/custom_switch.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter/material.dart';
 
 class ProfileSetting extends StatefulWidget {
@@ -60,10 +60,10 @@ class _ProfileSettingState extends State<ProfileSetting> {
                         ),
                       ),
                     ),
-                    CustomSwitch(
+                    FlutterSwitch(
                       activeColor: Colors.red,
                       value: privacyStatus,
-                      onChanged: (value) {
+                      onToggle: (value) {
                         setState(() {
                           privacyStatus = value;
                         });
@@ -108,10 +108,10 @@ class _ProfileSettingState extends State<ProfileSetting> {
                         ),
                       ),
                     ),
-                    CustomSwitch(
+                    FlutterSwitch(
                       activeColor: Colors.red,
                       value: msgStatus,
-                      onChanged: (value) {
+                      onToggle: (value) {
                         setState(() {
                           msgStatus = value;
                         });

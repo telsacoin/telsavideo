@@ -23,15 +23,22 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 
-def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    keystoreProperties.setProperty('storePassword', System.getenv('KEYSTORE_PASSWORD'));
+    keystoreProperties.setProperty('keyPassword', System.getenv('KEY_PASSWORD'));
+    keystoreProperties.setProperty('keyAlias', System.getenv('KEY_ALIAS'));
+    keystoreProperties.setProperty('storeFile', System.getenv('KEY_PATH'));
+}
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     sourceSets {
         main.java.srcDirs += 'src/main/java'
@@ -44,11 +51,13 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.telsa.dtok"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 30
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
 
     signingConfigs {
@@ -74,16 +83,11 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
-            //关闭混淆
-            minifyEnabled false //删除无用代码
-            shrinkResources false //删除无用资源
+            minifyEnabled true
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    /* ndk {
-        //选择要添加的so库。
-        //abiFilters "armeabi", "armeabi-v7a" , "x86", "mips"//, "x86", "mips"
-    } */
 }
 
 flutter {
@@ -92,16 +96,22 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:multidex:1.0.3'
+    // Import the Firebase BoM
+    //implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    //implementation 'com.google.firebase:firebase_core'
+    //implementation 'com.google.firebase:firebase-common'
+    //implementation 'com.google.firebase:firebase-analytics'
+    // Declare the dependencies for any other desired Firebase products
+    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+    //implementation 'com.google.firebase:firebase-auth'
+    //implementation 'com.google.firebase:firebase-firestore'
+    //implementation 'androidx.annotation:annotation:1.1.0'
+    //implementation 'com.android.support:multidex:1.0.3'
 }
 
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == 'com.android.support') {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion '28.0.0'
-            }
-        }
-    }
+rootProject.ext {
+    set('FlutterFire', [
+            FirebaseSDKVersion: '28.4.0'
+    ])
 }

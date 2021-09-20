@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:video_player/video_player.dart';
 
@@ -71,3 +71,4 @@ class _DouyinVideoPlayerState extends State<DouyinVideoPlayer> {
         ),
       );
 }
+ */

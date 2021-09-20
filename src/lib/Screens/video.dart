@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:telsavideo/models/Douyin.dart';
-import 'package:telsavideo/widgets/video_description.dart';
-import 'package:telsavideo/widgets/actions_toolbar.dart';
-import 'package:telsavideo/widgets/player.dart';
+// import 'package:telsavideo/models/Douyin.dart';
+// import 'package:telsavideo/widgets/video_description.dart';
+// import 'package:telsavideo/widgets/actions_toolbar.dart';
+// import 'package:telsavideo/widgets/player.dart';
 
 class VideoItem extends StatefulWidget {
   final Object data;
@@ -19,9 +19,9 @@ class _VideoItemState extends State<VideoItem> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          DouyinVideoPlayer(
+          /* DouyinVideoPlayer(
             url: widget.videourl,
-          ),
+          ), */
           //title(),
           /* VideoDescription(
             description: widget.data.itemList[0].desc,

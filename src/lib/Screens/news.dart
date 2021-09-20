@@ -48,8 +48,8 @@ class NewsScreenState extends State<NewsScreen> {
                     String description;
                     description = json.decode(data['json_metadata'])["video"]
                         ["content"]["description"];
-                    videoItemList.add(buildRow(data, index, title, description,
-                        permlink, context, false));
+                    /* videoItemList.add(buildRow(data, index, title, description,
+                        permlink, context, false)); */
                   }
                 }
               }
