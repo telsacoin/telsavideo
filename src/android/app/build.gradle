@@ -29,12 +29,19 @@ apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
+    project.logger.info('Load maps properties from local file')
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 } else {
-    keystoreProperties.setProperty('storePassword', System.getenv('KEYSTORE_PASSWORD'));
-    keystoreProperties.setProperty('keyPassword', System.getenv('KEY_PASSWORD'));
-    keystoreProperties.setProperty('keyAlias', System.getenv('KEY_ALIAS'));
-    keystoreProperties.setProperty('storeFile', System.getenv('KEY_PATH'));
+    project.logger.info('Load maps properties from environment')
+    try{
+        keystoreProperties.setProperty('storePassword', System.getenv('KEYSTORE_PASSWORD'));
+        keystoreProperties.setProperty('keyPassword', System.getenv('KEY_PASSWORD'));
+        keystoreProperties.setProperty('keyAlias', System.getenv('KEY_ALIAS'));
+        keystoreProperties.setProperty('storeFile', System.getenv('KEY_PATH'));
+    }
+    catch(NullPointerException e){
+        project.logger.warn('Failed to load key.properties from environment.', e)
+    }
 }
 
 android {
