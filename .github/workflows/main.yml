@@ -29,7 +29,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
-      run: flutter build apk --debug --split-per-abi
+      run: flutter build apk --stacktrace --split-per-abi
     - name : flutter build ios --release --no-codesign
       working-directory: ./src
       run : flutter build ios --release --no-codesign
