@@ -33,14 +33,16 @@ jobs:
     - name : flutter build ios --release --no-codesign
       working-directory: ./src
       run : flutter build ios --debug --no-codesign
-    - uses: actions/setup-ruby@v1
+    - name: Install Ruby
+      uses: actions/setup-ruby@v1
       with:
-          ruby-version: '2.7.2'
-    - uses: maierj/fastlane-action@v2.0.1
+        ruby-version: '2.7.2'
+    - name: Fastlane iOS        
+      uses: maierj/fastlane-action@v2.0.1
       with:
-        lane: 'beta'
-        subdirectory: 'ios'
+        lane: 'homologacao_firebase'
         working-directory: ./src
+        subdirectory: 'ios'
     - name: Push APK to Releases
       uses: ncipollo/release-action@v1
       with:
