@@ -107,17 +107,11 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
     videos = getVideos();
     _controller = VideoPlayerController.network("")..initialize();
-/*     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 5));
-    animationController.repeat();
-    _musicController = VideoPlayerController.network("")..initialize(); */
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    //_musicController.dispose();
-    //animationController.dispose();
     super.dispose();
   }
 
@@ -215,27 +209,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                   onPageChanged: (index) {
                     //when the video is changing, release the previous video instance.
                     //disposeVideo();
-                    setState(() {
-                      /* _controller = VideoPlayerController.network(snapshot
-                              .data!.itemList![index].video!.playAddr ??
-                          snapshot.data!.itemList![index].video!.downloadAddr!)
-                        ..initialize().then((value) {
-                          develop.log("loaded");
-                          _startTimer();
-                          _controller.play();
-                        });
-                      _controller.seekTo(Duration.zero);
-                      _controller.setLooping(true);
-
-                      _musicController =
-                          _musicController = VideoPlayerController.network(
-                              snapshot.data!.itemList![index].music!.playUrl!)
-                            ..initialize().then((value) {
-                              _musicController.play();
-                            });
-                      _musicController.seekTo(Duration.zero);
-                      _musicController.setLooping(true); */
-                    });
+                    setState(() {});
                   },
                   scrollDirection: Axis.vertical,
                   itemCount: snapshot.data!.itemList!.length,
