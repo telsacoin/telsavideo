@@ -44,7 +44,7 @@ dependencies:
   path_provider_platform_interface: ^2.0.0
   shared_preferences: ^2.0.6
   modal_bottom_sheet: ^2.0.0
-  screen: ^0.0.5
+  #screen: ^0.0.5
   html: ^0.15.0
   uni_links: ^0.5.1
   flutter_custom_tabs: ^0.7.0
@@ -55,7 +55,7 @@ dependencies:
   in_app_purchase: ^1.0.8
   package_info: ^2.0.2
   share: ^2.0.4
-  flutter_android_pip: ^0.0.2
+  #flutter_android_pip: ^0.0.2
   flutter_local_notifications: ^6.0.0
   permission_handler: ^8.0.1
   open_file: ^3.0.1
@@ -96,7 +96,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   form_field_validator: ^1.0.1
   google_fonts: ^2.0.0
-  google_sign_in: ^5.0.4
+  #google_sign_in: ^5.1.0
   hive: ^2.0.0
   hive_flutter: ^1.0.0
   lottie: ^1.0.1
