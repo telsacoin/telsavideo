@@ -58,6 +58,7 @@ flutter pub deps
 
 # uninstall the app from mobile
 ```bash
+source ~/.bash_profile
 adb uninstall "com.telsa.dtok"
 ```
 

@@ -51,7 +51,7 @@ dependencies:
   modal_progress_hud_alt: ^1.0.0
   quiver: ^3.0.0
   video_player: ^2.2.2
-  #camera: ^0.9.2+2
+  camera: ^0.9.2+2
   in_app_purchase: ^1.0.8
   package_info: ^2.0.2
   share: ^2.0.4

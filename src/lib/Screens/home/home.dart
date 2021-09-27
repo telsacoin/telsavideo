@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer' as develop;
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -210,7 +211,11 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                   itemCount: snapshot.data!.itemList!.length,
                   itemBuilder: (context, index) {
                     var item = snapshot.data!.itemList![index];
-                    return Videoplayer(item: item);
+                    return Videoplayer(
+                      item: item,
+                      width: MediaQuery.of(context).size.width,
+                      heigth: MediaQuery.of(context).size.height,
+                    );
                   });
             } else {
               return Loading;
@@ -507,13 +512,25 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   }
   // Bottom Navigation Footer End
 
+  Future<List<CameraDescription>> startCamera() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    var cameras = await availableCameras();
+    develop.log("摄像头启动正常");
+    return cameras;
+  }
+
   // Plus Button Start
   buttonplus() {
     return InkWell(
       onTap: () {
         _controller.pause();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => RecordVideo()));
+        startCamera().then((value) => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => RecordVideo(cameras: value)))
+            });
+        ;
       },
       child: Container(
         width: 46,

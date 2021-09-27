@@ -12,8 +12,11 @@ import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:video_player/video_player.dart';
 
 class Videoplayer extends StatefulWidget {
+  final double? heigth;
+  final double? width;
   final ItemList item;
-  const Videoplayer({Key? key, required this.item}) : super(key: key);
+  const Videoplayer({Key? key, required this.item, this.heigth, this.width})
+      : super(key: key);
 
   @override
   _Videoplayer createState() => _Videoplayer();
@@ -37,7 +40,7 @@ class _Videoplayer extends State<Videoplayer>
     cancelTimer();
     _timer = Timer.periodic(duration, (timer) {
       if (this.mounted) {
-        setState(() {});
+        //setState(() {});
       }
       if (_controller.value.isInitialized) {
         cancelTimer();
@@ -59,7 +62,7 @@ class _Videoplayer extends State<Videoplayer>
         widget.item.video!.playAddr ?? "",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
     _controller.addListener(() {
-      setState(() {});
+      //setState(() {});
     });
     // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller.initialize();
@@ -67,6 +70,14 @@ class _Videoplayer extends State<Videoplayer>
     _controller.setLooping(true);
     // play the video
     _controller.play();
+
+    //start timer to check play statue
+    _timer = Timer.periodic(duration, (timer) {
+      if (this.mounted) {}
+      if (_controller.value.isInitialized) {
+        cancelTimer();
+      }
+    });
 
     _startTimer();
 
@@ -78,16 +89,6 @@ class _Videoplayer extends State<Videoplayer>
 
     _musicController.seekTo(Duration.zero);
     _musicController.setLooping(true);
-
-    //start timer to check play statue
-    _timer = Timer.periodic(duration, (timer) {
-      if (this.mounted) {
-        setState(() {});
-      }
-      if (_controller.value.isInitialized) {
-        cancelTimer();
-      }
-    });
 
     //music albam
     animationController =
@@ -133,8 +134,8 @@ class _Videoplayer extends State<Videoplayer>
                   },
                   child: Container(
                     decoration: BoxDecoration(color: Colors.black),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
+                    height: widget.heigth ?? MediaQuery.of(context).size.height,
+                    width: widget.width ?? MediaQuery.of(context).size.width,
                     // If the VideoPlayerController has finished initialization, use
                     // the data it provides to limit the aspect ratio of the video.
                     child: AspectRatio(
