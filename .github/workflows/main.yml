@@ -1,6 +1,6 @@
 name: Build and Release apk
 on:  
-  push:
+  create:
     tags:
       - '*'
 jobs:
