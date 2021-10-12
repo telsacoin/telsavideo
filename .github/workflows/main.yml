@@ -1,5 +1,8 @@
-on: push
-name: Test, Build and Release apk
+name: Build and Release apk
+on: 
+  push:
+    tags:
+      - '*-beta*'
 jobs:
   build:
     name: Build APK
@@ -53,3 +56,22 @@ jobs:
         tag: "${{ steps.release_tag.outputs.new_tag }}"
         artifacts: "build/app/outputs/apk/debug/*.apk"
         token: ${{ secrets.RELEASE_TOKEN }}
+
+  aab-release:
+    name: Release app to beta track
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get appbundle from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: appbundle
+      - name: Release app to beta track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_JSON }}
+          packageName: ${{secrets.PACKAGE_NAME}}
+          releaseFiles: app-release.aab
+          track: beta
+          whatsNewDirectory: distribution/whatsnew
