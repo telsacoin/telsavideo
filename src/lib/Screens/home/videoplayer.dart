@@ -24,7 +24,7 @@ class _Videoplayer extends State<Videoplayer>
   bool play = false;
   bool like = false;
   final Duration duration = Duration(seconds: 1);
-  late Timer _timer;
+  Timer? _timer;
   late VideoPlayerController _controller;
   late VideoPlayerController _musicController;
   late AnimationController animationController;
@@ -47,7 +47,7 @@ class _Videoplayer extends State<Videoplayer>
 
   //stop timer
   void cancelTimer() async {
-    _timer.cancel();
+    _timer?.cancel();
   }
 
   @override

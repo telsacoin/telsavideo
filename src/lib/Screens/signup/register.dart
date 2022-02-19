@@ -117,9 +117,9 @@ class RegisterState extends State<Register> {
                                   color: Colors.white.withOpacity(0.65)),
                             ),
                           ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(context),
-                          ]),
+                          // validator: FormBuilderValidators.compose([
+                          //   FormBuilderValidators.required(context),
+                          // ]),
                         ),
                         const SizedBox(height: 10),
                         FormBuilderTextField(
@@ -149,10 +149,10 @@ class RegisterState extends State<Register> {
                                   color: Colors.white.withOpacity(0.65)),
                             ),
                           ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(context),
-                            FormBuilderValidators.email(context),
-                          ]),
+                          // validator: FormBuilderValidators.compose([
+                          //   FormBuilderValidators.required(context),
+                          //   FormBuilderValidators.email(context),
+                          // ]),
                         ),
                         const SizedBox(height: 10),
                         FormBuilderTextField(
@@ -183,10 +183,10 @@ class RegisterState extends State<Register> {
                             ),
                           ),
                           obscureText: true,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(context),
-                            FormBuilderValidators.minLength(context, 6),
-                          ]),
+                          // validator: FormBuilderValidators.compose([
+                          //   FormBuilderValidators.required(context),
+                          //   FormBuilderValidators.minLength(context, 6),
+                          // ]),
                         ),
                         const SizedBox(height: 10),
                         FormBuilderTextField(
@@ -226,29 +226,29 @@ class RegisterState extends State<Register> {
                             ),
                           ),
                           obscureText: true,
-                          validator: FormBuilderValidators.compose([
-                            /*FormBuilderValidators.equal(
-                        context,
-                        _formKey.currentState != null
-                            ? _formKey.currentState.fields['password'].value
-                            : null),*/
-                            (val) {
-                              if (val !=
-                                  _formKey.currentState?.fields['password']
-                                      ?.value) {
-                                return 'Passwords do not match';
-                              }
-                              return null;
-                            }
-                          ]),
+                        //   validator: FormBuilderValidators.compose([
+                        //     /*FormBuilderValidators.equal(
+                        // context,
+                        // _formKey.currentState != null
+                        //     ? _formKey.currentState.fields['password'].value
+                        //     : null),*/
+                        //     (val) {
+                        //       if (val !=
+                        //           _formKey.currentState?.fields['password']
+                        //               ?.value) {
+                        //         return 'Passwords do not match';
+                        //       }
+                        //       return null;
+                        //     }
+                        //   ]),
                         ),
                         const SizedBox(height: 10),
                         FormBuilderField<bool>(
                           name: 'term',
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(context),
-                            FormBuilderValidators.equal(context, true),
-                          ]),
+                          // validator: FormBuilderValidators.compose([
+                          //   FormBuilderValidators.required(context),
+                          //   FormBuilderValidators.equal(context, true),
+                          // ]),
                           initialValue: true,
                           decoration: InputDecoration(
                             labelText: 'Accept Terms?',

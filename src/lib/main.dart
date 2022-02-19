@@ -51,8 +51,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
-  'This channel is used for important notifications.', // description
-  importance: Importance.high,
+  // {
+  //   'This channel is used for important notifications.', // description
+  //   importance: Importance.high
+  // }
 );
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -267,11 +269,14 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('en', 'US'), // English
-        const Locale('he', 'IL'), // Hebrew
-        const Locale('zh', 'CN'),
-        // ... other locales the app supports
+      supportedLocales: const [
+        Locale('de'),
+        Locale('en'),
+        Locale('es'),
+        Locale('fr'),
+        Locale('it'),
+        Locale('lo'),
+        Locale('uk'),
       ],
       //debugShowCheckedModeBanner: true,
       title: 'DTok',

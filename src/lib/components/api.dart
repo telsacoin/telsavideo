@@ -231,7 +231,7 @@ Future<dynamic> onSelectNotification(String? payload) async {
 Future showNotification(String title, var body) async {
   print("showNotification");
   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      'channel', 'Downloads', 'Notifications for finished downloads.',
+      'channel', 'Downloads', channelDescription:'Notifications for finished downloads.',
       importance: Importance.max, priority: Priority.high);
   var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
   var platformChannelSpecifics = new NotificationDetails(

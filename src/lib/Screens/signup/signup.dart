@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:libphonenumber/libphonenumber.dart';
 //import 'package:country_codes/country_codes.dart';
 // ignore: unused_import
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -24,16 +24,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
   DateTime? currentBackPressTime;
   String phoneNumber = '';
   String? phoneIsoCode;
+  bool _isValid = false;
+  String _normalized = '';
+  RegionInfo? _regionInfo;
+  String _carrierName = '';
   final TextEditingController controller = TextEditingController();
   /* CountryDetails details = CountryCodes.detailsForLocale();
   Locale locale = CountryCodes.getDeviceLocale()!; */
   String initialCountry = 'US';
-  PhoneNumber number = PhoneNumber(isoCode: 'CN');
+  // PhoneNumber number = PhoneNumber(isoCode: 'CN');
   SignUp signUp = new SignUp();
-  void onPhoneNumberChange(PhoneNumber number) {
-    signUp.mobile = number.phoneNumber;
-    print(signUp.mobile);
+  // void onPhoneNumberChange(PhoneNumber number) {
+  //   signUp.mobile = number.phoneNumber;
+  //   print(signUp.mobile);
+  // }
+
+  _showDetails() async {
+    var s = controller.text;
+
+    bool? isValid =
+        await PhoneNumberUtil.isValidPhoneNumber(phoneNumber: s, isoCode: 'US');
+    String? normalizedNumber = await PhoneNumberUtil.normalizePhoneNumber(
+        phoneNumber: s, isoCode: 'US');
+    RegionInfo regionInfo =
+        await PhoneNumberUtil.getRegionInfo(phoneNumber: s, isoCode: 'US');
+    String? carrierName =
+        await PhoneNumberUtil.getNameForNumber(phoneNumber: s, isoCode: 'US');
+
+    setState(() {
+      _isValid = isValid??false;
+      _normalized = normalizedNumber??"N/A";
+      _regionInfo = regionInfo;
+      _carrierName = carrierName??"N/A";
+    });
   }
+
 
   Future<void> checkAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -124,35 +149,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Colors.grey[200]!.withOpacity(0.3),
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
-                        child: InternationalPhoneNumberInput(
-                          textStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          autoValidateMode: AutovalidateMode.disabled,
-                          selectorTextStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          initialValue: number,
-                          textFieldController: controller,
-                          onInputChanged: onPhoneNumberChange,
-                          inputBorder: InputBorder.none,
-                          inputDecoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 20.0),
-                            hintText: 'Phone Number',
-                            hintStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                          selectorConfig: SelectorConfig(
-                              selectorType: PhoneInputSelectorType.DIALOG),
-                        ),
+                        // child: InternationalPhoneNumberInput(
+                        //   textStyle: TextStyle(
+                        //     color: Colors.white,
+                        //     fontSize: 16.0,
+                        //     fontWeight: FontWeight.w500,
+                        //   ),
+                        //   autoValidateMode: AutovalidateMode.disabled,
+                        //   selectorTextStyle: TextStyle(
+                        //     color: Colors.white,
+                        //     fontSize: 16.0,
+                        //     fontWeight: FontWeight.w500,
+                        //   ),
+                        //   initialValue: number,
+                        //   textFieldController: controller,
+                        //   onInputChanged: onPhoneNumberChange,
+                        //   inputBorder: InputBorder.none,
+                        //   inputDecoration: InputDecoration(
+                        //     contentPadding: EdgeInsets.only(left: 20.0),
+                        //     hintText: 'Phone Number',
+                        //     hintStyle: TextStyle(
+                        //       color: Colors.white,
+                        //       fontSize: 16.0,
+                        //       fontWeight: FontWeight.w500,
+                        //     ),
+                        //     border: InputBorder.none,
+                        //   ),
+                        //   selectorConfig: SelectorConfig(
+                        //       selectorType: PhoneInputSelectorType.DIALOG),
+                        // ),
                       ),
                     ),
                     SizedBox(height: 30.0),
