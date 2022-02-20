@@ -44,6 +44,18 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4564966649209280~8369418106"/>
+
+        <meta-data
+            android:name="PGYER_API_KEY"
+            android:value="7420891a43c15b9c7845985c07b8cb3a"/>
+        <meta-data
+            android:name="PGYER_FRONTJS_KEY"
+            android:value="0ec9396b9e42933c7b3d2303c0e8da01"/>
+
+        <!--check the new version-->
+        <meta-data
+            android:name="PGYER_FEATURE_CHECK_UNPDATE"
+            android:value="true"></meta-data>
         <activity
             android:name=".MainActivity"
             android:exported="true"

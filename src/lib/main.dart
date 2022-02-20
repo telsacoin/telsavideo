@@ -1,5 +1,6 @@
 // ADD THIS IMPORT
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 //import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,12 +24,8 @@ import 'package:telsavideo/screens/splashScreen.dart';
 import 'components/api.dart';
 import 'package:stack_trace/stack_trace.dart';
 
-import 'package:flutter_ume/flutter_ume.dart'; // UME 框架
-import 'package:flutter_ume_kit_ui/flutter_ume_kit_ui.dart'; // UI 插件包
-import 'package:flutter_ume_kit_perf/flutter_ume_kit_perf.dart'; // 性能插件包
-import 'package:flutter_ume_kit_show_code/flutter_ume_kit_show_code.dart'; // 代码查看插件包
-import 'package:flutter_ume_kit_device/flutter_ume_kit_device.dart'; // 设备信息插件包
-import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart'; // debugPrint 插件包
+import 'package:flutter_pgyer/flutter_pgyer.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 var videoData;
 
@@ -111,17 +108,7 @@ Future<Null> main() async {
     //debugDefaultTargetPlatformOverride = TargetPlatform.windows;
     //test build
     if (kDebugMode) {
-      PluginManager.instance // 注册插件
-        ..register(WidgetInfoInspector())
-        ..register(WidgetDetailInspector())
-        ..register(ColorSucker())
-        ..register(AlignRuler())
-        ..register(Performance())
-        ..register(ShowCode())
-        ..register(MemoryInfoPage())
-        ..register(CpuInfoPage())
-        ..register(DeviceInfoPanel())
-        ..register(Console());
+      
     }
 
     // ignore: invalid_use_of_visible_for_testing_member
@@ -140,7 +127,6 @@ Future<Null> main() async {
     }
 
     var internet = true;
-
     // first start
     dynamic _tempBuildNumber = "0";
     int buildNumber = 1;
@@ -154,15 +140,19 @@ Future<Null> main() async {
         int.parse(_tempBuildNumber) < buildNumber && user == null) {
       saveData("gateway", "https://video.telsacoin.io/ipfs/");
       saveData("buildNumber", buildNumber.toString());
-      runApp(ChangeNotifierProvider(
-        create: (_) => ThemeProvider(isLightTheme: isLightTheme),
-        child: AppStart(),
-      ));
+      FlutterPgyer.reportException(()=>
+        runApp(ChangeNotifierProvider(
+          create: (_) => ThemeProvider(isLightTheme: isLightTheme),
+          child: AppStart(),
+        ))
+      );
     } else {
+      FlutterPgyer.reportException(()=>
       runApp(ChangeNotifierProvider(
         create: (_) => ThemeProvider(isLightTheme: isLightTheme),
         child: AppStart(),
-      ));
+      ))
+      );
     }
 
     SystemUiOverlayStyle systemUiOverlayStyle =
@@ -237,7 +227,28 @@ class _MyAppState extends State<MyApp> {
     checkForUpdate();
     // TODO: implement initState
     super.initState();
+    Permission.phone.request().then((value) => initPlatformState());
   }
+
+  String _platformVersion = 'Unknown';
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    if (!mounted) return;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    FlutterPgyer.init(
+        //iOSAppId: "09134f7da29170173fb0e842a4a17f7d",
+        androidApiKey: "7420891a43c15b9c7845985c07b8cb3a",
+        frontJSToken: "0ec9396b9e42933c7b3d2303c0e8da01",
+        callBack: (result) {
+          setState(() {
+            _platformVersion = result.message!;
+          });
+        });
+    FlutterPgyer.setEnableFeedback(
+        param: {"test": "dddddd", "test1": "dddddd1"});
+    FlutterPgyer.checkVersionUpdate();
+  }
+
 
   void _showSnackBar(String msg) {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -251,6 +262,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   int _messageCount = 0;
+
 
   final navigatorKey = GlobalKey<NavigatorState>();
 

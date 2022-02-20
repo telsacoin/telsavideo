@@ -108,18 +108,13 @@ dependencies:
   flutter_custom_tabs_web: ^1.0.0
   #https://github.com/fluttercommunity/plus_plugins
   #device_info_plus: ^2.1.0
+  flutter_pgyer: ^2.0.0
 
 dev_dependencies:
   stack_trace: ^1.10.0
   build_runner: ^2.0.4
   json_serializable: ^6.1.4
   flutter_launcher_icons: ^0.9.0
-  flutter_ume: ^0.3.0+1  # null-safety 版本: ^0.2.1
-  flutter_ume_kit_ui: ^0.3.0+1  # null-safety 版本: ^0.2.1
-  flutter_ume_kit_device: ^0.3.0  # null-safety 版本: ^0.2.1
-  flutter_ume_kit_perf: ^0.3.0  # null-safety 版本: ^0.2.1
-  flutter_ume_kit_show_code: ^0.3.0  # null-safety 版本: ^0.2.1
-  flutter_ume_kit_console: ^0.3.0  # null-safety 版本: ^0.2.1
   flutter_test:
     sdk: flutter
 # For information on the generic Dart part of this file, see the
