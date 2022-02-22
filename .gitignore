@@ -68,20 +68,6 @@ src/analysis_benchmark.json
 src/.packages.generated
 
 # Flutter/Dart/Pub related
-**/doc/api/
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-**/generated_plugin_registrant.dart
-.packages
-.pub-cache/
-.pub/
-build/
-flutter_*.png
-linked_*.ds
-unlinked.ds
-unlinked_spec.ds
-
 src/.dart_tool/
 src/.flutter-plugins
 src/.flutter-plugins-dependencies

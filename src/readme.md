@@ -74,3 +74,8 @@ https://github.com/marketplace/actions/flutter-action
 flutter clean \
         && rm ios/Podfile.lock pubspec.lock \
         && rm -rf ios/Pods ios/Runner.xcworkspace
+
+# upgrade package
+```bash
+flutter pub upgrade --major-versions
+```

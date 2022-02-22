@@ -58,16 +58,21 @@ class _Videoplayer extends State<Videoplayer>
     // Create and store the VideoPlayerController. The VideoPlayerController
     // offers several different constructors to play videos from assets, files,
     // or the internet.
+    develop.log("playAddr is:"+widget.item.video!.playAddr!);
     _controller = VideoPlayerController.network(
         widget.item.video!.playAddr ?? "",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
+    
     _controller.addListener(() {
-      //setState(() {});
+      setState(() {});
     });
-    // Initialize the controller and store the Future for later use.
-    _initializeVideoPlayerFuture = _controller.initialize();
+
     // Use the controller to loop the video.
     _controller.setLooping(true);
+
+    // Initialize the controller and store the Future for later use.
+    _initializeVideoPlayerFuture = _controller.initialize();//.then((_) => setState(() {}));
+    
     // play the video
     _controller.play();
 
@@ -100,11 +105,12 @@ class _Videoplayer extends State<Videoplayer>
 
   @override
   void dispose() {
+     super.dispose();
     // Ensure disposing of the VideoPlayerController to free up resources.
     _controller.dispose();
     _musicController.dispose();
     animationController.dispose();
-    super.dispose();
+  
   }
 
   @override
