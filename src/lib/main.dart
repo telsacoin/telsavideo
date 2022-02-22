@@ -136,7 +136,31 @@ Future<Null> main() async {
       //tempBuildNumber = await retrieveData("buildNumber");
     } catch (e) {}
 
-    if (_tempBuildNumber == null ||
+//test build
+    if (kDebugMode) {
+      PluginManager.instance // 注册插件
+        ..register(WidgetInfoInspector())
+        ..register(WidgetDetailInspector())
+        ..register(ColorSucker())
+        ..register(AlignRuler())
+        ..register(Performance())
+        ..register(ShowCode())
+        ..register(MemoryInfoPage())
+        ..register(CpuInfoPage())
+        ..register(DeviceInfoPanel())
+        ..register(Console());
+      runApp(ChangeNotifierProvider(
+        create: (_) => ThemeProvider(isLightTheme: isLightTheme),
+        child: AppStart(),
+      ));
+    } else {
+      runApp(ChangeNotifierProvider(
+        create: (_) => ThemeProvider(isLightTheme: isLightTheme),
+        child: AppStart(),
+      ));
+    }
+
+    /* if (_tempBuildNumber == null ||
         int.parse(_tempBuildNumber) < buildNumber && user == null) {
       saveData("gateway", "https://video.telsacoin.io/ipfs/");
       saveData("buildNumber", buildNumber.toString());
@@ -153,7 +177,7 @@ Future<Null> main() async {
         child: AppStart(),
       ))
       );
-    }
+    } */
 
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);

@@ -19,7 +19,7 @@ Widget get Loading => Container(
     );
 
 // the small loading
-Widget get Sloading => Container(
+Widget get sloading => Container(
       width: 48,
       height: 48,
       color: Colors.black,

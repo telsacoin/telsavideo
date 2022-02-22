@@ -52,6 +52,7 @@ dependencies:
   quiver: ^3.0.0
   video_player: ^2.2.2
   #camera: ^0.9.2+2
+  camera: ^0.9.2+2
   in_app_purchase: ^2.0.1
   package_info: ^2.0.2
   share: ^2.0.4

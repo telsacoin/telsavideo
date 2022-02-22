@@ -58,6 +58,7 @@ flutter pub deps
 
 # uninstall the app from mobile
 ```bash
+source ~/.bash_profile
 adb uninstall "com.telsa.dtok"
 ```
 
@@ -68,3 +69,8 @@ https://github.com/marketplace/actions/flutter-action
 ```bash
 ./gradlew wrapper --gradle-version 7
 ```
+
+# ios build
+flutter clean \
+        && rm ios/Podfile.lock pubspec.lock \
+        && rm -rf ios/Pods ios/Runner.xcworkspace
