@@ -1,6 +1,7 @@
 // ADD THIS IMPORT
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:io';
 //import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,8 +23,6 @@ import 'package:telsavideo/screens/settings/security/theme.dart';
 import 'package:telsavideo/screens/splashScreen.dart';
 //import 'package:country_codes/country_codes.dart';
 import 'components/api.dart';
-import 'package:stack_trace/stack_trace.dart';
-
 import 'package:flutter_pgyer/flutter_pgyer.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -55,16 +54,17 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 );
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 Future<Null> main() async {
-  //ensure the app initial
+
+  runZoned<Future<Null>>(() async {
+    // ADD THIS LINE
+    //debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+    //test build
+    //ensure the app initial
   WidgetsFlutterBinding.ensureInitialized();
   //await CountryCodes.init();
-  if (kDebugMode) {
-    Chain.capture(() {});
-  }
 
   await Firebase.initializeApp();
   // Set the background messaging handler early on, as a named top-level function
@@ -78,38 +78,30 @@ Future<Null> main() async {
 
     final appDocumentDirectory =
         await pathProvider.getApplicationDocumentsDirectory();
-    /* await FlutterDownloader.initialize(
-      debug: true // optional: set false to disable printing logs to console
-      ); */
-    Hive.init(appDocumentDirectory.path);
-  }
-
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
-  FlutterError.onError = (FlutterErrorDetails details) async {
-    if (!kReleaseMode) {
-      FlutterError.dumpErrorToConsole(details);
-    } else {
-      Zone.current.handleUncaughtError(details.exception, details.stack!);
+      /* await FlutterDownloader.initialize(
+        debug: true // optional: set false to disable printing logs to console
+        ); */
+      Hive.init(appDocumentDirectory.path);
     }
-  };
 
-  final settings = await Hive.openBox('settings');
-  bool isLightTheme = settings.get('isLightTheme') ?? false;
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
-  print(isLightTheme);
+    FlutterError.onError = (FlutterErrorDetails details) async {
+      if (!kReleaseMode) {
+        //FlutterError.dumpErrorToConsole(details);
+      } else {
+        Zone.current.handleUncaughtError(details.exception, details.stack!);
+      }
+    };
 
-  runZoned<Future<Null>>(() async {
-    // ADD THIS LINE
-    //debugDefaultTargetPlatformOverride = TargetPlatform.windows;
-    //test build
-    if (kDebugMode) {
-      
-    }
+    final settings = await Hive.openBox('settings');
+    bool isLightTheme = settings.get('isLightTheme') ?? false;
+
+    print(isLightTheme);
 
     // ignore: invalid_use_of_visible_for_testing_member
     SharedPreferences.setMockInitialValues({});
@@ -136,23 +128,11 @@ Future<Null> main() async {
       //tempBuildNumber = await retrieveData("buildNumber");
     } catch (e) {}
 
-    //test build
-    // if (kDebugMode) {
-    //   runApp(ChangeNotifierProvider(
-    //     create: (_) => ThemeProvider(isLightTheme: isLightTheme),
-    //     child: AppStart(),
-    //   ));
-    // } else {
-    //   runApp(ChangeNotifierProvider(
-    //     create: (_) => ThemeProvider(isLightTheme: isLightTheme),
-    //     child: AppStart(),
-    //   ));
-    // }
-
     if (_tempBuildNumber == null ||
         int.parse(_tempBuildNumber) < buildNumber && user == null) {
-      saveData("gateway", "https://video.telsacoin.io/ipfs/");
-      saveData("buildNumber", buildNumber.toString());
+      //saveData("gateway", "https://video.telsacoin.io/ipfs/");
+      //saveData("buildNumber", buildNumber.toString());
+
       FlutterPgyer.reportException(()=>
         runApp(ChangeNotifierProvider(
           create: (_) => ThemeProvider(isLightTheme: isLightTheme),
@@ -160,6 +140,7 @@ Future<Null> main() async {
         ))
       );
     } else {
+
       FlutterPgyer.reportException(()=>
       runApp(ChangeNotifierProvider(
         create: (_) => ThemeProvider(isLightTheme: isLightTheme),
@@ -177,7 +158,7 @@ Future<Null> main() async {
 }
 
 Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
-  print('{$error $stackTrace}');
+  log('{$error $stackTrace}');
 }
 
 class AppStart extends StatelessWidget {

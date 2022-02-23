@@ -30,7 +30,7 @@ class _Videoplayer extends State<Videoplayer>
   Timer? _timer;
   late VideoPlayerController _controller;
   late VideoPlayerController _musicController;
-  late AnimationController animationController;
+  late AnimationController _animationController;
   late Future<void> _initializeVideoPlayerFuture;
 
   // start Timer
@@ -96,21 +96,20 @@ class _Videoplayer extends State<Videoplayer>
     _musicController.setLooping(true);
 
     //music albam
-    animationController =
+    _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 5));
-    animationController.repeat();
+    _animationController.repeat();
 
     super.initState();
   }
 
   @override
   void dispose() {
-     super.dispose();
     // Ensure disposing of the VideoPlayerController to free up resources.
     _controller.dispose();
     _musicController.dispose();
-    animationController.dispose();
-  
+    _animationController.dispose();
+     super.dispose();
   }
 
   @override
@@ -336,7 +335,7 @@ class _Videoplayer extends State<Videoplayer>
                             ),
                           ),
                           AnimatedBuilder(
-                            animation: animationController,
+                            animation: _animationController,
                             child: CircleAvatar(
                               radius: 22,
                               backgroundColor: Color(0x222222).withOpacity(1),
@@ -348,7 +347,7 @@ class _Videoplayer extends State<Videoplayer>
                             ),
                             builder: (context, _widget) {
                               return Transform.rotate(
-                                  angle: animationController.value * 6.3,
+                                  angle: _animationController.value * 6.3,
                                   child: _widget);
                             },
                           )
