@@ -12,12 +12,6 @@
 @import camera;
 #endif
 
-#if __has_include(<device_info/FLTDeviceInfoPlugin.h>)
-#import <device_info/FLTDeviceInfoPlugin.h>
-#else
-@import device_info;
-#endif
-
 #if __has_include(<firebase_core/FLTFirebaseCorePlugin.h>)
 #import <firebase_core/FLTFirebaseCorePlugin.h>
 #else
@@ -48,6 +42,12 @@
 @import flutter_local_notifications;
 #endif
 
+#if __has_include(<flutter_pgyer/FlutterPgyerPlugin.h>)
+#import <flutter_pgyer/FlutterPgyerPlugin.h>
+#else
+@import flutter_pgyer;
+#endif
+
 #if __has_include(<fluttertoast/FluttertoastPlugin.h>)
 #import <fluttertoast/FluttertoastPlugin.h>
 #else
@@ -60,22 +60,22 @@
 @import google_mobile_ads;
 #endif
 
-#if __has_include(<in_app_purchase_ios/InAppPurchasePlugin.h>)
-#import <in_app_purchase_ios/InAppPurchasePlugin.h>
+#if __has_include(<google_sign_in/FLTGoogleSignInPlugin.h>)
+#import <google_sign_in/FLTGoogleSignInPlugin.h>
 #else
-@import in_app_purchase_ios;
+@import google_sign_in;
+#endif
+
+#if __has_include(<in_app_purchase_storekit/InAppPurchasePlugin.h>)
+#import <in_app_purchase_storekit/InAppPurchasePlugin.h>
+#else
+@import in_app_purchase_storekit;
 #endif
 
 #if __has_include(<libphonenumber/LibphonenumberPlugin.h>)
 #import <libphonenumber/LibphonenumberPlugin.h>
 #else
 @import libphonenumber;
-#endif
-
-#if __has_include(<libphonenumber_plugin/FLTLibphonenumberPlugin.h>)
-#import <libphonenumber_plugin/FLTLibphonenumberPlugin.h>
-#else
-@import libphonenumber_plugin;
 #endif
 
 #if __has_include(<open_file/OpenFilePlugin.h>)
@@ -96,10 +96,10 @@
 @import path_provider;
 #endif
 
-#if __has_include(<permission_handler/PermissionHandlerPlugin.h>)
-#import <permission_handler/PermissionHandlerPlugin.h>
+#if __has_include(<permission_handler_apple/PermissionHandlerPlugin.h>)
+#import <permission_handler_apple/PermissionHandlerPlugin.h>
 #else
-@import permission_handler;
+@import permission_handler_apple;
 #endif
 
 #if __has_include(<share/FLTSharePlugin.h>)
@@ -138,10 +138,10 @@
 @import url_launcher;
 #endif
 
-#if __has_include(<video_player/FLTVideoPlayerPlugin.h>)
-#import <video_player/FLTVideoPlayerPlugin.h>
+#if __has_include(<video_player_avfoundation/FLTVideoPlayerPlugin.h>)
+#import <video_player_avfoundation/FLTVideoPlayerPlugin.h>
 #else
-@import video_player;
+@import video_player_avfoundation;
 #endif
 
 #if __has_include(<wakelock/WakelockPlugin.h>)
@@ -150,27 +150,21 @@
 @import wakelock;
 #endif
 
-#if __has_include(<webview_flutter/FLTWebViewFlutterPlugin.h>)
-#import <webview_flutter/FLTWebViewFlutterPlugin.h>
-#else
-@import webview_flutter;
-#endif
-
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [CameraPlugin registerWithRegistrar:[registry registrarForPlugin:@"CameraPlugin"]];
-  [FLTDeviceInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseMessagingPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseMessagingPlugin"]];
   [GDBCustomTabsPlugin registerWithRegistrar:[registry registrarForPlugin:@"GDBCustomTabsPlugin"]];
   [InAppWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppWebViewFlutterPlugin"]];
   [FlutterLocalNotificationsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterLocalNotificationsPlugin"]];
+  [FlutterPgyerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterPgyerPlugin"]];
   [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];
   [FLTGoogleMobileAdsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleMobileAdsPlugin"]];
+  [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
   [InAppPurchasePlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppPurchasePlugin"]];
   [LibphonenumberPlugin registerWithRegistrar:[registry registrarForPlugin:@"LibphonenumberPlugin"]];
-  [FLTLibphonenumberPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTLibphonenumberPlugin"]];
   [OpenFilePlugin registerWithRegistrar:[registry registrarForPlugin:@"OpenFilePlugin"]];
   [FLTPackageInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPackageInfoPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
@@ -183,7 +177,6 @@
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
   [FLTVideoPlayerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTVideoPlayerPlugin"]];
   [WakelockPlugin registerWithRegistrar:[registry registrarForPlugin:@"WakelockPlugin"]];
-  [FLTWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTWebViewFlutterPlugin"]];
 }
 
 @end

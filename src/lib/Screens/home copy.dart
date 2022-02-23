@@ -236,7 +236,7 @@ class _HomeState extends State<Home1> with SingleTickerProviderStateMixin {
           icon: Icon(DouyinIcons.home,
               color: Colors.white,
               size: NavigationIconSize), //SizedBox.shrink(),
-          title: Text(
+          activeIcon: Text(
             'Home',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
@@ -247,21 +247,21 @@ class _HomeState extends State<Home1> with SingleTickerProviderStateMixin {
               color: Colors.white,
               size: NavigationIconSize,
             ),
-            title: Text(
+            activeIcon: Text(
               'Search',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
             ), //SizedBox.shrink(),
             backgroundColor: Colors.white),
         BottomNavigationBarItem(
           icon: customCreateIcon,
-          title: SizedBox.shrink(),
+          activeIcon: SizedBox.shrink(),
         ),
         BottomNavigationBarItem(
           icon: Icon(DouyinIcons.messages,
               color: Colors.white,
               size:
                   NavigationIconSize), //SizedBox.shrink(), //Icon(DouyinIcons.messages),
-          title: Text(
+          activeIcon: Text(
             'Messages',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),
@@ -271,7 +271,7 @@ class _HomeState extends State<Home1> with SingleTickerProviderStateMixin {
               color: Colors.white,
               size:
                   NavigationIconSize), //SizedBox.shrink(), //Icon(DouyinIcons.profile),
-          title: Text(
+          activeIcon: Text(
             'Profile',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
           ),

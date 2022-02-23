@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:libphonenumber/libphonenumber.dart';
 //import 'package:country_codes/country_codes.dart';
 // ignore: unused_import
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -18,6 +18,7 @@ import 'package:telsavideo/screens/home/home.dart';
 import 'package:telsavideo/screens/login/hiveaccount.dart';
 import 'package:telsavideo/screens/signup/register.dart';
 
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -27,16 +28,17 @@ class _LoginState extends State<Login> {
   DateTime? currentBackPressTime;
   String phoneNumber = '';
   String? phoneIsoCode;
+  RegionInfo? _regionInfo;
   final TextEditingController controller = TextEditingController();
   /* CountryDetails details = CountryCodes.detailsForLocale();
   Locale locale = CountryCodes.getDeviceLocale()!; */
   String initialCountry = 'US';
-  PhoneNumber number = PhoneNumber(isoCode: 'CN');
-  SignUp signUp = new SignUp();
-  void onPhoneNumberChange(PhoneNumber number) {
-    signUp.mobile = number.phoneNumber;
-    print(signUp.mobile);
-  }
+  // PhoneNumber number = PhoneNumber(isoCode: 'CN');
+  // SignUp signUp = new SignUp();
+  // void onPhoneNumberChange(PhoneNumber number) {
+  //   signUp.mobile = number.phoneNumber;
+  //   print(signUp.mobile);
+  // }
 
   Future<void> checkAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -173,10 +175,10 @@ class _LoginState extends State<Login> {
                                     color: Colors.white.withOpacity(0.65)),
                               ),
                             ),
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(context),
-                              //FormBuilderValidators.email(context),
-                            ]),
+                            // validator: FormBuilderValidators.compose([
+                            //   FormBuilderValidators.required(context),
+                            //   //FormBuilderValidators.email(context),
+                            // ]),
                           ),
                           const SizedBox(height: 10),
                           FormBuilderTextField(
@@ -211,10 +213,10 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                             obscureText: true,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(context),
-                              FormBuilderValidators.minLength(context, 6),
-                            ]),
+                            // validator: FormBuilderValidators.compose([
+                            //   FormBuilderValidators.required(context),
+                            //   FormBuilderValidators.minLength(context, 6),
+                            // ]),
                           ),
                           const SizedBox(height: 30),
                           Padding(
