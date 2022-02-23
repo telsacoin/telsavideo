@@ -939,7 +939,19 @@
     },
     {
       "name": "sign_in_with_apple",
-      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/sign_in_with_apple-3.0.0",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/sign_in_with_apple-3.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "sign_in_with_apple_platform_interface",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/sign_in_with_apple_platform_interface-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "sign_in_with_apple_web",
+      "rootUri": "file:///Users/cw/development/flutter/.pub-cache/hosted/pub.dartlang.org/sign_in_with_apple_web-1.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1226,7 +1238,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-02-23T00:45:32.172255Z",
+  "generated": "2022-02-23T15:35:30.539492Z",
   "generator": "pub",
   "generatorVersion": "2.16.1"
 }
