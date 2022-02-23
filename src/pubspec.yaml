@@ -69,10 +69,6 @@ dependencies:
   chewie: ^1.2.0
   #flutter_ffmpeg: ^0.4.0
   in_app_update: ^3.0.0
-  #video_launcher: 
-  #   git:
-  #      url: git@github.com:TelsaCoin/flutter_video_launcher.git
-  #      ref: master
   flutter_svg: ^1.0.3
   #http: ^0.13.3
   provider: ^6.0.2
@@ -80,10 +76,6 @@ dependencies:
   #getflutter: ^1.1.3
   getwidget: ^2.0.4
   #money_formatter: ^0.0.3
-  #fijkplayer:
-  #  git:
-  #    url: https://github.com/befovy/fijkplayer.git
-  #    ref: develop
   dio_cookie_manager: ^2.0.0
   marquee_widget: ^1.2.0
   toast: ^0.1.5
