@@ -44,42 +44,22 @@
 version
 analysis_benchmark.json
 
-# Flutter repo-specific
-src/bin/cache/
-src/bin/internal/bootstrap.bat
-src/bin/internal/bootstrap.sh
-src/bin/mingit/
-src/dev/benchmarks/mega_gallery/
-src/dev/bots/.recipe_deps
-src/dev/bots/android_tools/
-src/dev/devicelab/ABresults*.json
-src/dev/docs/doc/
-src/dev/docs/flutter.docs.zip
-src/dev/docs/lib/
-src/dev/docs/pubspec.yaml
-src/dev/integration_tests/**/xcuserdata
-src/dev/integration_tests/**/Pods
-src/packages/flutter/coverage/
-src/version
-src/analysis_benchmark.json
-
 # packages file containing multi-root paths
 .packages.generated
-src/.packages.generated
 
 # Flutter/Dart/Pub related
-src/.dart_tool/
-src/.flutter-plugins
-src/.flutter-plugins-dependencies
-src/**/generated_plugin_registrant.dart
-src/.packages
-src/.pub-cache/
-src/.pub/
-src/build/
-src/flutter_*.png
-src/linked_*.ds
-src/unlinked.ds
-src/unlinked_spec.ds
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/generated_plugin_registrant.dart
+.packages
+.pub-cache/
+.pub/
+build/
+flutter_*.png
+linked_*.ds
+unlinked.ds
+unlinked_spec.ds
 
 # Android related
 **/android/**/gradle-wrapper.jar
