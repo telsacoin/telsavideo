@@ -1,8 +1,8 @@
 // ADD THIS IMPORT
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:io';
-//import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -22,8 +22,7 @@ import 'package:telsavideo/screens/settings/security/theme.dart';
 import 'package:telsavideo/screens/splashScreen.dart';
 //import 'package:country_codes/country_codes.dart';
 import 'components/api.dart';
-import 'package:stack_trace/stack_trace.dart';
-
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_pgyer/flutter_pgyer.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -59,57 +58,51 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future<Null> main() async {
-  //ensure the app initial
-  WidgetsFlutterBinding.ensureInitialized();
-  //await CountryCodes.init();
-  if (kDebugMode) {
-    Chain.capture(() {});
-  }
-
-  await Firebase.initializeApp();
-  // Set the background messaging handler early on, as a named top-level function
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  if (!kIsWeb) {
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-
-    final appDocumentDirectory =
-        await pathProvider.getApplicationDocumentsDirectory();
-    /* await FlutterDownloader.initialize(
-      debug: true // optional: set false to disable printing logs to console
-      ); */
-    Hive.init(appDocumentDirectory.path);
-  }
-
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
-  FlutterError.onError = (FlutterErrorDetails details) async {
-    if (!kReleaseMode) {
-      FlutterError.dumpErrorToConsole(details);
-    } else {
-      Zone.current.handleUncaughtError(details.exception, details.stack!);
-    }
-  };
-
-  final settings = await Hive.openBox('settings');
-  bool isLightTheme = settings.get('isLightTheme') ?? false;
-
-  print(isLightTheme);
-
-  runZoned<Future<Null>>(() async {
+  runZonedGuarded(() async {
     // ADD THIS LINE
     //debugDefaultTargetPlatformOverride = TargetPlatform.windows;
     //test build
-    if (kDebugMode) {
-      
+    //ensure the app initial
+    WidgetsFlutterBinding.ensureInitialized();
+    //await CountryCodes.init();
+
+    await Firebase.initializeApp();
+    // Set the background messaging handler early on, as a named top-level function
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    if (!kIsWeb) {
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+
+      final appDocumentDirectory =
+          await pathProvider.getApplicationDocumentsDirectory();
+      /* await FlutterDownloader.initialize(
+        debug: true // optional: set false to disable printing logs to console
+        ); */
+      Hive.init(appDocumentDirectory.path);
     }
+
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    FlutterError.onError = (FlutterErrorDetails details) async {
+      if (!kReleaseMode) {
+        FlutterError.dumpErrorToConsole(details);
+      } else {
+        Zone.current.handleUncaughtError(details.exception, details.stack!);
+      }
+    };
+
+    final settings = await Hive.openBox('settings');
+    bool isLightTheme = settings.get('isLightTheme') ?? false;
+
+    print(isLightTheme);
 
     // ignore: invalid_use_of_visible_for_testing_member
     SharedPreferences.setMockInitialValues({});
@@ -136,59 +129,70 @@ Future<Null> main() async {
       //tempBuildNumber = await retrieveData("buildNumber");
     } catch (e) {}
 
-//test build
-    if (kDebugMode) {
-      PluginManager.instance // 注册插件
-        ..register(WidgetInfoInspector())
-        ..register(WidgetDetailInspector())
-        ..register(ColorSucker())
-        ..register(AlignRuler())
-        ..register(Performance())
-        ..register(ShowCode())
-        ..register(MemoryInfoPage())
-        ..register(CpuInfoPage())
-        ..register(DeviceInfoPanel())
-        ..register(Console());
-      runApp(ChangeNotifierProvider(
-        create: (_) => ThemeProvider(isLightTheme: isLightTheme),
-        child: AppStart(),
-      ));
-    } else {
-      runApp(ChangeNotifierProvider(
-        create: (_) => ThemeProvider(isLightTheme: isLightTheme),
-        child: AppStart(),
-      ));
-    }
-
-    /* if (_tempBuildNumber == null ||
+    if (_tempBuildNumber == null ||
         int.parse(_tempBuildNumber) < buildNumber && user == null) {
-      saveData("gateway", "https://video.telsacoin.io/ipfs/");
-      saveData("buildNumber", buildNumber.toString());
-      FlutterPgyer.reportException(()=>
-        runApp(ChangeNotifierProvider(
+      //saveData("gateway", "https://video.telsacoin.io/ipfs/");
+      //saveData("buildNumber", buildNumber.toString());
+
+      await SentryFlutter.init(
+        (options) {
+          options.dsn =
+              'https://7758a630179141afb59291dd6ceef510@o1151296.ingest.sentry.io/6227957';
+          // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+          // We recommend adjusting this value in production.
+          options.tracesSampleRate = 1.0;
+        },
+        appRunner: () => runApp(ChangeNotifierProvider(
           create: (_) => ThemeProvider(isLightTheme: isLightTheme),
           child: AppStart(),
-        ))
+        )),
       );
+
+      // FlutterPgyer.reportException(() => runApp(ChangeNotifierProvider(
+      //       create: (_) => ThemeProvider(isLightTheme: isLightTheme),
+      //       child: AppStart(),
+      //     )));
     } else {
-      FlutterPgyer.reportException(()=>
-      runApp(ChangeNotifierProvider(
-        create: (_) => ThemeProvider(isLightTheme: isLightTheme),
-        child: AppStart(),
-      ))
+      await SentryFlutter.init(
+        (options) {
+          options.dsn =
+              'https://7758a630179141afb59291dd6ceef510@o1151296.ingest.sentry.io/6227957';
+          // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+          // We recommend adjusting this value in production.
+          options.tracesSampleRate = 1.0;
+        },
+        appRunner: () => runApp(ChangeNotifierProvider(
+          create: (_) => ThemeProvider(isLightTheme: isLightTheme),
+          child: AppStart(),
+        )),
       );
-    } */
+      // FlutterPgyer.reportException(() => runApp(ChangeNotifierProvider(
+      //       create: (_) => ThemeProvider(isLightTheme: isLightTheme),
+      //       child: AppStart(),
+      //     )));
+    }
 
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-  }, onError: (error, stackTrace) async {
-    await _reportError(error, stackTrace);
+  }, (error, stackTrace) {
+    //await _reportError(error, stackTrace);
+    try {
+      _reportError(error, stackTrace);
+      print('Error sent to sentry.io: $error');
+    } catch (e) {
+      print('Sending report to sentry.io failed: $e');
+      print('Original error: $error');
+    }
   });
 }
 
 Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
-  print('{$error $stackTrace}');
+  //await Sentry.captureEvent(error, stackTrace: stackTrace);
+  await Sentry.captureException(
+    error,
+    stackTrace: stackTrace,
+  );
 }
 
 class AppStart extends StatelessWidget {
@@ -251,7 +255,7 @@ class _MyAppState extends State<MyApp> {
     checkForUpdate();
     // TODO: implement initState
     super.initState();
-    Permission.phone.request().then((value) => initPlatformState());
+    //Permission.phone.request().then((value) => initPlatformState());
   }
 
   String _platformVersion = 'Unknown';
@@ -268,11 +272,8 @@ class _MyAppState extends State<MyApp> {
             _platformVersion = result.message!;
           });
         });
-    FlutterPgyer.setEnableFeedback(
-        param: {"test": "dddddd", "test1": "dddddd1"});
     FlutterPgyer.checkVersionUpdate();
   }
-
 
   void _showSnackBar(String msg) {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -286,7 +287,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   int _messageCount = 0;
-
 
   final navigatorKey = GlobalKey<NavigatorState>();
 

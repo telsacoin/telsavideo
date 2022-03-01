@@ -66,6 +66,13 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
       var dData = json.decode(data);
 
       DTok dTok = DTok.fromJson(dData);
+      List<ItemList> list = [];
+      for (ItemList itemList in dTok.itemList!) {
+        if (itemList.video!.playAddr?.isNotEmpty == true) {
+          list.add(itemList);
+        }
+      }
+      dTok.itemList = list;
       print(dTok);
       return dTok;
     } catch (e) {
@@ -106,13 +113,15 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     videos = getVideos();
-    _controller = VideoPlayerController.network("")..initialize();
+    _controller = VideoPlayerController.network(
+        "http://appmedia.qq.com/media/cross/assets/uploadFile/20170523/5923d26dac66b.mp4")
+      ..initialize();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -193,6 +202,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   // Home Screen Code Start
   homescreen() {
     if (foryou) {
+      _controller.pause();
       return FutureBuilder<DTok>(
           future: videos,
           builder: (context, snapshot) {

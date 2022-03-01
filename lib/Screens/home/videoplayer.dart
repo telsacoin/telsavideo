@@ -30,7 +30,7 @@ class _Videoplayer extends State<Videoplayer>
   Timer? _timer;
   late VideoPlayerController _controller;
   late VideoPlayerController _musicController;
-  late AnimationController animationController;
+  late AnimationController _animationController;
   late Future<void> _initializeVideoPlayerFuture;
 
   // start Timer
@@ -58,16 +58,21 @@ class _Videoplayer extends State<Videoplayer>
     // Create and store the VideoPlayerController. The VideoPlayerController
     // offers several different constructors to play videos from assets, files,
     // or the internet.
+    develop.log("playAddr is:"+widget.item.video!.playAddr!);
     _controller = VideoPlayerController.network(
         widget.item.video!.playAddr ?? "",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
+    
     _controller.addListener(() {
-      //setState(() {});
+      setState(() {});
     });
-    // Initialize the controller and store the Future for later use.
-    _initializeVideoPlayerFuture = _controller.initialize();
+
     // Use the controller to loop the video.
     _controller.setLooping(true);
+
+    // Initialize the controller and store the Future for later use.
+    _initializeVideoPlayerFuture = _controller.initialize();//.then((_) => setState(() {}));
+    
     // play the video
     _controller.play();
 
@@ -91,9 +96,9 @@ class _Videoplayer extends State<Videoplayer>
     _musicController.setLooping(true);
 
     //music albam
-    animationController =
+    _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 5));
-    animationController.repeat();
+    _animationController.repeat();
 
     super.initState();
   }
@@ -103,8 +108,8 @@ class _Videoplayer extends State<Videoplayer>
     // Ensure disposing of the VideoPlayerController to free up resources.
     _controller.dispose();
     _musicController.dispose();
-    animationController.dispose();
-    super.dispose();
+    _animationController.dispose();
+     super.dispose();
   }
 
   @override
@@ -330,7 +335,7 @@ class _Videoplayer extends State<Videoplayer>
                             ),
                           ),
                           AnimatedBuilder(
-                            animation: animationController,
+                            animation: _animationController,
                             child: CircleAvatar(
                               radius: 22,
                               backgroundColor: Color(0x222222).withOpacity(1),
@@ -342,7 +347,7 @@ class _Videoplayer extends State<Videoplayer>
                             ),
                             builder: (context, _widget) {
                               return Transform.rotate(
-                                  angle: animationController.value * 6.3,
+                                  angle: _animationController.value * 6.3,
                                   child: _widget);
                             },
                           )
