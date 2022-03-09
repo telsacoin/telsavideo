@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as develop;
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:telsavideo/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:telsavideo/models/video/DTok.dart';
 import 'package:telsavideo/screens/home/videoplayer.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
@@ -47,25 +47,29 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     String url = apiUrl;
     if (kDebugMode) {
       url = apiDevUrl;
+    } else {
+      url = apiPortail;
     }
     //url += "/get_posts_by_filters";
     url += "/recommend/item_list";
-    Dio dio = new Dio();
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.badCertificateCallback = (cert, host, port) {
-        return true;
-      };
-    };
     DTok dTok = new DTok();
     try {
-      var response = await dio.get(url);
+      Dio dio = new Dio();
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+      var response = await dio.get(url,
+          options: Options(
+              contentType: "application/json",
+              responseType: ResponseType.json));
       print(response);
-
       var data = json.encode(response.data);
       var dData = json.decode(data);
 
-      DTok dTok = DTok.fromJson(dData);
+      dTok = DTok.fromJson(dData);
       List<ItemList> list = [];
       for (ItemList itemList in dTok.itemList!) {
         if (itemList.video!.playAddr?.isNotEmpty == true) {
@@ -73,7 +77,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
         }
       }
       dTok.itemList = list;
-      print(dTok);
+      print("dtok:" + dTok.toString());
       return dTok;
     } catch (e) {
       print(e);
@@ -120,8 +124,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -153,7 +157,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                 foryou = false;
                               });
                             },
-                            child: Text('Following',
+                            child: Text(
+                                AppLocalizations.of(context)!
+                                    .home_top_following,
                                 style: abo
                                     ? TextStyle(
                                         color: Colors.white,
@@ -170,7 +176,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                 foryou = true;
                               });
                             },
-                            child: Text('For You',
+                            child: Text(
+                                AppLocalizations.of(context)!.home_top_foryou,
                                 style: foryou
                                     ? TextStyle(
                                         color: Colors.white,
@@ -208,27 +215,80 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
           builder: (context, snapshot) {
             print(snapshot.connectionState);
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Loading;
-            } else if (snapshot.hasData) {
-              return PageView.builder(
-                  controller: foryouController,
-                  onPageChanged: (index) {
-                    //when the video is changing, release the previous video instance.
-                    //disposeVideo();
-                    setState(() {});
-                  },
-                  scrollDirection: Axis.vertical,
-                  itemCount: snapshot.data!.itemList!.length,
-                  itemBuilder: (context, index) {
-                    var item = snapshot.data!.itemList![index];
-                    return Videoplayer(
-                      item: item,
-                      width: MediaQuery.of(context).size.width,
-                      heigth: MediaQuery.of(context).size.height,
-                    );
-                  });
+              return loading;
+              // return Column(
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     loading,
+              //     Visibility(
+              //       visible: snapshot.hasData,
+              //       child: PageView.builder(
+              //           controller: foryouController,
+              //           onPageChanged: (index) {
+              //             //when the video is changing, release the previous video instance.
+              //             //disposeVideo();
+              //             setState(() {});
+              //           },
+              //           scrollDirection: Axis.vertical,
+              //           itemCount: snapshot.data!.itemList!.length,
+              //           itemBuilder: (context, index) {
+              //             var item = snapshot.data!.itemList![index];
+              //             return Videoplayer(
+              //               item: item,
+              //               width: MediaQuery.of(context).size.width,
+              //               heigth: MediaQuery.of(context).size.height,
+              //             );
+              //           }),
+              //     )
+              //   ],
+              // );
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Error, Please restart your app agagin')
+                  ],
+                );
+              } else if (snapshot.hasData) {
+                try {
+                  return PageView.builder(
+                      controller: foryouController,
+                      onPageChanged: (index) {
+                        //when the video is changing, release the previous video instance.
+                        //disposeVideo();
+                        //setState(() {});
+                      },
+                      scrollDirection: Axis.vertical,
+                      itemCount: snapshot.data!.itemList!.length,
+                      itemBuilder: (context, index) {
+                        var item = snapshot.data!.itemList![index];
+                        return Videoplayer(
+                          item: item,
+                          width: MediaQuery.of(context).size.width,
+                          heigth: MediaQuery.of(context).size.height,
+                        );
+                      });
+                } catch (e) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.black,
+                    child: Center(
+                        child: Text(
+                      'Error, Please restart your app again.',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                  );
+                }
+              } else {
+                // empty data
+                return loading;
+              }
             } else {
-              return Loading;
+              return Text('State: ${snapshot.connectionState}');
             }
           });
     } else {
@@ -421,7 +481,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                     ? Colors.white
                                     : Colors.white.withOpacity(0.8),
                                 size: 30),
-                            Text('Home',
+                            Text(
+                                AppLocalizations.of(context)!.home_buttom_title,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 10))
                           ],
@@ -446,7 +507,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                   ? Colors.white
                                   : Colors.white.withOpacity(0.8),
                               size: 30),
-                          Text('Discover',
+                          Text(
+                              AppLocalizations.of(context)!
+                                  .home_buttom_discover,
                               style: TextStyle(
                                   color: (search)
                                       ? Colors.white
@@ -474,7 +537,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                   ? Colors.white
                                   : Colors.white.withOpacity(0.8),
                               size: 30),
-                          Text('Notifications',
+                          Text(
+                              AppLocalizations.of(context)!
+                                  .home_buttom_notification,
                               style: TextStyle(
                                   color: (notifications)
                                       ? Colors.white
@@ -503,7 +568,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                                     ? Colors.white
                                     : Colors.white.withOpacity(0.8),
                                 size: 30),
-                            Text('Me',
+                            Text(
+                                AppLocalizations.of(context)!
+                                    .home_buttom_persion,
                                 style: TextStyle(
                                     color: (me)
                                         ? Colors.white
