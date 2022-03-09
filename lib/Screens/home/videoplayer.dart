@@ -10,6 +10,7 @@ import 'package:telsavideo/models/video/DTok.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Videoplayer extends StatefulWidget {
   final double? heigth;
@@ -58,11 +59,11 @@ class _Videoplayer extends State<Videoplayer>
     // Create and store the VideoPlayerController. The VideoPlayerController
     // offers several different constructors to play videos from assets, files,
     // or the internet.
-    develop.log("playAddr is:"+widget.item.video!.playAddr!);
+    develop.log("playAddr is:" + widget.item.video!.playAddr!);
     _controller = VideoPlayerController.network(
         widget.item.video!.playAddr ?? "",
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
-    
+
     _controller.addListener(() {
       setState(() {});
     });
@@ -71,8 +72,9 @@ class _Videoplayer extends State<Videoplayer>
     _controller.setLooping(true);
 
     // Initialize the controller and store the Future for later use.
-    _initializeVideoPlayerFuture = _controller.initialize();//.then((_) => setState(() {}));
-    
+    _initializeVideoPlayerFuture =
+        _controller.initialize(); //.then((_) => setState(() {}));
+
     // play the video
     _controller.play();
 
@@ -109,7 +111,7 @@ class _Videoplayer extends State<Videoplayer>
     _controller.dispose();
     _musicController.dispose();
     _animationController.dispose();
-     super.dispose();
+    super.dispose();
   }
 
   @override
@@ -324,7 +326,7 @@ class _Videoplayer extends State<Videoplayer>
                                         size: 30, color: Colors.white)),
                                 SizedBox(height: 3.0),
                                 Text(
-                                  'Share',
+                                  AppLocalizations.of(context)!.home_share,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12.0,
@@ -360,7 +362,7 @@ class _Videoplayer extends State<Videoplayer>
         } else {
           // If the VideoPlayerController is still initializing, show a
           // loading spinner.
-          return Loading;
+          return loading;
         }
       },
     );

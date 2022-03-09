@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:quiver/time.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -231,8 +230,10 @@ Future<dynamic> onSelectNotification(String? payload) async {
 Future showNotification(String title, var body) async {
   print("showNotification");
   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      'channel', 'Downloads', channelDescription:'Notifications for finished downloads.',
-      importance: Importance.max, priority: Priority.high);
+      'channel', 'Downloads',
+      channelDescription: 'Notifications for finished downloads.',
+      importance: Importance.max,
+      priority: Priority.high);
   var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
   var platformChannelSpecifics = new NotificationDetails(
       android: androidPlatformChannelSpecifics,

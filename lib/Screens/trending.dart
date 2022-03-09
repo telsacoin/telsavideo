@@ -145,7 +145,7 @@ class _TrendingState extends State<Trending> {
         //);
         children: videos.length == 0
             ? <Widget>[
-                Loading,
+                loading,
               ]
             : videos);
   }
