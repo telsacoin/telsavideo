@@ -4,11 +4,19 @@
 
 DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influencers and viewers in cryptocurrency, like a decentralized Tiktok.
 
+
+
+# 使用 Flutter 模仿抖音国外版, 本项目持续更新
+
+### 开源不易，麻烦给个 Star★ 吧(☺️ 右上角点击 ★Star，轻轻松松，一秒钟 🤣)！我会根据大家的关注度和个人时间持续更新代码！
+
+### 后台采用SpringCloud +IPFS存储+BSC链
+
 ## Preview
 
 
 
-![app](assets\app.gif)
+![app](assets/app.gif)
 
 # Install the app
 
