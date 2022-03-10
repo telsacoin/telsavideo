@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 
 // the loading widget
 //common widget
-// ignore: non_constant_identifier_names
-Widget get Loading => Container(
+Widget get loading => Container(
       color: Colors.black,
       child: Center(
         child: GFLoader(
@@ -31,4 +29,12 @@ Widget get sloading => Container(
           loaderColorThree: Colors.pink,
         ),
       ),
+    );
+
+// the error widget
+Widget get empty => Container(
+      width: 48,
+      height: 48,
+      color: Colors.black,
+      child: Center(child: Text('Error,Please restart your app again.')),
     );

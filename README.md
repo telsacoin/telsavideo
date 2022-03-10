@@ -8,7 +8,7 @@ DTok is a community powered video sharing app platform where users vote on video
 
 
 
-
+![app](assets\app.gif)
 
 # Install the app
 
@@ -45,11 +45,6 @@ Use the command flutter clean on the terminal before running the application.
 ```
 
 Following the Firebase SDK Instructions properly will save you lots of time.
-
-# the project structure
-- lib\screen
-- lib\models
-- lib\service
 
 # generate model
 ```bash
@@ -104,9 +99,11 @@ https://github.com/marketplace/actions/flutter-action
 ```
 
 # ios build
+```bash
 flutter clean \
         && rm ios/Podfile.lock pubspec.lock \
         && rm -rf ios/Pods ios/Runner.xcworkspace
+```
 
 # upgrade package
 ```bash

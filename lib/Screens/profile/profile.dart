@@ -173,7 +173,7 @@ class _Profiletate extends State<Profile> {
         builder: (context, snapshot) {
           print(snapshot.connectionState);
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Loading;
+            return loading;
           } else if (snapshot.hasData) {
             return DefaultTabController(
               length: 3,
@@ -456,7 +456,7 @@ class _Profiletate extends State<Profile> {
               ),
             );
           } else {
-            return Loading;
+            return loading;
           }
         });
   }

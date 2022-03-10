@@ -16,15 +16,12 @@ import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:telsavideo/appBehaviour/my_behaviour.dart';
 import 'package:telsavideo/screens/settings/security/theme.dart';
 import 'package:telsavideo/screens/splashScreen.dart';
-//import 'package:country_codes/country_codes.dart';
 import 'components/api.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:flutter_pgyer/flutter_pgyer.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 var videoData;
 
@@ -102,7 +99,7 @@ Future<Null> main() async {
     final settings = await Hive.openBox('settings');
     bool isLightTheme = settings.get('isLightTheme') ?? false;
 
-    print(isLightTheme);
+    print('isLightTheme: $isLightTheme');
 
     // ignore: invalid_use_of_visible_for_testing_member
     SharedPreferences.setMockInitialValues({});
@@ -113,13 +110,12 @@ Future<Null> main() async {
     // set theme
     var _tempTheme = await retrieveData("theme");
     if (_tempTheme != null && _tempTheme != "value") {
-      print(_tempTheme);
+      print("_tempTheme:" + _tempTheme);
       selectedTheme = _tempTheme;
     } else {
       selectedTheme = "normal";
     }
 
-    var internet = true;
     // first start
     dynamic _tempBuildNumber = "0";
     int buildNumber = 1;
@@ -127,7 +123,9 @@ Future<Null> main() async {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       buildNumber = int.parse(packageInfo.buildNumber);
       //tempBuildNumber = await retrieveData("buildNumber");
-    } catch (e) {}
+    } catch (e) {
+      print("PackageInfo:" + e.toString());
+    }
 
     if (_tempBuildNumber == null ||
         int.parse(_tempBuildNumber) < buildNumber && user == null) {
@@ -147,11 +145,6 @@ Future<Null> main() async {
           child: AppStart(),
         )),
       );
-
-      // FlutterPgyer.reportException(() => runApp(ChangeNotifierProvider(
-      //       create: (_) => ThemeProvider(isLightTheme: isLightTheme),
-      //       child: AppStart(),
-      //     )));
     } else {
       await SentryFlutter.init(
         (options) {
@@ -166,17 +159,12 @@ Future<Null> main() async {
           child: AppStart(),
         )),
       );
-      // FlutterPgyer.reportException(() => runApp(ChangeNotifierProvider(
-      //       create: (_) => ThemeProvider(isLightTheme: isLightTheme),
-      //       child: AppStart(),
-      //     )));
     }
 
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }, (error, stackTrace) {
-    //await _reportError(error, stackTrace);
     try {
       _reportError(error, stackTrace);
       print('Error sent to sentry.io: $error');
@@ -187,8 +175,8 @@ Future<Null> main() async {
   });
 }
 
+/// report the error th sentry
 Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
-  //await Sentry.captureEvent(error, stackTrace: stackTrace);
   await Sentry.captureException(
     error,
     stackTrace: stackTrace,
@@ -222,12 +210,13 @@ class _MyAppState extends State<MyApp> {
 
   void showSnack(String text) {
     if (_scaffoldKey.currentContext != null) {
-      Scaffold.of(_scaffoldKey.currentContext!)
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!)
           .showSnackBar(SnackBar(content: Text(text)));
     }
   }
 
-  late AppUpdateInfo _updateInfo;
+  // Platform messages are asynchronous, so we initialize in an async method.
+  AppUpdateInfo? _updateInfo;
   Future<void> checkForUpdate() async {
     try {
       if (Platform.isAndroid) {
@@ -235,44 +224,28 @@ class _MyAppState extends State<MyApp> {
           setState(() {
             _updateInfo = info;
           });
-          // ignore: invalid_return_type_for_catch_error
-        }).catchError((error) => print(error));
+        }).catchError((e) {
+          showSnack(e.toString());
+        });
 
-        if (_updateInfo.updateAvailability ==
+        if (_updateInfo!.updateAvailability ==
             UpdateAvailability.updateAvailable) {
-          InAppUpdate.performImmediateUpdate()
-              .catchError((error) => print(error));
+          InAppUpdate.performImmediateUpdate().catchError((e) {
+            showSnack(e.toString());
+          });
         }
       }
     } catch (e) {
-      print(e);
+      print("AppUpdateInfo:" + e.toString());
     }
   }
 
   @override
   void initState() {
-    //check the update when app is ready to start
-    checkForUpdate();
     // TODO: implement initState
     super.initState();
-    //Permission.phone.request().then((value) => initPlatformState());
-  }
-
-  String _platformVersion = 'Unknown';
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    if (!mounted) return;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    FlutterPgyer.init(
-        //iOSAppId: "09134f7da29170173fb0e842a4a17f7d",
-        androidApiKey: "7420891a43c15b9c7845985c07b8cb3a",
-        frontJSToken: "0ec9396b9e42933c7b3d2303c0e8da01",
-        callBack: (result) {
-          setState(() {
-            _platformVersion = result.message!;
-          });
-        });
-    FlutterPgyer.checkVersionUpdate();
+    //check the update when app is ready to start
+    checkForUpdate();
   }
 
   void _showSnackBar(String msg) {
@@ -299,23 +272,17 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      onGenerateTitle: (context) =>
+          AppLocalizations.of(context)!.home_buttom_title,
       home: SplashScreen(),
-      localizationsDelegates: [
-        // ... app-specific localization delegate[s] here
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('de'),
-        Locale('en'),
-        Locale('es'),
-        Locale('fr'),
-        Locale('it'),
-        Locale('lo'),
-        Locale('uk'),
-      ],
-      //debugShowCheckedModeBanner: true,
-      title: 'DTok',
+      localeResolutionCallback: (
+        Locale? locale,
+        Iterable<Locale> supportedLocales,
+      ) {
+        return locale;
+      },
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Colors.white,

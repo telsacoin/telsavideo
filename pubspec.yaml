@@ -20,11 +20,13 @@ version: 1.0.0+1
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
+
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  intl: ^0.17.0 # Add this line
   ffi: ^1.1.2
   firebase_core: ^1.6.0
   firebase_messaging: ^11.2.6
@@ -57,7 +59,7 @@ dependencies:
   package_info: ^2.0.2
   share: ^2.0.4
   #flutter_android_pip: ^0.0.2
-  flutter_local_notifications: ^9.3.2
+  flutter_local_notifications: ^9.4.0
   permission_handler: ^9.1.0
   open_file: ^3.0.1
   #flutter_downloader: ^1.7.0
@@ -132,6 +134,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true # Add this line
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
