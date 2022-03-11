@@ -12,6 +12,9 @@ DTok is a community powered video sharing app platform where users vote on video
 
 ### 后台采用SpringCloud +IPFS存储+BSC链
 
+**前端地址**：https://www.pgyer.com/dtok
+**后端服务器地址**:http://47.95.209.198:8181/
+
 ## Preview
 
 
