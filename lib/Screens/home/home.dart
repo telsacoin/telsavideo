@@ -8,9 +8,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:telsavideo/models/video/DTok.dart';
+import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
 import 'package:telsavideo/screens/home/videoplayer.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
@@ -37,54 +38,54 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   late VideoPlayerController _controller;
   //late VideoPlayerController _musicController;
   //late AnimationController animationController;
-  late Future<DTok> videos;
+  late Future<ItemListVo> videos;
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.8);
   // ScrollController _scrollController = ScrollController(initialScrollOffset:0);
   PageController foryouController = new PageController();
 
-  Future<DTok> getVideos() async {
-    String url = apiUrl;
-    if (kDebugMode) {
-      url = apiDevUrl;
-    } else {
-      url = apiPortail;
-    }
-    //url += "/get_posts_by_filters";
-    url += "/recommend/item_list";
-    DTok dTok = new DTok();
-    try {
-      Dio dio = new Dio();
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (HttpClient client) {
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
-        return client;
-      };
-      var response = await dio.get(url,
-          options: Options(
-              contentType: "application/json",
-              responseType: ResponseType.json));
-      print(response);
-      var data = json.encode(response.data);
-      var dData = json.decode(data);
+  // Future<DTok> getVideos() async {
+  //   String url = apiUrl;
+  //   if (kDebugMode) {
+  //     url = apiDevUrl;
+  //   } else {
+  //     url = apiPortail;
+  //   }
+  //   //url += "/get_posts_by_filters";
+  //   url += "/recommend/item_list";
+  //   DTok dTok = new DTok();
+  //   try {
+  //     Dio dio = new Dio();
+  //     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+  //         (HttpClient client) {
+  //       client.badCertificateCallback =
+  //           (X509Certificate cert, String host, int port) => true;
+  //       return client;
+  //     };
+  //     var response = await dio.get(url,
+  //         options: Options(
+  //             contentType: "application/json",
+  //             responseType: ResponseType.json));
+  //     print(response);
+  //     var data = json.encode(response.data);
+  //     var dData = json.decode(data);
 
-      dTok = DTok.fromJson(dData);
-      List<ItemList> list = [];
-      for (ItemList itemList in dTok.itemList!) {
-        if (itemList.video!.playAddr?.isNotEmpty == true) {
-          list.add(itemList);
-        }
-      }
-      dTok.itemList = list;
-      print("dtok:" + dTok.toString());
-      return dTok;
-    } catch (e) {
-      print(e);
-    }
-    return dTok;
+  //     dTok = DTok.fromJson(dData);
+  //     List<ItemList> list = [];
+  //     for (ItemList itemList in dTok.itemList!) {
+  //       if (itemList.video!.playAddr?.isNotEmpty == true) {
+  //         list.add(itemList);
+  //       }
+  //     }
+  //     dTok.itemList = list;
+  //     print("dtok:" + dTok.toString());
+  //     return dTok;
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return dTok;
 
-    /* SharedPreferences prefs = await SharedPreferences.getInstance();
+  /* SharedPreferences prefs = await SharedPreferences.getInstance();
     var code = prefs.getString('code');
     var map = Map<String, dynamic>();
     map["filters"] = "trending";
@@ -110,13 +111,13 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     } catch (e) {
       print(e);
     } */
-    //return DTok();
-  }
+  //return DTok();
+  //}
 
   @override
   void initState() {
     super.initState();
-    videos = getVideos();
+    videos = Api.getRecommendItemList(null);
     _controller = VideoPlayerController.network(
         "http://appmedia.qq.com/media/cross/assets/uploadFile/20170523/5923d26dac66b.mp4")
       ..initialize();
@@ -210,7 +211,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   homescreen() {
     if (foryou) {
       _controller.pause();
-      return FutureBuilder<DTok>(
+      return FutureBuilder<ItemListVo>(
           future: videos,
           builder: (context, snapshot) {
             print(snapshot.connectionState);

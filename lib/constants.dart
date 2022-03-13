@@ -17,4 +17,4 @@ const String apiUrl = "https://api.telsacoin.io/api";
 //const String apiDevUrl = "http://10.0.2.2:8181/api";
 const String apiDevUrl = "http://47.95.209.198:8181/api";
 
-const String apiPortail = "http://47.95.209.198:8181/api";
+const String apiPortail = "http://47.95.209.198:8181";

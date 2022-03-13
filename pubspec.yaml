@@ -45,6 +45,8 @@ dependencies:
   path_provider: ^2.0.2
   path_provider_platform_interface: ^2.0.0
   shared_preferences: ^2.0.6
+  # network status
+  connectivity: ^3.0.6
   modal_bottom_sheet: ^2.0.0
   #screen: ^0.0.5
   html: ^0.15.0
@@ -79,7 +81,9 @@ dependencies:
   getwidget: ^2.0.4
   #money_formatter: ^0.0.3
   dio_cookie_manager: ^2.0.0
+  marquee: ^2.1.0
   marquee_widget: ^1.2.0
+  like_button: ^2.0.2
   toast: ^0.1.5
   fluttertoast: ^8.0.3
   #upgrader: ^3.5.1
@@ -104,7 +108,9 @@ dependencies:
   #https://github.com/fluttercommunity/plus_plugins
   #device_info_plus: ^2.1.0
   sentry_flutter: ^6.3.0
-  flutter_pgyer: ^2.0.0
+  flutter_easyloading: ^3.0.0
+  image_picker: ^0.8.4+10
+  video_thumbnail: ^0.4.6
 
 dev_dependencies:
   stack_trace: ^1.10.0

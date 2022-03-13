@@ -10,7 +10,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/constants.dart';
-import 'package:telsavideo/models/signup/signup.dart';
+import 'package:telsavideo/models/dto/signup/signup_dto.dart';
+import 'package:telsavideo/models/vo/signup/signup.dart';
 import 'package:telsavideo/screens/home/home.dart';
 import 'package:telsavideo/screens/login/hiveaccount.dart';
 import 'package:telsavideo/screens/signup/register.dart';
@@ -33,7 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Locale locale = CountryCodes.getDeviceLocale()!; */
   String initialCountry = 'US';
   // PhoneNumber number = PhoneNumber(isoCode: 'CN');
-  SignUp signUp = new SignUp();
+  SignUpVO signUp = new SignUpVO();
   // void onPhoneNumberChange(PhoneNumber number) {
   //   signUp.mobile = number.phoneNumber;
   //   print(signUp.mobile);
@@ -52,13 +53,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         await PhoneNumberUtil.getNameForNumber(phoneNumber: s, isoCode: 'US');
 
     setState(() {
-      _isValid = isValid??false;
-      _normalized = normalizedNumber??"N/A";
+      _isValid = isValid ?? false;
+      _normalized = normalizedNumber ?? "N/A";
       _regionInfo = regionInfo;
-      _carrierName = carrierName??"N/A";
+      _carrierName = carrierName ?? "N/A";
     });
   }
-
 
   Future<void> checkAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

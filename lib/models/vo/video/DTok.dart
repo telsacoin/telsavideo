@@ -1,11 +1,3 @@
-// To parse this JSON data, do
-//
-//     final dTok = dTokFromJson(jsonString);
-
-//DTok dTokFromJson(String str) => DTok.fromJson(json.decode(str));
-
-//String dTokToJson(DTok data) => json.encode(data.toJson());
-
 class DTok {
   DTok({
     this.statusCode,

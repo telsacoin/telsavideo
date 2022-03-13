@@ -8,6 +8,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 //import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
@@ -228,8 +229,9 @@ class _MyAppState extends State<MyApp> {
           showSnack(e.toString());
         });
 
-        if (_updateInfo!.updateAvailability ==
-            UpdateAvailability.updateAvailable) {
+        if (_updateInfo != null &&
+            _updateInfo!.updateAvailability ==
+                UpdateAvailability.updateAvailable) {
           InAppUpdate.performImmediateUpdate().catchError((e) {
             showSnack(e.toString());
           });
