@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:marquee_widget/marquee_widget.dart';
 import 'package:telsavideo/common/icons.dart';
 import 'package:telsavideo/common/utils.dart';
-import 'package:telsavideo/models/video/DTok.dart';
+import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:video_player/video_player.dart';

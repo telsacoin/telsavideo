@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:page_transition/page_transition.dart';
 import 'package:telsavideo/constants.dart';
-import 'package:telsavideo/models/signup/signup.dart';
+import 'package:telsavideo/models/vo/signup/signup.dart';
 import 'package:telsavideo/screens/signup/otp.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 @immutable
 class Register extends StatefulWidget {
-  SignUp? signUp;
+  SignUpVO? signUp;
   Register(this.signUp);
   @override
   State<StatefulWidget> createState() => RegisterState();
@@ -226,21 +226,21 @@ class RegisterState extends State<Register> {
                             ),
                           ),
                           obscureText: true,
-                        //   validator: FormBuilderValidators.compose([
-                        //     /*FormBuilderValidators.equal(
-                        // context,
-                        // _formKey.currentState != null
-                        //     ? _formKey.currentState.fields['password'].value
-                        //     : null),*/
-                        //     (val) {
-                        //       if (val !=
-                        //           _formKey.currentState?.fields['password']
-                        //               ?.value) {
-                        //         return 'Passwords do not match';
-                        //       }
-                        //       return null;
-                        //     }
-                        //   ]),
+                          //   validator: FormBuilderValidators.compose([
+                          //     /*FormBuilderValidators.equal(
+                          // context,
+                          // _formKey.currentState != null
+                          //     ? _formKey.currentState.fields['password'].value
+                          //     : null),*/
+                          //     (val) {
+                          //       if (val !=
+                          //           _formKey.currentState?.fields['password']
+                          //               ?.value) {
+                          //         return 'Passwords do not match';
+                          //       }
+                          //       return null;
+                          //     }
+                          //   ]),
                         ),
                         const SizedBox(height: 10),
                         FormBuilderField<bool>(

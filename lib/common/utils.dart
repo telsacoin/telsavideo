@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,4 +17,20 @@ String formattedNumber(dynamic numberToFormat) {
 
 Color hexToColor(String code) {
   return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+}
+
+extension MapExtension on Map? {
+  bool get isNullOrEmpty => (this == null || this!.isEmpty);
+}
+
+extension IterableExtension on Iterable? {
+  bool get isNullOrEmpty => (this == null || this!.isEmpty);
+}
+
+extension StringExtension on String? {
+  bool get isNullOrEmpty => (this == null || this!.isEmpty);
+}
+
+extension OptionsExtension on Options? {
+  bool get isNullOrEmpty => (this == null);
 }

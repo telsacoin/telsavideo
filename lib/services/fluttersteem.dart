@@ -7,6 +7,7 @@ import 'package:http/src/response.dart' as http;
 import 'package:oauth2/oauth2.dart' as oauth2;
 
 import 'package:telsavideo/api/api.dart';
+import 'package:telsavideo/api/steem.dart';
 import 'package:telsavideo/services/endpoints.dart';
 import 'package:telsavideo/api/impl/steem.dart';
 import 'package:telsavideo/models/impl_models.dart';
