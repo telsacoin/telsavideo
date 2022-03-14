@@ -1,24 +1,46 @@
 import 'dart:collection';
+import 'dart:core';
 import 'package:telsavideo/api/http_manager.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/http/http_constant.dart';
+import 'package:telsavideo/models/dto/comment/comment_item_digg_dto.dart';
+import 'package:telsavideo/models/dto/comment/comment_item_list_dto.dart';
+import 'package:telsavideo/models/dto/comment/comment_list_reply_dto.dart';
+import 'package:telsavideo/models/dto/discover/discover_challenge_dto.dart';
+import 'package:telsavideo/models/dto/discover/discover_music_dto.dart';
 import 'package:telsavideo/models/dto/recommend/itemlist_dto.dart';
 import 'package:telsavideo/models/dto/signin/signin_dto.dart';
+import 'package:telsavideo/models/dto/signup/signup_dto.dart';
+import 'package:telsavideo/models/vo/comment/comment_item_digg_vo.dart';
+import 'package:telsavideo/models/vo/comment/comment_item_list_vo.dart';
+import 'package:telsavideo/models/vo/comment/comment_list_reply_vo.dart';
+import 'package:telsavideo/models/vo/discover/discover_challenage_vo.dart';
+import 'package:telsavideo/models/vo/discover/discover_music_vo.dart';
 import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
 import 'package:telsavideo/models/vo/signin/signin_vo.dart';
+import 'package:telsavideo/models/vo/signup/signup.dart';
 
 class Api {
   /// the app interface
   static String api = apiPortail;
 
   ///signin the app
-  static Future<SignInVo> getLoginResponse(SignInDto? dto) async {
+  static Future<SignInVo> postLoginResponse(SignInDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     params["username"] = dto?.username;
     params["password"] = dto?.password;
     var result = await HttpManager.getInstance()
         .post(url: HttpConstant.login, cancelTokenTag: 'signin', data: params);
     return SignInVo.fromJson(result);
+  }
+
+  /// signup the request
+  static Future<SignUpVO> postSignUpResponse(SignUpDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().post(
+        url: HttpConstant.register, cancelTokenTag: 'signup', data: params);
+
+    return SignUpVO.fromJson(result);
   }
 
   /// get recommend item list
@@ -44,5 +66,64 @@ class Api {
         cancelTokenTag: 'following',
         param: params);
     return ItemListVo.fromJson(result);
+  }
+
+  ///digg the video item
+  static Future<CommentItemDiggVo> postCommnetItemDigg(
+      CommentItemDiggDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().post(
+        url: HttpConstant.commentItemDigg,
+        cancelTokenTag: 'digg',
+        data: params);
+
+    return CommentItemDiggVo.fromJson(result);
+  }
+
+  /// get the comment list
+  static Future<CommentItemListVo> getCommentItemList(
+      CommentItemListDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().post(
+        url: HttpConstant.commentList,
+        cancelTokenTag: 'commentlist',
+        data: params);
+
+    return CommentItemListVo.fromJson(result);
+  }
+
+  /// get commentlist reply
+  static Future<CommentListReplyVo> getCommentListReply(
+      CommentListReplyDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().get(
+        url: HttpConstant.commentListReply,
+        cancelTokenTag: 'commentlistreply',
+        param: params);
+
+    return CommentListReplyVo.fromJson(result);
+  }
+
+  /// get discover music
+  static Future<DiscoverMusicVo> getDiscoverMusic(DiscoverMusicDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().get(
+        url: HttpConstant.discoverMusic,
+        cancelTokenTag: 'discovermusic',
+        param: params);
+
+    return DiscoverMusicVo.fromJson(result);
+  }
+
+  /// get discover challenge
+  static Future<DiscoverChallengeVo> getDiscoverChanllenge(
+      DiscoverChallengeDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().get(
+        url: HttpConstant.discoverChallenge,
+        cancelTokenTag: 'discoverchallenge',
+        param: params);
+
+    return DiscoverChallengeVo.fromJson(result);
   }
 }

@@ -2,9 +2,7 @@
 
 # DTok Video
 
-DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influencers and viewers in cryptocurrency, like a decentralized Tiktok.
-
-
+DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influences and viewers in cryptocurrency, like a decentralized Tiktok.
 
 # 使用 Flutter 模仿抖音国外版, 本项目持续更新
 
@@ -12,8 +10,8 @@ DTok is a community powered video sharing app platform where users vote on video
 
 ### 后台采用SpringCloud +IPFS存储+BSC链
 
-**前端地址**：https://www.pgyer.com/dtok
-**后端服务器地址**:http://47.95.209.198:8181/
+--前端地址：https://www.pgyer.com/dtok
+--后端服务器地址:http://47.95.209.198:8181/
 
 ## Preview
 
@@ -23,7 +21,7 @@ DTok is a community powered video sharing app platform where users vote on video
 
 # Install the app
 
-- Liunx
+- Linux
 - Windows
 
 
