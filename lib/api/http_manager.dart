@@ -136,7 +136,7 @@ class HttpManager {
         return response?.data;
       } else {
         //EasyLoading.showToast(response?.data!['message']!);
-        return null;
+        return response?.data;
       }
     } catch (e, s) {
       //EasyLoading.dismiss();
