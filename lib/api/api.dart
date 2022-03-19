@@ -6,8 +6,11 @@ import 'package:telsavideo/http/http_constant.dart';
 import 'package:telsavideo/models/dto/comment/comment_item_digg_dto.dart';
 import 'package:telsavideo/models/dto/comment/comment_item_list_dto.dart';
 import 'package:telsavideo/models/dto/comment/comment_list_reply_dto.dart';
+import 'package:telsavideo/models/dto/message/notification_dto.dart';
 import 'package:telsavideo/models/dto/discover/discover_challenge_dto.dart';
 import 'package:telsavideo/models/dto/discover/discover_music_dto.dart';
+import 'package:telsavideo/models/dto/discover/discover_user_dto.dart';
+import 'package:telsavideo/models/dto/message/notification_make_read_dto.dart';
 import 'package:telsavideo/models/dto/recommend/itemlist_dto.dart';
 import 'package:telsavideo/models/dto/signin/signin_dto.dart';
 import 'package:telsavideo/models/dto/signup/signup_dto.dart';
@@ -16,6 +19,9 @@ import 'package:telsavideo/models/vo/comment/comment_item_list_vo.dart';
 import 'package:telsavideo/models/vo/comment/comment_list_reply_vo.dart';
 import 'package:telsavideo/models/vo/discover/discover_challenage_vo.dart';
 import 'package:telsavideo/models/vo/discover/discover_music_vo.dart';
+import 'package:telsavideo/models/vo/discover/discover_user_vo.dart';
+import 'package:telsavideo/models/vo/message/notification_make_read_vo.dart';
+import 'package:telsavideo/models/vo/message/notification_vo.dart';
 import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
 import 'package:telsavideo/models/vo/signin/signin_vo.dart';
 import 'package:telsavideo/models/vo/signup/signup.dart';
@@ -125,5 +131,39 @@ class Api {
         param: params);
 
     return DiscoverChallengeVo.fromJson(result);
+  }
+
+  /// get discover users
+  static Future<DiscoverUserVo> getDiscoverUser(DiscoverUserDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().get(
+        url: HttpConstant.discoverUser,
+        cancelTokenTag: 'discoveruser',
+        param: params);
+
+    return DiscoverUserVo.fromJson(result);
+  }
+
+  /// upload videos module
+
+  /// get notifications
+  static Future<NotificationVo> getNotifications(NotificationDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().get(
+        url: HttpConstant.userNoticeList,
+        cancelTokenTag: 'notification',
+        param: params);
+    return NotificationVo.fromJson(result);
+  }
+
+  /// make notification as read status
+  static Future<NotificationMakeReadVo> postNotificationMakeRead(
+      NotificationMakeReadDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().post(
+        url: HttpConstant.userNoticeMakeRead,
+        cancelTokenTag: 'notificationmakeread',
+        data: params);
+    return NotificationMakeReadVo.fromJson(result);
   }
 }
