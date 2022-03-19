@@ -5,7 +5,7 @@
 </div>
 
 ##### [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
-[English](readme.md)|[中文](readme_cn.md)
+**[English](readme.md) | [中文](readme_cn.md)**
 
 > DTok 是一个社区支持的视频共享应用程序平台，用户在该平台上对视频进行投票，以奖励加密货币的创作者、策展人、影响者和观众，就像去中心化的 Tiktok。
 

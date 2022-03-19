@@ -4,7 +4,7 @@
 
 #####  [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
 
-[English](readme.md)|[中文](readme_cn.md)
+**[English](readme.md) | [中文](readme_cn.md)**
 
 > DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influences and viewers in cryptocurrency, like a decentralized Tiktok.
 
