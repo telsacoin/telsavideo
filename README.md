@@ -3,11 +3,11 @@
 <div align="center">
     <img src=".\assets\dtok_1.png" style="width:15%;"/>
     <br/>
-    <h1><a href="https://telsacoin.io/" target="_blank" stype="color: var(--color-accent-fg);text-decoration: none;">DTOK</a></h1>
+    <p>
+        <a href="https://telsacoin.io/" target="_blank" stype="color: var(--color-accent-fg);text-decoration: none;font-size: 2em;">DTOK</a>		</p>
 </div>
-##### [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
 
-
+#####  [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
 
 [English](readme.md)|[中文](readme_cn.md)
 
@@ -29,7 +29,7 @@
 
 ## Preview
 
-<img src="assets/app.gif" alt="app" style="zoom: 80%;" />
+<img src="assets/app.gif" alt="app" style="width:80%;" />
 
 ## Quickstart
 1. Clone repository
