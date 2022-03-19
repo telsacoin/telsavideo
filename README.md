@@ -1,11 +1,10 @@
 
 
 <div align="center">
-    <img src=".\assets\dtok_1.png" style="zoom:2%;"/>
+    <img src=".\assets\dtok_1.png" style="width:15%;"/>
     <br/>
     <h1><a href="https://telsacoin.io/" target="_blank" stype="color: var(--color-accent-fg);text-decoration: none;">DTOK</a></h1>
 </div>
-
 ##### [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
 
 
@@ -30,52 +29,33 @@
 
 ## Preview
 
-
-
 <img src="assets/app.gif" alt="app" style="zoom: 80%;" />
 
-
-
 ## Quickstart
-
 1. Clone repository
-
    ```
    git clone https://github.com/telsacoin/telsavideo.git
    ```
-
 2. Get packages
-
    ```
    fluter pub get
    ```
-
 3. Start your app
-
    ```
    flutter run 
    ```
-
 4. Use the API
-
    ```
    \minio.exe server d:\minio\data --console-address ":9001"
    ```
 
-
-
 ## Supported Platforms
-
 - Linux
 - Windows
-
 - Android
 - IOS
 
-
-
 ## Features
-
 - Video module
 - Recommended modules
 - Message module
@@ -85,7 +65,6 @@
 
 
 ## Common Issues
-
 While adding an app on your Firebase Project, cross-check your android application's package name (e.g com.example.application) which you will find on AndroidManifest.xml or, build.gradle (app level) file. If the package name is wrong adding SHA1 or SHA512 won't be helpful.
 
 Follow the Firebase SDK Instructions properly. Add the required lines of code which they are recommending you to add.
