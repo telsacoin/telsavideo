@@ -1,13 +1,8 @@
+<p align="center"><img align="center" src=".\assets\dtok_1.png" style="width:200px;"/></p>
+<h1 align="center"><a href="https://telsacoin.io/">DTOK</a></h1>
 
 
-<div align="center">
-    <img src=".\assets\dtok_1.png" style="width:15%;"/>
-    <br/>
-    <h1><a href="https://telsacoin.io/" target="_blank" stype="color: var(--color-accent-fg);text-decoration: none;">DTOK</a></h1>
-</div>
-##### [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
-
-
+#####  [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
 
 [English](readme.md)|[中文](readme_cn.md)
 
@@ -15,23 +10,21 @@
 
 
 
-## The Open Source Tiktok Alternative
+# The Open Source Tiktok Alternative
 
 > this project is continuously updated,Open source is not easy, please give it a Star★ (☺️ click ★Star in the upper right corner, easy, one second 🤣)! I will continue to update the code according to everyone's attention and personal time!
 
 
 
-### The background service uses SpringCloud + IPFS storage + BSC chain
-
+## The background service uses SpringCloud + IPFS storage + BSC chain
 - Front-end app： https://www.pgyer.com/dtok
-
 - Backend admin panel: http://47.95.209.198:8181/
 
-## Preview
+# Preview
 
-<img src="assets/app.gif" alt="app" style="zoom: 80%;" />
+<img src="assets/app.gif" alt="app" style="width:80%;" />
 
-## Quickstart
+# Quickstart
 1. Clone repository
    ```
    git clone https://github.com/telsacoin/telsavideo.git
@@ -49,13 +42,13 @@
    \minio.exe server d:\minio\data --console-address ":9001"
    ```
 
-## Supported Platforms
+# Supported Platforms
 - Linux
 - Windows
 - Android
 - IOS
 
-## Features
+# Features
 - Video module
 - Recommended modules
 - Message module
@@ -64,8 +57,8 @@
 
 
 
-## Common Issues
-While adding an app on your Firebase Project, cross-check your android application's package name (e.g com.example.application) which you will find on AndroidManifest.xml or, build.gradle (app level) file. If the package name is wrong adding SHA1 or SHA512 won't be helpful.
+# Common Issues
+​		While adding an app on your Firebase Project, cross-check your android application's package name (e.g com.example.application) which you will find on AndroidManifest.xml or, build.gradle (app level) file. If the package name is wrong adding SHA1 or SHA512 won't be helpful.
 
 Follow the Firebase SDK Instructions properly. Add the required lines of code which they are recommending you to add.
 
@@ -79,11 +72,13 @@ Use the command flutter clean on the terminal before running the application.
 Following the Firebase SDK Instructions properly will save you lots of time.
 
 # Generate model
+
 ```bash
  flutter pub run build_runner build
 ```
 
 # The color of button
+
 https://www.cnblogs.com/dalianpai/p/12347272.html
 ```html
 buttom
