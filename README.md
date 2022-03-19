@@ -1,9 +1,4 @@
-
-
-<p align="center">
-    <img src=".\assets\dtok_1.png" style="width:15%;"/>
-<p>
-
+<img align="center" src=".\assets\dtok_1.png" style="width:15%;"/>
 <h1 align="center"><a href="https://telsacoin.io/">DTOK</a></h1>
 
 
@@ -22,9 +17,7 @@
 
 
 ## The background service uses SpringCloud + IPFS storage + BSC chain
-
 - Front-end app： https://www.pgyer.com/dtok
-
 - Backend admin panel: http://47.95.209.198:8181/
 
 # Preview
