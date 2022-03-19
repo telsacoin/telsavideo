@@ -1,4 +1,4 @@
-<img align="center" src=".\assets\dtok_1.png" style="width:15%;"/>
+<p align="center"><img align="center" src=".\assets\dtok_1.png" style="width:200px;"/></p>
 <h1 align="center"><a href="https://telsacoin.io/">DTOK</a></h1>
 
 
