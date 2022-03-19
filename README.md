@@ -1,17 +1,24 @@
 
 
-# DTok Video
+[English](readme_cn.md)|[中文](readme_cn.md)
 
-DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influences and viewers in cryptocurrency, like a decentralized Tiktok.
+## DTok Video App 
 
-# 使用 Flutter 模仿抖音国外版, 本项目持续更新
+> DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influences and viewers in cryptocurrency, like a decentralized Tiktok.
 
-### 开源不易，麻烦给个 Star★ 吧(☺️ 右上角点击 ★Star，轻轻松松，一秒钟 🤣)！我会根据大家的关注度和个人时间持续更新代码！
 
-### 后台采用SpringCloud +IPFS存储+BSC链
 
---前端地址：https://www.pgyer.com/dtok
---后端服务器地址:http://47.95.209.198:8181/
+## User Flutter to Imitate of the foreign version of Tiktok, this project is continuously updated
+
+### Open source is not easy, please give it a Star★ (☺️ click ★Star in the upper right corner, easy, one second 🤣)! I will continue to update the code according to everyone's attention and personal time!
+
+
+
+### The background service uses SpringCloud + IPFS storage + BSC chain
+
+- front-end address： https://www.pgyer.com/dtok
+
+- Backend server address: http://47.95.209.198:8181/
 
 ## Preview
 
@@ -19,28 +26,31 @@ DTok is a community powered video sharing app platform where users vote on video
 
 ![app](assets/app.gif)
 
-# Install the app
+
+
+## Supported Platforms
 
 - Linux
 - Windows
+
+- Android
+- IOS
 
 
 
 ### Working with Uploads
 
-
+- Video module
+- Recommended modules
+- Message module
+- upload module
+- Personal module
 
 ## Structure
 
 
 
 ## Common Issues
-
-
-
-## Contributing
-
-If you want to contribute to the project, please read [this page](https://github.com/TelsaCoin/TelsaVideo/wiki/contribute).
 
 While adding an app on your Firebase Project, cross-check your android application's package name (e.g com.example.application) which you will find on AndroidManifest.xml or, build.gradle (app level) file. If the package name is wrong adding SHA1 or SHA512 won't be helpful.
 
@@ -118,3 +128,10 @@ flutter clean \
 ```bash
 flutter pub upgrade --major-versions
 ```
+
+
+
+## Contributing
+
+If you want to contribute to the project, please read [this page](https://github.com/TelsaCoin/TelsaVideo/wiki/contribute).
+
