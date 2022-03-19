@@ -1,16 +1,24 @@
+<div align="center">
+    <img src=".\assets\dtok_1.png" style="zoom:2%;"/>
+    <br/>
+    <h1><a href="https://telsacoin.io/" target="_blank" stype="color: var(--color-accent-fg);text-decoration: none;">DTOK</a></h1>
+</div>
+
+##### [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
+
 
 
 [English](readme.md)|[中文](readme_cn.md)
-
-## DTok视频APP
 
 > DTok 是一个社区支持的视频共享应用程序平台，用户在该平台上对视频进行投票，以奖励加密货币的创作者、策展人、影响者和观众，就像去中心化的 Tiktok。
 
 
 
-## 使用 Flutter 模仿抖音国外版, 本项目持续更新
+## 开源的抖音国际版替代品 
 
-### 开源不易，麻烦给个 Star★ 吧(☺️ 右上角点击 ★Star，轻轻松松，一秒钟 🤣)！我会根据大家的关注度和个人时间持续更新代码！
+> 本项目持续更新,开源不易，麻烦给个 Star★ 吧(☺️ 右上角点击 ★Star，轻轻松松，一秒钟 🤣)！我会根据大家的关注度和个人时间持续更新代码！
+
+
 
 ### 后台采用SpringCloud +IPFS存储+BSC链
 
@@ -26,6 +34,34 @@
 
 
 
+## 快速开始
+
+1. 克隆存储库
+
+   ```
+   git clone https://github.com/telsacoin/telsavideo.git
+   ```
+
+2. 获取依赖包
+
+   ```
+   fluter pub get
+   ```
+
+3. 启动您的应用
+
+   ```
+   flutter run 
+   ```
+
+4. 使用 API
+
+   ```
+   \minio.exe server d:\minio\data --console-address ":9001"
+   ```
+
+
+
 ## 支持的平台
 
 - Linux
@@ -34,11 +70,15 @@
 - Android
 - IOS
 
-### Working with Uploads
 
 
+## 功能
 
-## 结构
+- 视频模块
+- 推荐模块
+- 消息模块
+- 上传模块
+- 个人模块
 
 
 

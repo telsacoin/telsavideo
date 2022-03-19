@@ -1,30 +1,66 @@
 
 
-[English](readme_cn.md)|[中文](readme_cn.md)
+<div align="center">
+    <img src=".\assets\dtok_1.png" style="zoom:2%;"/>
+    <br/>
+    <h1><a href="https://telsacoin.io/" target="_blank" stype="color: var(--color-accent-fg);text-decoration: none;">DTOK</a></h1>
+</div>
 
-## DTok Video App 
+##### [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
+
+
+
+[English](readme.md)|[中文](readme_cn.md)
 
 > DTok is a community powered video sharing app platform where users vote on videos to reward creators, curators, influences and viewers in cryptocurrency, like a decentralized Tiktok.
 
 
 
-## User Flutter to Imitate of the foreign version of Tiktok, this project is continuously updated
+## The Open Source Tiktok Alternative
 
-### Open source is not easy, please give it a Star★ (☺️ click ★Star in the upper right corner, easy, one second 🤣)! I will continue to update the code according to everyone's attention and personal time!
+> this project is continuously updated,Open source is not easy, please give it a Star★ (☺️ click ★Star in the upper right corner, easy, one second 🤣)! I will continue to update the code according to everyone's attention and personal time!
 
 
 
 ### The background service uses SpringCloud + IPFS storage + BSC chain
 
-- front-end address： https://www.pgyer.com/dtok
+- Front-end app： https://www.pgyer.com/dtok
 
-- Backend server address: http://47.95.209.198:8181/
+- Backend admin panel: http://47.95.209.198:8181/
 
 ## Preview
 
 
 
-![app](assets/app.gif)
+<img src="assets/app.gif" alt="app" style="zoom: 80%;" />
+
+
+
+## Quickstart
+
+1. Clone repository
+
+   ```
+   git clone https://github.com/telsacoin/telsavideo.git
+   ```
+
+2. Get packages
+
+   ```
+   fluter pub get
+   ```
+
+3. Start your app
+
+   ```
+   flutter run 
+   ```
+
+4. Use the API
+
+   ```
+   \minio.exe server d:\minio\data --console-address ":9001"
+   ```
 
 
 
@@ -38,15 +74,13 @@
 
 
 
-### Working with Uploads
+## Features
 
 - Video module
 - Recommended modules
 - Message module
 - upload module
 - Personal module
-
-## Structure
 
 
 
@@ -65,12 +99,12 @@ Use the command flutter clean on the terminal before running the application.
 
 Following the Firebase SDK Instructions properly will save you lots of time.
 
-# generate model
+# Generate model
 ```bash
  flutter pub run build_runner build
 ```
 
-# the color of button
+# The color of button
 https://www.cnblogs.com/dalianpai/p/12347272.html
 ```html
 buttom
@@ -79,18 +113,18 @@ box-shadow: 0 15px 18px -6px rgb(227 49 0 / 65%)
 ```
 
 
-# add app icon  common
+# Add app icon  common
 ```bash
 flutter pub run flutter_launcher_icons:main
 ```
 
-# build apk
+# Build apk
 ```bash
 flutter clean && flutter pub get && flutter pub cache repair &&  flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --no-shrink
 ```
 
 
-# known issue
+# Known issue
 ```
 ../../../development/flutter/packages/flutter/lib/src/material/scaffold.dart:1963:24: Context: Found this candidate, but the arguments don't match.
   311 line
@@ -98,12 +132,12 @@ flutter clean && flutter pub get && flutter pub cache repair &&  flutter build a
   static ScaffoldState of(BuildContext context) {
 ```
 
-# check the dependencies between the packages
+# Check the dependencies between the packages
 ```bash
 flutter pub deps
 ```
 
-# uninstall the app from mobile
+# Uninstall the app from mobile
 ```bash
 source ~/.bash_profile
 adb uninstall "com.telsa.dtok"
