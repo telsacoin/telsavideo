@@ -25,8 +25,9 @@ class SignInVo {
   factory SignInVo.fromJson(Map<String, dynamic> json) => SignInVo(
         accessToken: json["accessToken"] == null ? null : json["accessToken"],
         expiresIn: json["expiresIn"] == null ? null : json["expiresIn"],
-        expiresInDate:
-            json["expiresInDate"] == null ? null : json["expiresInDate"],
+        expiresInDate: json["expiresInDate"] == null
+            ? null
+            : DateTime.parse(json["expiresInDate"]),
         permitToken: json["permitToken"] == null ? null : json["permitToken"],
         refreshToken:
             json["refreshToken"] == null ? null : json["refreshToken"],

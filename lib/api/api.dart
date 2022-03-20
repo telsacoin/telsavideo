@@ -35,8 +35,10 @@ class Api {
     Map<String, dynamic> params = new HashMap();
     params["username"] = dto?.username;
     params["password"] = dto?.password;
-    var result = await HttpManager.getInstance()
-        .post(url: HttpConstant.login, cancelTokenTag: 'signin', data: params);
+    var result = await HttpManager.getInstance().post(
+        url: Api.api + HttpConstant.login,
+        cancelTokenTag: 'signin',
+        data: params);
     return SignInVo.fromJson(result);
   }
 
@@ -44,7 +46,9 @@ class Api {
   static Future<SignUpVO> postSignUpResponse(SignUpDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().post(
-        url: HttpConstant.register, cancelTokenTag: 'signup', data: params);
+        url: Api.api + HttpConstant.register,
+        cancelTokenTag: 'signup',
+        data: params);
 
     return SignUpVO.fromJson(result);
   }
@@ -55,7 +59,7 @@ class Api {
     params["cursor"] = dto?.cursor ?? 0;
     params["count"] = dto?.count ?? 20;
     var result = await HttpManager.getInstance().get(
-        url: HttpConstant.recommendItemList,
+        url: Api.api + HttpConstant.recommendItemList,
         cancelTokenTag: 'recomment',
         param: params);
 
@@ -68,7 +72,7 @@ class Api {
     params["cursor"] = dto?.cursor ?? 0;
     params["count"] = dto?.count ?? 20;
     var result = await HttpManager.getInstance().get(
-        url: HttpConstant.followingItemList,
+        url: Api.api + HttpConstant.followingItemList,
         cancelTokenTag: 'following',
         param: params);
     return ItemListVo.fromJson(result);
@@ -79,7 +83,7 @@ class Api {
       CommentItemDiggDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().post(
-        url: HttpConstant.commentItemDigg,
+        url: Api.api + HttpConstant.commentItemDigg,
         cancelTokenTag: 'digg',
         data: params);
 
@@ -91,7 +95,7 @@ class Api {
       CommentItemListDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().post(
-        url: HttpConstant.commentList,
+        url: Api.api + HttpConstant.commentList,
         cancelTokenTag: 'commentlist',
         data: params);
 
@@ -103,7 +107,7 @@ class Api {
       CommentListReplyDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().get(
-        url: HttpConstant.commentListReply,
+        url: Api.api + HttpConstant.commentListReply,
         cancelTokenTag: 'commentlistreply',
         param: params);
 
@@ -114,7 +118,7 @@ class Api {
   static Future<DiscoverMusicVo> getDiscoverMusic(DiscoverMusicDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().get(
-        url: HttpConstant.discoverMusic,
+        url: Api.api + HttpConstant.discoverMusic,
         cancelTokenTag: 'discovermusic',
         param: params);
 
@@ -126,7 +130,7 @@ class Api {
       DiscoverChallengeDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().get(
-        url: HttpConstant.discoverChallenge,
+        url: Api.api + HttpConstant.discoverChallenge,
         cancelTokenTag: 'discoverchallenge',
         param: params);
 
@@ -137,7 +141,7 @@ class Api {
   static Future<DiscoverUserVo> getDiscoverUser(DiscoverUserDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().get(
-        url: HttpConstant.discoverUser,
+        url: Api.api + HttpConstant.discoverUser,
         cancelTokenTag: 'discoveruser',
         param: params);
 
@@ -150,7 +154,7 @@ class Api {
   static Future<NotificationVo> getNotifications(NotificationDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().get(
-        url: HttpConstant.userNoticeList,
+        url: Api.api + HttpConstant.userNoticeList,
         cancelTokenTag: 'notification',
         param: params);
     return NotificationVo.fromJson(result);
@@ -161,7 +165,7 @@ class Api {
       NotificationMakeReadDto? dto) async {
     Map<String, dynamic> params = new HashMap();
     var result = await HttpManager.getInstance().post(
-        url: HttpConstant.userNoticeMakeRead,
+        url: Api.api + HttpConstant.userNoticeMakeRead,
         cancelTokenTag: 'notificationmakeread',
         data: params);
     return NotificationMakeReadVo.fromJson(result);

@@ -11,8 +11,12 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/components/api.dart';
 import 'package:telsavideo/constants.dart';
+import 'package:telsavideo/http/util.dart';
+import 'package:telsavideo/models/dto/signin/signin_dto.dart';
+import 'package:telsavideo/models/vo/signin/signin_vo.dart';
 import 'package:telsavideo/screens/home/home.dart';
 import 'package:telsavideo/screens/login/hiveaccount.dart';
 import 'package:telsavideo/screens/signup/register.dart';
@@ -27,6 +31,7 @@ class _LoginState extends State<Login> {
   String phoneNumber = '';
   String? phoneIsoCode;
   RegionInfo? _regionInfo;
+  SignInDto dto = new SignInDto("122333", "1222333");
   final TextEditingController controller = TextEditingController();
   /* CountryDetails details = CountryCodes.detailsForLocale();
   Locale locale = CountryCodes.getDeviceLocale()!; */
@@ -52,18 +57,16 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> loginAsync(Map<String, dynamic> params) async {
-    var url = apiDevUrl + "/signin";
-    Dio dio = new Dio();
-    Response response = await dio.post(url,
-        data: {"username": params["email"], "password": params["password"]});
-    Map<String, dynamic> result = response.data;
-    if (result["code"] == 200) {
-      saveData("dtok_accessToken", result["accessToken"]);
-      saveData("dtok_token_expire", result["expireDate"]);
-      saveData("dtok_refreshToken", result["refreshToken"]);
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
-    }
+    dto.username = params["email"];
+    dto.password = params["password"];
+    SignInVo result = await Api.postLoginResponse(dto);
+    print(result);
+    Util.set('isLogin', true);
+    Util.set("dtok_accessToken", result.accessToken);
+    Util.set("dtok_token_expire", result.expiresInDate);
+    Util.set("dtok_refreshToken", result.refreshToken);
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
   }
 
   final _formKey = GlobalKey<FormBuilderState>();
@@ -144,6 +147,7 @@ class _LoginState extends State<Login> {
                           SizedBox(height: 70.0),
                           FormBuilderTextField(
                             name: 'email',
+                            initialValue: dto.username,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
@@ -181,6 +185,7 @@ class _LoginState extends State<Login> {
                           const SizedBox(height: 10),
                           FormBuilderTextField(
                             name: 'password',
+                            initialValue: dto.password,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,

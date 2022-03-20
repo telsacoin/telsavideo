@@ -71,7 +71,7 @@ class HttpManager {
         url = url.replaceAll(':$key', value.toString());
       }
     });
-    return Api.api + url;
+    return url;
   }
 
   void cancel(String cancelTokenTag) {
@@ -100,7 +100,10 @@ class HttpManager {
     }
 
     //设置默认值
-    url = _restfulUrl(url, params!);
+    if (params != null && params.isNullOrEmpty) {
+      url = _restfulUrl(url, params);
+    }
+
     if (params.isNullOrEmpty) {
       params = {};
     }
@@ -132,15 +135,21 @@ class HttpManager {
           cancelToken: cancelToken);
       //EasyLoading.dismiss();
       if (response?.data!['code'] == 0) {
-        Util.set('isLogin', true);
+        //Util.set('isLogin', true);
         return Result.fromJson(response?.data).data;
       } else if (response?.data!['statusCode'] == 0) {
-        Util.set('isLogin', true);
+        //Util.set('isLogin', true);
         return response?.data;
       } else if (response?.data!['status'] == 401) {
         Util.set('isLogin', false);
-        return response?.data;
+        return Result.fromJson(response?.data).data;
         //throw HttpError(HttpError.FORBIDDEN.toString(), "请登录");
+      } else if (response?.data!['code'] == 200) {
+        //运行正常
+        return Result.fromJson(response?.data).data;
+      } else if (response?.data!['code'] == 500) {
+        //运行异常
+        return Result.fromJson(response?.data).data;
       } else {
         //EasyLoading.showToast(response?.data!['message']!);
         return response?.data;
