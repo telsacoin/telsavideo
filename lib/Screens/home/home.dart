@@ -11,9 +11,12 @@ import 'package:flutter/gestures.dart';
 import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:telsavideo/http/util.dart';
+import 'package:telsavideo/models/dto/recommend/itemlist_dto.dart';
 import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
 import 'package:telsavideo/screens/home/videoplayer.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
+import 'package:telsavideo/screens/login/login.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:telsavideo/screens/notifications_messages/notifications.dart';
 import 'package:telsavideo/screens/record_video/record_video.dart';
@@ -35,7 +38,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool me = false;
   bool home = true;
   bool like = false;
+  bool isLogin = false;
   late VideoPlayerController _controller;
+  ItemListDto dto = new ItemListDto(0, 20);
   //late VideoPlayerController _musicController;
   //late AnimationController animationController;
   late Future<ItemListVo> videos;
@@ -44,83 +49,19 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   // ScrollController _scrollController = ScrollController(initialScrollOffset:0);
   PageController foryouController = new PageController();
 
-  // Future<DTok> getVideos() async {
-  //   String url = apiUrl;
-  //   if (kDebugMode) {
-  //     url = apiDevUrl;
-  //   } else {
-  //     url = apiPortail;
-  //   }
-  //   //url += "/get_posts_by_filters";
-  //   url += "/recommend/item_list";
-  //   DTok dTok = new DTok();
-  //   try {
-  //     Dio dio = new Dio();
-  //     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-  //         (HttpClient client) {
-  //       client.badCertificateCallback =
-  //           (X509Certificate cert, String host, int port) => true;
-  //       return client;
-  //     };
-  //     var response = await dio.get(url,
-  //         options: Options(
-  //             contentType: "application/json",
-  //             responseType: ResponseType.json));
-  //     print(response);
-  //     var data = json.encode(response.data);
-  //     var dData = json.decode(data);
-
-  //     dTok = DTok.fromJson(dData);
-  //     List<ItemList> list = [];
-  //     for (ItemList itemList in dTok.itemList!) {
-  //       if (itemList.video!.playAddr?.isNotEmpty == true) {
-  //         list.add(itemList);
-  //       }
-  //     }
-  //     dTok.itemList = list;
-  //     print("dtok:" + dTok.toString());
-  //     return dTok;
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   return dTok;
-
-  /* SharedPreferences prefs = await SharedPreferences.getInstance();
-    var code = prefs.getString('code');
-    var map = Map<String, dynamic>();
-    map["filters"] = "trending";
-    var query = Map<String, dynamic>();
-    query["tag"] = "telsacoin";
-    query["limit"] = 10;
-    map["query"] = query;
-
-    dio.options.headers = {
-      'Content-Type': 'application/json',
-      'authorization': code
-    };
-    try {
-      var response = await dio.post(url,
-          data: map, options: Options(contentType: "application/json"));
-      print(response);
-      print(url);
-      if (response.statusCode == 200) {
-        video = List<Video>.from(json
-            .decode(json.encode(response.data))
-            .map((x) => Video.fromJson(x)));
-      }
-    } catch (e) {
-      print(e);
-    } */
-  //return DTok();
-  //}
+  void checkIsLogin() {
+    Util.getBool('isLogin').then((value) => {isLogin = value!});
+  }
 
   @override
   void initState() {
     super.initState();
-    videos = Api.getRecommendItemList(null);
+    videos = Api.getRecommendItemList(dto);
+
     _controller = VideoPlayerController.network(
         "http://appmedia.qq.com/media/cross/assets/uploadFile/20170523/5923d26dac66b.mp4")
       ..initialize();
+    checkIsLogin();
   }
 
   @override
@@ -217,33 +158,6 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
             print(snapshot.connectionState);
             if (snapshot.connectionState == ConnectionState.waiting) {
               return loading;
-              // return Column(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     loading,
-              //     Visibility(
-              //       visible: snapshot.hasData,
-              //       child: PageView.builder(
-              //           controller: foryouController,
-              //           onPageChanged: (index) {
-              //             //when the video is changing, release the previous video instance.
-              //             //disposeVideo();
-              //             setState(() {});
-              //           },
-              //           scrollDirection: Axis.vertical,
-              //           itemCount: snapshot.data!.itemList!.length,
-              //           itemBuilder: (context, index) {
-              //             var item = snapshot.data!.itemList![index];
-              //             return Videoplayer(
-              //               item: item,
-              //               width: MediaQuery.of(context).size.width,
-              //               heigth: MediaQuery.of(context).size.height,
-              //             );
-              //           }),
-              //     )
-              //   ],
-              // );
             } else if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
                 return Column(
@@ -492,13 +406,21 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                     ),
                     InkWell(
                       onTap: () {
+                        print('you click the discover button');
+                        if (isLogin) {
+                          develop.log('you have logined');
+                          setState(() {
+                            home = false;
+                            search = true;
+                            notifications = false;
+                            me = false;
+                          });
+                        } else {
+                          develop.log('you didn\'t, pls login your app');
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Login()));
+                        }
                         _controller.pause();
-                        setState(() {
-                          home = false;
-                          search = true;
-                          notifications = false;
-                          me = false;
-                        });
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

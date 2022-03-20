@@ -37,6 +37,8 @@ class Util {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (value is String) {
       prefs.setString(key, value);
+    } else if (value is DateTime) {
+      prefs.setString(key, value.toString());
     } else if (value is num) {
       prefs.setInt(key, int.parse(value.toString()));
     } else if (value is double) {
@@ -66,7 +68,7 @@ class Util {
     return data ?? null;
   }
 
-  static getBool(String key) async {
+  static Future<bool?> getBool(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? data = prefs.getBool(key);
     return data ?? null;
