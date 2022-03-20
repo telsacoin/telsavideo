@@ -2,7 +2,7 @@
 <h1 align="center"><a href="https://telsacoin.io/">DTOK</a></h1>
 
 
-#####  [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | 
+#####  [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | [Donate](https://liberapay.com/telsacoin/donate)
 
 **[English](readme.md) | [中文](readme_cn.md)**
 
