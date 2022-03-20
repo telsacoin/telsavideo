@@ -10,6 +10,7 @@ import 'package:telsavideo/http/http_constant.dart';
 import 'package:telsavideo/http/interceptors/header_interceptor.dart';
 import 'package:telsavideo/http/interceptors/log_interceptor.dart';
 import 'package:telsavideo/http/response/result.dart';
+import 'package:telsavideo/http/util.dart';
 
 class HttpManager {
   static const int CONNECT_TIMEOUT = 30 * 1000;
@@ -131,9 +132,15 @@ class HttpManager {
           cancelToken: cancelToken);
       //EasyLoading.dismiss();
       if (response?.data!['code'] == 0) {
+        Util.set('isLogin', true);
         return Result.fromJson(response?.data).data;
       } else if (response?.data!['statusCode'] == 0) {
+        Util.set('isLogin', true);
         return response?.data;
+      } else if (response?.data!['status'] == 401) {
+        Util.set('isLogin', false);
+        return response?.data;
+        //throw HttpError(HttpError.FORBIDDEN.toString(), "请登录");
       } else {
         //EasyLoading.showToast(response?.data!['message']!);
         return response?.data;
