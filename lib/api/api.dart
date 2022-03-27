@@ -3,9 +3,11 @@ import 'dart:core';
 import 'package:telsavideo/api/http_manager.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/http/http_constant.dart';
+import 'package:telsavideo/http/response/result.dart';
 import 'package:telsavideo/models/dto/comment/comment_item_digg_dto.dart';
 import 'package:telsavideo/models/dto/comment/comment_item_list_dto.dart';
 import 'package:telsavideo/models/dto/comment/comment_list_reply_dto.dart';
+import 'package:telsavideo/models/dto/discover/banner_dto.dart';
 import 'package:telsavideo/models/dto/message/notification_dto.dart';
 import 'package:telsavideo/models/dto/discover/discover_challenge_dto.dart';
 import 'package:telsavideo/models/dto/discover/discover_music_dto.dart';
@@ -17,6 +19,7 @@ import 'package:telsavideo/models/dto/signup/signup_dto.dart';
 import 'package:telsavideo/models/vo/comment/comment_item_digg_vo.dart';
 import 'package:telsavideo/models/vo/comment/comment_item_list_vo.dart';
 import 'package:telsavideo/models/vo/comment/comment_list_reply_vo.dart';
+import 'package:telsavideo/models/vo/discover/banner_vo.dart';
 import 'package:telsavideo/models/vo/discover/discover_challenage_vo.dart';
 import 'package:telsavideo/models/vo/discover/discover_music_vo.dart';
 import 'package:telsavideo/models/vo/discover/discover_user_vo.dart';
@@ -114,9 +117,21 @@ class Api {
     return CommentListReplyVo.fromJson(result);
   }
 
+  ///get banner list
+  static Future<BannerVo> postBannerList(BannerDto? dto) async {
+    Map<String, dynamic> param = new HashMap();
+    var result = await HttpManager.getInstance().post(
+        url: Api.api + HttpConstant.discoverChallenge,
+        cancelTokenTag: 'bannerlist',
+        data: param);
+    return BannerVo.toJson(result);
+  }
+
   /// get discover music
   static Future<DiscoverMusicVo> getDiscoverMusic(DiscoverMusicDto? dto) async {
     Map<String, dynamic> params = new HashMap();
+    params["cursor"] = dto?.cursor ?? 0;
+    params["count"] = dto?.count ?? 20;
     var result = await HttpManager.getInstance().get(
         url: Api.api + HttpConstant.discoverMusic,
         cancelTokenTag: 'discovermusic',
@@ -129,6 +144,8 @@ class Api {
   static Future<DiscoverChallengeVo> getDiscoverChanllenge(
       DiscoverChallengeDto? dto) async {
     Map<String, dynamic> params = new HashMap();
+    params["cursor"] = dto?.cursor ?? 0;
+    params["count"] = dto?.count ?? 20;
     var result = await HttpManager.getInstance().get(
         url: Api.api + HttpConstant.discoverChallenge,
         cancelTokenTag: 'discoverchallenge',
@@ -140,6 +157,8 @@ class Api {
   /// get discover users
   static Future<DiscoverUserVo> getDiscoverUser(DiscoverUserDto? dto) async {
     Map<String, dynamic> params = new HashMap();
+    params["cursor"] = dto?.cursor ?? 0;
+    params["count"] = dto?.count ?? 20;
     var result = await HttpManager.getInstance().get(
         url: Api.api + HttpConstant.discoverUser,
         cancelTokenTag: 'discoveruser',
