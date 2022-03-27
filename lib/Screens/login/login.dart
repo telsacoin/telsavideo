@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/components/api.dart';
 import 'package:telsavideo/constants.dart';
+import 'package:telsavideo/http/base/base_domain.dart';
 import 'package:telsavideo/http/util.dart';
 import 'package:telsavideo/models/dto/signin/signin_dto.dart';
 import 'package:telsavideo/models/vo/signin/signin_vo.dart';
@@ -62,6 +63,7 @@ class _LoginState extends State<Login> {
     SignInVo result = await Api.postLoginResponse(dto);
     print(result);
     Util.set('isLogin', true);
+    Util.set(BaseDomain.xUSERTOKEN, result.accessToken);
     Util.set("dtok_accessToken", result.accessToken);
     Util.set("dtok_token_expire", result.expiresInDate);
     Util.set("dtok_refreshToken", result.refreshToken);

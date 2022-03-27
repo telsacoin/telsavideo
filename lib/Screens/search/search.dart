@@ -4,6 +4,7 @@ import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/screens/search/dance_item.dart';
 import 'package:telsavideo/screens/search/food_item.dart';
 import 'package:telsavideo/screens/search/laugh_item.dart';
+import 'package:telsavideo/screens/search/music_item.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -94,13 +95,13 @@ class _SearchState extends State<Search> {
             ),
           ),
           SizedBox(height: 10.0),
-          getHashtagRow('DanceLikeaPro', '108.8k'),
-          DanceList(),
+          getHashtagRow('Music', '181.9k'),
+          MusicItem(),
           SizedBox(height: 10.0),
-          getHashtagRow('LaughOutLoud', '159.8k'),
+          getHashtagRow('User', '159.8k'),
           LaughList(),
           SizedBox(height: 10.0),
-          getHashtagRow('Food', '231.9k'),
+          getHashtagRow('Challenge', '231.9k'),
           FoodList(),
           SizedBox(height: 80.0),
         ],

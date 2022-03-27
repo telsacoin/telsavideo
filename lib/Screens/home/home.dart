@@ -41,9 +41,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool isLogin = false;
   late VideoPlayerController _controller;
   ItemListDto dto = new ItemListDto(0, 20);
-  //late VideoPlayerController _musicController;
-  //late AnimationController animationController;
-  late Future<ItemListVo> videos;
+  late Future<ItemListVo> foryouVideos;
+  late Future<ItemListVo> followingVideos;
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.8);
   // ScrollController _scrollController = ScrollController(initialScrollOffset:0);
@@ -56,8 +55,8 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    videos = Api.getRecommendItemList(dto);
-
+    foryouVideos = Api.getRecommendItemList(dto);
+    followingVideos = Api.getFollowingItemList(dto);
     _controller = VideoPlayerController.network(
         "http://appmedia.qq.com/media/cross/assets/uploadFile/20170523/5923d26dac66b.mp4")
       ..initialize();
@@ -153,7 +152,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     if (foryou) {
       _controller.pause();
       return FutureBuilder<ItemListVo>(
-          future: videos,
+          future: foryouVideos,
           builder: (context, snapshot) {
             print(snapshot.connectionState);
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -208,60 +207,123 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
           });
     } else {
       _controller.play();
-      return Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.black,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                      padding: EdgeInsets.only(bottom: 14),
-                      child: Text(
-                        'Trendy creators',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ))
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          Center(
-                            child: Text('Follow to an account to discover its',
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.8))),
-                          ),
-                          Center(
-                            child: Text('Latest videos here.',
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.8))),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Container(
-                height: 372,
-                margin: EdgeInsets.only(top: 25),
-                child: PageView.builder(
-                    dragStartBehavior: DragStartBehavior.down,
-                    controller: pageController,
-                    itemCount: 5,
-                    itemBuilder: (context, position) {
-                      return videoSlider(position);
-                    }),
-              )
-            ],
-          ));
+      return FutureBuilder<ItemListVo>(
+          future: followingVideos,
+          builder: (context, snapshot) {
+            print(snapshot.connectionState);
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return loading;
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height - 24,
+                      color: Colors.black,
+                      child: Center(
+                          child: Text(
+                        'Error, Please restart your app again.',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                    )
+                  ],
+                );
+              } else if (snapshot.hasData) {
+                try {
+                  return PageView.builder(
+                      controller: foryouController,
+                      onPageChanged: (index) {
+                        //when the video is changing, release the previous video instance.
+                        //disposeVideo();
+                        //setState(() {});
+                      },
+                      scrollDirection: Axis.vertical,
+                      itemCount: snapshot.data!.itemList!.length,
+                      itemBuilder: (context, index) {
+                        var item = snapshot.data!.itemList![index];
+                        return Videoplayer(
+                          item: item,
+                          width: MediaQuery.of(context).size.width,
+                          heigth: MediaQuery.of(context).size.height,
+                        );
+                      });
+                } catch (e) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.black,
+                    child: Center(
+                        child: Text(
+                      'Error, Please restart your app again.',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                  );
+                }
+              } else {
+                // empty data
+                return loading;
+              }
+            } else {
+              return Text('State: ${snapshot.connectionState}');
+            }
+          });
+      // return Container(
+      //     width: double.infinity,
+      //     height: double.infinity,
+      //     color: Colors.black,
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: <Widget>[
+      //         Row(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: <Widget>[
+      //             Container(
+      //                 padding: EdgeInsets.only(bottom: 14),
+      //                 child: Text(
+      //                   'Trendy creators',
+      //                   style: TextStyle(color: Colors.white, fontSize: 20),
+      //                 ))
+      //           ],
+      //         ),
+      //         Row(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: <Widget>[
+      //             Center(
+      //               child: Container(
+      //                 child: Column(
+      //                   children: <Widget>[
+      //                     Center(
+      //                       child: Text('Follow to an account to discover its',
+      //                           style: TextStyle(
+      //                               color: Colors.white.withOpacity(0.8))),
+      //                     ),
+      //                     Center(
+      //                       child: Text('Latest videos here.',
+      //                           style: TextStyle(
+      //                               color: Colors.white.withOpacity(0.8))),
+      //                     )
+      //                   ],
+      //                 ),
+      //               ),
+      //             )
+      //           ],
+      //         ),
+      //         Container(
+      //           height: 372,
+      //           margin: EdgeInsets.only(top: 25),
+      //           child: PageView.builder(
+      //               dragStartBehavior: DragStartBehavior.down,
+      //               controller: pageController,
+      //               itemCount: 5,
+      //               itemBuilder: (context, position) {
+      //                 return videoSlider(position);
+      //               }),
+      //         )
+      //       ],
+      //     ));
     }
   }
   // Home Screen Code end
