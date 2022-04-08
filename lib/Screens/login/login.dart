@@ -67,8 +67,8 @@ class _LoginState extends State<Login> {
     Util.set("dtok_accessToken", result.accessToken);
     Util.set("dtok_token_expire", result.expiresInDate);
     Util.set("dtok_refreshToken", result.refreshToken);
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+    //await Future.delayed(Duration(seconds: 3));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
   }
 
   final _formKey = GlobalKey<FormBuilderState>();
@@ -76,7 +76,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    checkAuth();
+    //checkAuth();
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
