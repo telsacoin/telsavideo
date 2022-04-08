@@ -61,7 +61,8 @@ dependencies:
   package_info: ^2.0.2
   share: ^2.0.4
   #flutter_android_pip: ^0.0.2
-  flutter_local_notifications: ^9.4.0
+  flutter_local_notifications: ^9.4.0 
+  flutter_easyrefresh: ^2.2.1
   permission_handler: ^9.1.0
   open_file: ^3.0.1
   #flutter_downloader: ^1.7.0

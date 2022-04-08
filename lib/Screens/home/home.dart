@@ -3,13 +3,9 @@ import 'dart:convert';
 import 'dart:developer' as develop;
 import 'dart:io';
 import 'package:camera/camera.dart';
-import 'package:dio/adapter.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:telsavideo/api/api.dart';
-import 'package:telsavideo/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:telsavideo/http/util.dart';
 import 'package:telsavideo/models/dto/recommend/itemlist_dto.dart';
@@ -40,6 +36,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool like = false;
   bool isLogin = false;
   late VideoPlayerController _controller;
+  int cursor = 0;
   ItemListDto dto = new ItemListDto(0, 20);
   late Future<ItemListVo> foryouVideos;
   late Future<ItemListVo> followingVideos;
@@ -47,25 +44,31 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
       PageController(initialPage: 0, viewportFraction: 0.8);
   // ScrollController _scrollController = ScrollController(initialScrollOffset:0);
   PageController foryouController = new PageController();
+  late EasyRefreshController _easyController;
 
   void checkIsLogin() {
-    Util.getBool('isLogin').then((value) => {isLogin = value!});
+    Util.getBool('isLogin').then((value) => {
+          isLogin = value!,
+          isLogin
+              ? null
+              : Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Login()))
+        });
   }
 
   @override
   void initState() {
     super.initState();
+    _easyController = new EasyRefreshController();
+    dto.cursor = cursor;
     foryouVideos = Api.getRecommendItemList(dto);
     followingVideos = Api.getFollowingItemList(dto);
-    _controller = VideoPlayerController.network(
-        "http://appmedia.qq.com/media/cross/assets/uploadFile/20170523/5923d26dac66b.mp4")
-      ..initialize();
     checkIsLogin();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    //_controller.dispose();
     super.dispose();
   }
 
@@ -150,7 +153,6 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   // Home Screen Code Start
   homescreen() {
     if (foryou) {
-      _controller.pause();
       return FutureBuilder<ItemListVo>(
           future: foryouVideos,
           builder: (context, snapshot) {
@@ -168,23 +170,37 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                 );
               } else if (snapshot.hasData) {
                 try {
-                  return PageView.builder(
-                      controller: foryouController,
-                      onPageChanged: (index) {
-                        //when the video is changing, release the previous video instance.
-                        //disposeVideo();
-                        //setState(() {});
-                      },
-                      scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data!.itemList!.length,
-                      itemBuilder: (context, index) {
-                        var item = snapshot.data!.itemList![index];
-                        return Videoplayer(
-                          item: item,
-                          width: MediaQuery.of(context).size.width,
-                          heigth: MediaQuery.of(context).size.height,
-                        );
-                      });
+                  return EasyRefresh(
+                      onLoad: () async => {
+                            setState(() {
+                              dto.cursor = 0;
+                              foryouVideos = Api.getRecommendItemList(dto);
+                            })
+                          },
+                      onRefresh: () async => {
+                            setState(() {
+                              cursor++;
+                              dto.cursor = cursor;
+                              foryouVideos = Api.getRecommendItemList(dto);
+                            })
+                          },
+                      child: PageView.builder(
+                          controller: foryouController,
+                          onPageChanged: (index) {
+                            //when the video is changing, release the previous video instance.
+                            //disposeVideo();
+                            setState(() {});
+                          },
+                          scrollDirection: Axis.vertical,
+                          itemCount: snapshot.data!.itemList!.length,
+                          itemBuilder: (context, index) {
+                            var item = snapshot.data!.itemList![index];
+                            return Videoplayer(
+                              item: item,
+                              width: MediaQuery.of(context).size.width,
+                              heigth: MediaQuery.of(context).size.height,
+                            );
+                          }));
                 } catch (e) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
@@ -206,7 +222,6 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
             }
           });
     } else {
-      _controller.play();
       return FutureBuilder<ItemListVo>(
           future: followingVideos,
           builder: (context, snapshot) {
@@ -215,22 +230,70 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
               return loading;
             } else if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height - 24,
-                      color: Colors.black,
-                      child: Center(
-                          child: Text(
-                        'Error, Please restart your app again.',
-                        style: TextStyle(color: Colors.white),
-                      )),
-                    )
-                  ],
-                );
+                if (!isLogin) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 24,
+                          color: Colors.black,
+                          child: Column(
+                            children: [
+                              SizedBox(height: 150),
+                              Center(
+                                  child: Text(
+                                'Log in to see videos from creators you follow',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                              Padding(
+                                padding: EdgeInsets.only(top: 20, bottom: 0),
+                                child: MaterialButton(
+                                  padding: EdgeInsets.all(0.0),
+                                  minWidth:
+                                      MediaQuery.of(context).size.width - 200,
+                                  height: 42.5,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(42.5)),
+                                  onPressed: () {
+                                    develop.log('you have logined');
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Login()));
+                                  },
+                                  child: Text('Login',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ],
+                  );
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height - 24,
+                        color: Colors.black,
+                        child: Center(
+                            child: Text(
+                          'Error, Please restart your app again.',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                      )
+                    ],
+                  );
+                }
               } else if (snapshot.hasData) {
                 try {
                   return PageView.builder(
@@ -349,9 +412,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
       child: Stack(
         children: <Widget>[
           ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            child: VideoPlayer(_controller),
-          ),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: Container() //VideoPlayer(_controller),
+              ),
           Align(
               alignment: Alignment.topRight,
               child: Padding(
@@ -379,7 +442,9 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                         radius: 30,
                       ),
                     ),
-                    onTap: () => {_controller.pause()},
+                    onTap: () => {
+                      //_controller.pause()
+                    },
                   ),
                   Padding(
                       padding: EdgeInsets.only(bottom: 6),
@@ -442,7 +507,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                       padding: EdgeInsets.only(left: 20),
                       child: InkWell(
                         onTap: () {
-                          _controller.pause();
+                          //_controller.pause();
                           setState(() {
                             home = true;
                             search = false;
@@ -482,7 +547,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Login()));
                         }
-                        _controller.pause();
+                        //_controller.pause();
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -506,7 +571,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                     buttonplus(),
                     InkWell(
                       onTap: () {
-                        _controller.pause();
+                        //_controller.pause();
                         setState(() {
                           home = false;
                           search = false;
@@ -537,7 +602,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                       padding: EdgeInsets.only(right: 20),
                       child: InkWell(
                         onTap: () {
-                          _controller.pause();
+                          //_controller.pause();
                           setState(() {
                             home = false;
                             search = false;
@@ -585,7 +650,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   buttonplus() {
     return InkWell(
       onTap: () {
-        _controller.pause();
+        //controller.pause();
         startCamera().then((value) => {
               Navigator.push(
                   context,

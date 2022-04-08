@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/models/dto/discover/discover_challenge_dto.dart';
-import 'package:telsavideo/models/dto/discover/discover_music_dto.dart';
 import 'package:telsavideo/models/vo/discover/discover_challenage_vo.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 
