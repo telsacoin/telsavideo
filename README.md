@@ -26,23 +26,30 @@
 
 # Quickstart
 1. Clone repository
-   ```
+   ```shell
    git clone https://github.com/telsacoin/telsavideo.git
    ```
 2. Get packages
-   ```
+   ```shell
    fluter pub get
    ```
 3. Start your app
-   ```
+   ```shell
    flutter run 
    ```
 4. Use the API
-   ```
+   ```shell
    \minio.exe server d:\minio\data --console-address ":9001"
    ```
 
+5. Build apk
+
+   ```shell
+   flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --no-shrink
+   ```
+
 # Supported Platforms
+
 - Linux
 - Windows
 - Android

@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer' as develop;
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:telsavideo/api/api.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:telsavideo/http/util.dart';
@@ -13,7 +12,6 @@ import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
 import 'package:telsavideo/screens/home/videoplayer.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/login/login.dart';
-import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:telsavideo/screens/notifications_messages/notifications.dart';
 import 'package:telsavideo/screens/record_video/record_video.dart';
 import 'package:telsavideo/screens/search/search.dart';
@@ -22,10 +20,10 @@ import 'package:telsavideo/screens/profile/profile.dart';
 
 class Home extends StatefulWidget {
   @override
-  _Home createState() => _Home();
+  _HomeState createState() => _HomeState();
 }
 
-class _Home extends State<Home> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   bool abo = false;
   bool foryou = true;
   bool play = true;
@@ -35,16 +33,17 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   bool home = true;
   bool like = false;
   bool isLogin = false;
-  late VideoPlayerController _controller;
   int cursor = 0;
-  ItemListDto dto = new ItemListDto(0, 20);
+  ItemListDto dto = new ItemListDto(0, 10);
   late Future<ItemListVo> foryouVideos;
   late Future<ItemListVo> followingVideos;
-  PageController pageController =
-      PageController(initialPage: 0, viewportFraction: 0.8);
-  // ScrollController _scrollController = ScrollController(initialScrollOffset:0);
-  PageController foryouController = new PageController();
-  late EasyRefreshController _easyController;
+
+  PageController pageController = PageController(keepPage: true);
+
+  PageController foryouController = new PageController(keepPage: true);
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   void checkIsLogin() {
     Util.getBool('isLogin').then((value) => {
@@ -56,10 +55,32 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
         });
   }
 
+  /// get refresh recommend videos
+  void _onRefresh() async {
+    cursor++;
+    dto.cursor = cursor;
+    foryouVideos = Api.getRecommendItemList(dto);
+    _refreshController.refreshCompleted();
+  }
+
+  void _onRefreshFollowingVideos() async {
+    cursor++;
+    dto.cursor = cursor;
+    foryouVideos = Api.getFollowingItemList(dto);
+    _refreshController.refreshCompleted();
+  }
+
+  /// get first loading recomment videos
+  void _onLoading() async {
+    dto.cursor = 0;
+    foryouVideos = Api.getRecommendItemList(dto);
+    if (mounted) setState(() {});
+    _refreshController.loadComplete();
+  }
+
   @override
   void initState() {
     super.initState();
-    _easyController = new EasyRefreshController();
     dto.cursor = cursor;
     foryouVideos = Api.getRecommendItemList(dto);
     followingVideos = Api.getFollowingItemList(dto);
@@ -68,7 +89,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    //_controller.dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 
@@ -152,43 +173,45 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
 
   // Home Screen Code Start
   homescreen() {
+    cursor = 0;
     if (foryou) {
-      return FutureBuilder<ItemListVo>(
-          future: foryouVideos,
-          builder: (context, snapshot) {
-            print(snapshot.connectionState);
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return loading;
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Error, Please restart your app agagin')
-                  ],
-                );
-              } else if (snapshot.hasData) {
-                try {
-                  return EasyRefresh(
-                      onLoad: () async => {
-                            setState(() {
-                              dto.cursor = 0;
-                              foryouVideos = Api.getRecommendItemList(dto);
-                            })
-                          },
-                      onRefresh: () async => {
-                            setState(() {
-                              cursor++;
-                              dto.cursor = cursor;
-                              foryouVideos = Api.getRecommendItemList(dto);
-                            })
-                          },
-                      child: PageView.builder(
+      return SmartRefresher(
+          controller: _refreshController,
+          onRefresh: () {
+            develop.log('click refresh');
+            _onRefresh();
+          },
+          onLoading: () {
+            develop.log('click loading');
+            _onLoading();
+          },
+          child: FutureBuilder<ItemListVo>(
+              future: foryouVideos,
+              builder: (context, snapshot) {
+                print(snapshot.connectionState);
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return loading;
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Error, Please restart your app agagin')
+                      ],
+                    );
+                  } else if (snapshot.hasData) {
+                    try {
+                      return PageView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
                           controller: foryouController,
                           onPageChanged: (index) {
-                            //when the video is changing, release the previous video instance.
-                            //disposeVideo();
+                            develop.log(
+                                "current index is ${index}, the length is ${snapshot.data!.itemList!.length}");
+                            if (index == snapshot.data!.itemList!.length - 1) {
+                              develop.log('this item is the last page');
+                              _onRefresh();
+                            }
                             setState(() {});
                           },
                           scrollDirection: Axis.vertical,
@@ -200,288 +223,162 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
                               width: MediaQuery.of(context).size.width,
                               heigth: MediaQuery.of(context).size.height,
                             );
-                          }));
-                } catch (e) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.black,
-                    child: Center(
-                        child: Text(
-                      'Error, Please restart your app again.',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                  );
-                }
-              } else {
-                // empty data
-                return loading;
-              }
-            } else {
-              return Text('State: ${snapshot.connectionState}');
-            }
-          });
-    } else {
-      return FutureBuilder<ItemListVo>(
-          future: followingVideos,
-          builder: (context, snapshot) {
-            print(snapshot.connectionState);
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return loading;
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                if (!isLogin) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height - 24,
-                          color: Colors.black,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 150),
-                              Center(
-                                  child: Text(
-                                'Log in to see videos from creators you follow',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                              Padding(
-                                padding: EdgeInsets.only(top: 20, bottom: 0),
-                                child: MaterialButton(
-                                  padding: EdgeInsets.all(0.0),
-                                  minWidth:
-                                      MediaQuery.of(context).size.width - 200,
-                                  height: 42.5,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(42.5)),
-                                  onPressed: () {
-                                    develop.log('you have logined');
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Login()));
-                                  },
-                                  child: Text('Login',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ],
-                  );
-                } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
+                          });
+                    } catch (e) {
+                      return Container(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height - 24,
+                        height: MediaQuery.of(context).size.height,
                         color: Colors.black,
                         child: Center(
                             child: Text(
                           'Error, Please restart your app again.',
                           style: TextStyle(color: Colors.white),
                         )),
-                      )
-                    ],
-                  );
+                      );
+                    }
+                  } else {
+                    // empty data
+                    return loading;
+                  }
+                } else {
+                  return Text('State: ${snapshot.connectionState}');
                 }
-              } else if (snapshot.hasData) {
-                try {
-                  return PageView.builder(
-                      controller: foryouController,
-                      onPageChanged: (index) {
-                        //when the video is changing, release the previous video instance.
-                        //disposeVideo();
-                        //setState(() {});
-                      },
-                      scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data!.itemList!.length,
-                      itemBuilder: (context, index) {
-                        var item = snapshot.data!.itemList![index];
-                        return Videoplayer(
-                          item: item,
-                          width: MediaQuery.of(context).size.width,
-                          heigth: MediaQuery.of(context).size.height,
-                        );
-                      });
-                } catch (e) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.black,
-                    child: Center(
-                        child: Text(
-                      'Error, Please restart your app again.',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                  );
+              }));
+    } else {
+      cursor = 0;
+      return SmartRefresher(
+          controller: _refreshController,
+          onRefresh: () {
+            develop.log('click refresh');
+            _onRefresh();
+          },
+          onLoading: () {
+            develop.log('click loading');
+            _onLoading();
+          },
+          child: FutureBuilder<ItemListVo>(
+              future: followingVideos,
+              builder: (context, snapshot) {
+                print(snapshot.connectionState);
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return loading;
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    if (!isLogin) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height - 24,
+                              color: Colors.black,
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 150),
+                                  Center(
+                                      child: Text(
+                                    'Log in to see videos from creators you follow',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 20, bottom: 0),
+                                    child: MaterialButton(
+                                      padding: EdgeInsets.all(0.0),
+                                      minWidth:
+                                          MediaQuery.of(context).size.width -
+                                              200,
+                                      height: 42.5,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(42.5)),
+                                      onPressed: () {
+                                        develop.log('you have logined');
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Login()));
+                                      },
+                                      child: Text('Log in',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height - 24,
+                            color: Colors.black,
+                            child: Center(
+                                child: Text(
+                              'Error, Please restart your app again.',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          )
+                        ],
+                      );
+                    }
+                  } else if (snapshot.hasData) {
+                    try {
+                      return PageView.builder(
+                          controller: foryouController,
+                          onPageChanged: (index) {
+                            //when the video is changing, release the previous video instance.
+                            develop.log(
+                                "current index is ${index}, the length is ${snapshot.data!.itemList!.length}");
+                            if (index == snapshot.data!.itemList!.length - 1) {
+                              develop.log('this item is the last page');
+                              _onRefreshFollowingVideos();
+                            }
+                            setState(() {});
+                          },
+                          scrollDirection: Axis.vertical,
+                          itemCount: snapshot.data!.itemList!.length,
+                          itemBuilder: (context, index) {
+                            var item = snapshot.data!.itemList![index];
+                            return Videoplayer(
+                              item: item,
+                              width: MediaQuery.of(context).size.width,
+                              heigth: MediaQuery.of(context).size.height,
+                            );
+                          });
+                    } catch (e) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        color: Colors.black,
+                        child: Center(
+                            child: Text(
+                          'Error, Please restart your app again.',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                      );
+                    }
+                  } else {
+                    // empty data
+                    return loading;
+                  }
+                } else {
+                  return Text('State: ${snapshot.connectionState}');
                 }
-              } else {
-                // empty data
-                return loading;
-              }
-            } else {
-              return Text('State: ${snapshot.connectionState}');
-            }
-          });
-      // return Container(
-      //     width: double.infinity,
-      //     height: double.infinity,
-      //     color: Colors.black,
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: <Widget>[
-      //         Row(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: <Widget>[
-      //             Container(
-      //                 padding: EdgeInsets.only(bottom: 14),
-      //                 child: Text(
-      //                   'Trendy creators',
-      //                   style: TextStyle(color: Colors.white, fontSize: 20),
-      //                 ))
-      //           ],
-      //         ),
-      //         Row(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: <Widget>[
-      //             Center(
-      //               child: Container(
-      //                 child: Column(
-      //                   children: <Widget>[
-      //                     Center(
-      //                       child: Text('Follow to an account to discover its',
-      //                           style: TextStyle(
-      //                               color: Colors.white.withOpacity(0.8))),
-      //                     ),
-      //                     Center(
-      //                       child: Text('Latest videos here.',
-      //                           style: TextStyle(
-      //                               color: Colors.white.withOpacity(0.8))),
-      //                     )
-      //                   ],
-      //                 ),
-      //               ),
-      //             )
-      //           ],
-      //         ),
-      //         Container(
-      //           height: 372,
-      //           margin: EdgeInsets.only(top: 25),
-      //           child: PageView.builder(
-      //               dragStartBehavior: DragStartBehavior.down,
-      //               controller: pageController,
-      //               itemCount: 5,
-      //               itemBuilder: (context, position) {
-      //                 return videoSlider(position);
-      //               }),
-      //         )
-      //       ],
-      //     ));
+              }));
     }
   }
   // Home Screen Code end
-
-  // Home Screen Related Page Video Slider Start
-  videoSlider(int index) {
-    return AnimatedBuilder(
-      animation: pageController,
-      builder: (context, widget) {
-        double value = 1;
-        if (pageController.position.haveDimensions) {
-          value = pageController.page! - index;
-          value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
-        }
-        return Center(
-          child: SizedBox(
-            height: Curves.easeInOut.transform(value) * 372,
-            width: Curves.easeInOut.transform(value) * 300,
-            child: widget,
-          ),
-        );
-      },
-      child: Stack(
-        children: <Widget>[
-          ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: Container() //VideoPlayer(_controller),
-              ),
-          Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: EdgeInsets.all(5),
-                child: Icon(
-                  Icons.close,
-                  size: 15,
-                  color: Colors.white,
-                ),
-              )),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 15),
-              height: 370 / 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  InkWell(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 15),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        backgroundImage: AssetImage('assets/spook.png'),
-                        radius: 30,
-                      ),
-                    ),
-                    onTap: () => {
-                      //_controller.pause()
-                    },
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(bottom: 6),
-                      child:
-                          Text('DTok', style: TextStyle(color: Colors.white))),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreatorProfileScreen()));
-                    },
-                    child: Text('@telsacoin',
-                        style: TextStyle(color: Colors.white.withOpacity(0.5))),
-                  ),
-                  Container(
-                      height: 50,
-                      margin: EdgeInsets.only(left: 50, right: 50, top: 12),
-                      decoration: BoxDecoration(
-                        color: Color(0xfe2b54).withOpacity(1),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Follow',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ))
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-  // Home Screen Related Page Video Slider End
 
   // Bottom Navigation Footer Start
   footer() {
