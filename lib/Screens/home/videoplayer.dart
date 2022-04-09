@@ -16,7 +16,9 @@ class Videoplayer extends StatefulWidget {
   final double? heigth;
   final double? width;
   final ItemList item;
-  const Videoplayer({Key? key, required this.item, this.heigth, this.width})
+  final Function? function;
+  const Videoplayer(
+      {Key? key, required this.item, this.heigth, this.width, this.function})
       : super(key: key);
 
   @override

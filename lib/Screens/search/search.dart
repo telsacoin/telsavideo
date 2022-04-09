@@ -1,7 +1,6 @@
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
 import 'package:telsavideo/constants.dart';
-import 'package:telsavideo/screens/search/dance_item.dart';
 import 'package:telsavideo/screens/search/food_item.dart';
 import 'package:telsavideo/screens/search/laugh_item.dart';
 import 'package:telsavideo/screens/search/music_item.dart';
