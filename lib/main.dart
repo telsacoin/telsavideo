@@ -45,10 +45,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
-  // {
-  //   'This channel is used for important notifications.', // description
-  //   importance: Importance.high
-  // }
+  importance: Importance.high,
+  description:
+      'This channel is used for important notifications.', // description
 );
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -73,7 +72,6 @@ Future<Null> main() async {
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(channel);
-
       final appDocumentDirectory =
           await pathProvider.getApplicationDocumentsDirectory();
       /* await FlutterDownloader.initialize(

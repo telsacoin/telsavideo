@@ -15,7 +15,6 @@ import 'package:telsavideo/screens/login/login.dart';
 import 'package:telsavideo/screens/notifications_messages/notifications.dart';
 import 'package:telsavideo/screens/record_video/record_video.dart';
 import 'package:telsavideo/screens/search/search.dart';
-import 'package:video_player/video_player.dart';
 import 'package:telsavideo/screens/profile/profile.dart';
 
 class Home extends StatefulWidget {
