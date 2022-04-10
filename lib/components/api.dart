@@ -238,8 +238,12 @@ Future showNotification(String title, var body) async {
   var platformChannelSpecifics = new NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin!
-      .show(0, title, body, platformChannelSpecifics, payload: body);
+  try {
+    await flutterLocalNotificationsPlugin!
+        .show(0, title, body, platformChannelSpecifics, payload: body);
+  } catch (e) {
+    print(e);
+  }
 }
 
 broadcastVote(

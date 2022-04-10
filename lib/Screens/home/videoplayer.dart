@@ -3,10 +3,15 @@ import 'dart:developer' as develop;
 import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:marquee_widget/marquee_widget.dart';
+import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/common/icons.dart';
 import 'package:telsavideo/common/utils.dart';
+import 'package:telsavideo/components/api.dart';
+import 'package:telsavideo/models/dto/comment/comment_item_digg_dto.dart';
 import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
+import 'package:telsavideo/screens/home/home_bottom_video_share.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
 import 'package:video_player/video_player.dart';
@@ -54,6 +59,74 @@ class _Videoplayer extends State<Videoplayer>
   //stop timer
   void cancelTimer() async {
     _timer?.cancel();
+  }
+
+  //digg video
+  void diggVideo(String videoId) async {
+    CommentItemDiggDto dto = new CommentItemDiggDto();
+    dto.videoId = videoId;
+    Api.postCommnetItemDigg(dto);
+  }
+
+  //show bottom comments list from video id
+  void showBottomComments() async {
+    showNotification("111", "222");
+    // showModalBottomSheet(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return DraggableScrollableSheet(
+    //       initialChildSize: 0.5,
+    //       maxChildSize: 1,
+    //       minChildSize: 0.25,
+    //       builder: (BuildContext context, ScrollController scrollController) {
+    //         return Container(
+    //           color: Colors.white,
+    //           child: ListView.builder(
+    //             controller: scrollController,
+    //             itemCount: 25,
+    //             itemBuilder: (BuildContext context, int index) {
+    //               return ListTile(title: Text('Item $index'));
+    //             },
+    //           ),
+    //         );
+    //       },
+    //     );
+    //   },
+    // );
+  }
+
+  //show bottom share panel
+  void showBottomShare() async {
+    develop.log("click the show bottom share");
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true, //
+        shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        backgroundColor: Color.fromARGB(255, 21, 23, 35),
+        builder: (context) {
+          return HomeBottomVideoShare();
+        });
+  }
+
+  void showSnackBar(BuildContext context) {
+    final snackBar = SnackBar(
+      content: const Text('Login successed!'),
+      backgroundColor: const Color(0xffae00f0),
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 2),
+      action: SnackBarAction(
+          label: 'Done',
+          textColor: Colors.white,
+          onPressed: () {
+            print('Done pressed!');
+          }),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -273,6 +346,8 @@ class _Videoplayer extends State<Videoplayer>
                                     setState(() {
                                       like = !like;
                                     });
+                                    // digg video by videoId
+                                    diggVideo(item.id!);
                                   },
                                   child: Icon(Icons.favorite,
                                       size: 30.0,
@@ -292,7 +367,9 @@ class _Videoplayer extends State<Videoplayer>
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              showBottomComments();
+                            },
                             child: Container(
                               padding: EdgeInsets.only(bottom: 20),
                               child: Column(
@@ -316,28 +393,32 @@ class _Videoplayer extends State<Videoplayer>
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.only(bottom: 50),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Transform(
-                                    alignment: Alignment.center,
-                                    transform: Matrix4.rotationY(math.pi),
-                                    child: Icon(Icons.reply,
-                                        size: 30, color: Colors.white)),
-                                SizedBox(height: 3.0),
-                                Text(
-                                  AppLocalizations.of(context)!.home_share,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                          InkWell(
+                              onTap: () {
+                                showBottomShare();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(bottom: 50),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Transform(
+                                        alignment: Alignment.center,
+                                        transform: Matrix4.rotationY(math.pi),
+                                        child: Icon(Icons.reply,
+                                            size: 30, color: Colors.white)),
+                                    SizedBox(height: 3.0),
+                                    Text(
+                                      AppLocalizations.of(context)!.home_share,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              )),
                           AnimatedBuilder(
                             animation: _animationController,
                             child: CircleAvatar(

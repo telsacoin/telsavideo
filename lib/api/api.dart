@@ -85,6 +85,7 @@ class Api {
   static Future<CommentItemDiggVo> postCommnetItemDigg(
       CommentItemDiggDto? dto) async {
     Map<String, dynamic> params = new HashMap();
+    params["videoId"] = dto?.videoId;
     var result = await HttpManager.getInstance().post(
         url: Api.api + HttpConstant.commentItemDigg,
         cancelTokenTag: 'digg',
