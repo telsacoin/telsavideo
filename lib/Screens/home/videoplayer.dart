@@ -11,6 +11,7 @@ import 'package:telsavideo/common/utils.dart';
 import 'package:telsavideo/components/api.dart';
 import 'package:telsavideo/models/dto/comment/comment_item_digg_dto.dart';
 import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
+import 'package:telsavideo/screens/home/home_bottom_video_comment.dart';
 import 'package:telsavideo/screens/home/home_bottom_video_share.dart';
 import 'package:telsavideo/screens/loading/loading.dart';
 import 'package:telsavideo/screens/profile/creator_profile.dart';
@@ -69,30 +70,26 @@ class _Videoplayer extends State<Videoplayer>
   }
 
   //show bottom comments list from video id
-  void showBottomComments() async {
-    showNotification("111", "222");
-    // showModalBottomSheet(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return DraggableScrollableSheet(
-    //       initialChildSize: 0.5,
-    //       maxChildSize: 1,
-    //       minChildSize: 0.25,
-    //       builder: (BuildContext context, ScrollController scrollController) {
-    //         return Container(
-    //           color: Colors.white,
-    //           child: ListView.builder(
-    //             controller: scrollController,
-    //             itemCount: 25,
-    //             itemBuilder: (BuildContext context, int index) {
-    //               return ListTile(title: Text('Item $index'));
-    //             },
-    //           ),
-    //         );
-    //       },
-    //     );
-    //   },
-    // );
+  void showBottomComments(String? id, int? commentCount) async {
+    develop.log("click the show bottom comment");
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return HomeBottomVideoComment(
+          context: context,
+          id: id,
+          commentCount: commentCount,
+        );
+      },
+    );
   }
 
   //show bottom share panel
@@ -368,7 +365,8 @@ class _Videoplayer extends State<Videoplayer>
                           ),
                           InkWell(
                             onTap: () {
-                              showBottomComments();
+                              showBottomComments(
+                                  item.id, item.stats!.commentCount);
                             },
                             child: Container(
                               padding: EdgeInsets.only(bottom: 20),
