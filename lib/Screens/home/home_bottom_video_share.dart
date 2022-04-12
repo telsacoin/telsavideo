@@ -94,7 +94,7 @@ class _HomeBottomVideoShareState extends State<HomeBottomVideoShare> {
           Navigator.pop(context);
         },
         child: Container(
-          height: 30,
+          height: 50,
           decoration: BoxDecoration(color: Colors.white10),
           alignment: Alignment.center,
           child: Stack(
