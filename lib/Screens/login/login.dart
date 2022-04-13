@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:libphonenumber/libphonenumber.dart';
 //import 'package:country_codes/country_codes.dart';
@@ -67,7 +68,6 @@ class _LoginState extends State<Login> {
     Util.set("dtok_accessToken", result.accessToken);
     Util.set("dtok_token_expire", result.expiresInDate);
     Util.set("dtok_refreshToken", result.refreshToken);
-    //await Future.delayed(Duration(seconds: 3));
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
   }
 
@@ -76,7 +76,6 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    //checkAuth();
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -234,7 +233,7 @@ class _LoginState extends State<Login> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(42.5)),
                               onPressed: () {
-                                showSnackBar(context);
+                                //showSnackBar(context);
                                 /*  Navigator.push(
                                   context,
                                   PageTransition(
@@ -620,6 +619,7 @@ class _LoginState extends State<Login> {
               },
             ),
           ),
+          Positioned(bottom: 0, child: _loginFooter(width))
         ],
       ),
     );
@@ -643,5 +643,38 @@ class _LoginState extends State<Login> {
           }),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  /// add the footer
+  _loginFooter(double width) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: Color.fromRGBO(22, 24, 35, 0.3)),
+      width: width,
+      height: 61,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Don’t have an account? ",
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none,
+                color: Colors.black),
+          ),
+          Padding(
+              padding: EdgeInsets.zero,
+              child: Text(
+                "Sign up",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    decoration: TextDecoration.none,
+                    color: Colors.red),
+              ))
+        ],
+      ),
+    );
   }
 }
