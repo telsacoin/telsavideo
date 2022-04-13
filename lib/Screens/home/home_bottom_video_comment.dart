@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:telsavideo/common/utils.dart';
+import 'package:telsavideo/screens/comment/comment_tree.dart';
 
 class HomeBottomVideoComment extends StatefulWidget {
   BuildContext context;
@@ -81,51 +82,195 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
       );
     } else {
       return Container(
-        height: size.height * 0.73 - (54 + 60),
-        child: Container(
-            //flex: 1,
-            child: Scrollbar(
-                isAlwaysShown: true,
-                controller: scrollController,
-                radius: Radius.circular(5.0),
-                child: ListView.builder(
+          height: size.height * 0.73 - (54 + 60),
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          child: Container(
+              child: Scrollbar(
+                  isAlwaysShown: true,
                   controller: scrollController,
-                  itemCount: 25,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                        leading: CircleAvatar(
-                          child: Text("头像"),
-                          backgroundColor: Colors.purple,
-                        ),
-                        title: Text("作者 " + index.toString(),
-                            style: TextStyle(
-                                color: Color.fromRGBO(22, 24, 35, 1))),
-                        subtitle: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("评论内容 ${index.toString()}"),
-                              Row(children: [
-                                Text("时间"),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text("回复"))
-                              ])
-                            ]),
-                        trailing: Column(children: [
-                          Icon(
-                            Icons.favorite_border_outlined,
-                            size: 20,
+                  radius: Radius.circular(5.0),
+                  child: ListView.builder(
+                      controller: scrollController,
+                      itemCount: 25,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CommentTreeWidget<Comment, Comment>(
+                          Comment(
+                              avatar: 'null',
+                              userName: 'null',
+                              content:
+                                  'felangel made felangel/cubit_and_beyond public '),
+                          [
+                            Comment(
+                                avatar: 'null',
+                                userName: 'null',
+                                content:
+                                    'A Dart template generator which helps teams'),
+                            Comment(
+                                avatar: 'null',
+                                userName: 'null',
+                                content:
+                                    'A Dart template generator which helps teams generator which helps teams generator which helps teams'),
+                            Comment(
+                                avatar: 'null',
+                                userName: 'null',
+                                content:
+                                    'A Dart template generator which helps teams'),
+                            Comment(
+                                avatar: 'null',
+                                userName: 'null',
+                                content:
+                                    'A Dart template generator which helps teams generator which helps teams '),
+                          ],
+                          treeThemeData: TreeThemeData(
+                              lineColor: Colors.white, lineWidth: 0),
+                          avatarRoot: (context, data) => PreferredSize(
+                            child: CircleAvatar(
+                              radius: 18,
+                              backgroundColor: Colors.grey,
+                              backgroundImage:
+                                  AssetImage('assets/user_profile/user_1.jpg'),
+                            ),
+                            preferredSize: Size.fromRadius(18),
                           ),
-                          Text(
-                            "18",
-                            style: TextStyle(
-                                color: Color.fromRGBO(22, 24, 35, 0.5)),
+                          avatarChild: (context, data) => PreferredSize(
+                            child: CircleAvatar(
+                              radius: 12,
+                              backgroundColor: Colors.grey,
+                              backgroundImage:
+                                  AssetImage('assets/user_profile/user_2.jpg'),
+                            ),
+                            preferredSize: Size.fromRadius(12),
                           ),
-                        ]));
-                  },
-                ))),
-      );
+                          contentChild: (context, data) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'dangngocduc',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black),
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        '${data.content}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w300,
+                                                color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                DefaultTextStyle(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(
+                                          color: Colors.grey[700],
+                                          fontWeight: FontWeight.bold),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 4),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text('Like'),
+                                        SizedBox(
+                                          width: 24,
+                                        ),
+                                        Text('Reply'),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          contentRoot: (context, data) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'dangngocduc',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black),
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        '${data.content}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w300,
+                                                color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                DefaultTextStyle(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(
+                                          color: Colors.grey[700],
+                                          fontWeight: FontWeight.bold),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 4),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text('Like'),
+                                        SizedBox(
+                                          width: 24,
+                                        ),
+                                        Text('Reply'),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      }))));
     }
   }
 
