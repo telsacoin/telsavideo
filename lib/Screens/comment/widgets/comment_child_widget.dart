@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 class CommentChildWidget extends StatelessWidget {
   final PreferredSizeWidget? avatar;
   final Widget? content;
+  final Widget? favorite;
   final bool? isLast;
   final Size? avatarRoot;
 
@@ -12,6 +13,7 @@ class CommentChildWidget extends StatelessWidget {
     required this.isLast,
     required this.avatar,
     required this.content,
+    required this.favorite,
     required this.avatarRoot,
   });
 
@@ -44,6 +46,10 @@ class CommentChildWidget extends StatelessWidget {
               width: 8,
             ),
             Expanded(child: content!),
+            const SizedBox(
+              width: 8,
+            ),
+            favorite!,
           ],
         ),
       ),

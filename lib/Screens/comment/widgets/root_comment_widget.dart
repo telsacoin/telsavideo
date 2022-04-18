@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 class RootCommentWidget extends StatelessWidget {
   final PreferredSizeWidget avatar;
   final Widget content;
-
-  const RootCommentWidget(this.avatar, this.content);
+  final Widget favorite;
+  const RootCommentWidget(
+      {required this.avatar, required this.content, required this.favorite});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,11 @@ class RootCommentWidget extends StatelessWidget {
           ),
           Expanded(
             child: content,
-          )
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          favorite,
         ],
       ),
     );

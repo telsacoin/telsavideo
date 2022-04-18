@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telsavideo/components/api.dart';
+import 'package:telsavideo/components/core.dart';
 import 'dart:convert';
 import 'package:telsavideo/screens/videolist.dart';
 

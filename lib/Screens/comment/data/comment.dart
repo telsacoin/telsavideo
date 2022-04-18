@@ -5,10 +5,15 @@ class Comment {
   String? avatar;
   String? userName;
   String? content;
+  int? createTime;
+  int? diggCount;
+  bool? hasChild = false;
 
-  Comment({
-    required this.avatar,
-    required this.userName,
-    required this.content,
-  });
+  Comment(
+      {required this.avatar,
+      required this.userName,
+      required this.content,
+      this.createTime,
+      this.diggCount,
+      this.hasChild});
 }
