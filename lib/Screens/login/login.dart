@@ -1,8 +1,10 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:libphonenumber/libphonenumber.dart';
@@ -13,7 +15,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/api/api.dart';
-import 'package:telsavideo/components/api.dart';
+import 'package:telsavideo/components/core.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/http/base/base_domain.dart';
 import 'package:telsavideo/http/util.dart';
@@ -77,297 +79,376 @@ class _LoginState extends State<Login> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/bg.jpg'), fit: BoxFit.cover),
-      ),
+      decoration: BoxDecoration(color: Colors.white
+          //image: DecorationImage(
+          //image: AssetImage('assets/bg.jpg'), fit: BoxFit.cover),
+          ),
       child: Stack(
         children: <Widget>[
-          Positioned(
-            top: 0.0,
-            left: 0.0,
-            child: Container(
-              width: width,
-              height: height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.1, 0.3, 0.5, 0.7, 0.9],
-                  colors: [
-                    kBgColorTop.withOpacity(0.4),
-                    kBgColorTop.withOpacity(0.55),
-                    kBgColorBottom.withOpacity(0.7),
-                    kBgColorBottom.withOpacity(0.8),
-                    kBgColorBottom.withOpacity(1.0),
-                    /* kBgColorTop.withOpacity(0.4),
-                    kBgColorBottom.withOpacity(1.0), */
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 0.0,
+          //   left: 0.0,
+          //   child: Container(
+          //     width: width,
+          //     height: height,
+          //     decoration: BoxDecoration(
+          //       gradient: LinearGradient(
+          //         begin: Alignment.topCenter,
+          //         end: Alignment.bottomCenter,
+          //         stops: [0.1, 0.3, 0.5, 0.7, 0.9],
+          //         colors: [
+          //           kBgColorTop.withOpacity(0.4),
+          //           kBgColorTop.withOpacity(0.55),
+          //           kBgColorBottom.withOpacity(0.7),
+          //           kBgColorBottom.withOpacity(0.8),
+          //           kBgColorBottom.withOpacity(1.0),
+          //           /* kBgColorTop.withOpacity(0.4),
+          //           kBgColorBottom.withOpacity(1.0), */
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Positioned(
             child: WillPopScope(
               child: Scaffold(
                 backgroundColor: Colors.transparent,
                 body: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                    child: FormBuilder(
-                      key: _formKey,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 30.0),
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.0, left: 0.0),
-                            child: Text(
-                              'Welcome to DTOK',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10.0),
-                          Padding(
-                            padding: EdgeInsets.only(left: 0.0),
-                            child: Text(
-                              'Login in your account',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 70.0),
-                          FormBuilderTextField(
-                            name: 'email',
-                            initialValue: dto.username,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                              icon: Icon(
-                                Icons.email_outlined,
-                                color: Colors.white,
-                              ),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.65)),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.65)),
-                              ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.65)),
-                              ),
-                            ),
-                            // validator: FormBuilderValidators.compose([
-                            //   FormBuilderValidators.required(context),
-                            //   //FormBuilderValidators.email(context),
-                            // ]),
-                          ),
-                          const SizedBox(height: 10),
-                          FormBuilderTextField(
-                            name: 'password',
-                            initialValue: dto.password,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              icon: Icon(
-                                Icons.lock_outline,
-                                color: Colors.white,
-                              ),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.65)),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.65)),
-                              ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.65)),
-                              ),
-                            ),
-                            obscureText: true,
-                            // validator: FormBuilderValidators.compose([
-                            //   FormBuilderValidators.required(context),
-                            //   FormBuilderValidators.minLength(context, 6),
-                            // ]),
-                          ),
-                          const SizedBox(height: 30),
-                          Padding(
-                            padding: EdgeInsets.only(top: 0, bottom: 0),
-                            child: MaterialButton(
-                              padding: EdgeInsets.all(0.0),
-                              minWidth: width,
-                              height: 42.5,
-                              color: Theme.of(context).colorScheme.secondary,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(42.5)),
-                              onPressed: () {
-                                //showSnackBar(context);
-                                /*  Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.rightToLeft,
-                                      child: Register(signUp))); */
-                                if (_formKey.currentState?.saveAndValidate() ??
-                                    false) {
-                                  loginAsync(_formKey.currentState!.value);
-                                  print('Valid');
-                                } else {
-                                  print('Invalid');
-                                }
-                                print(_formKey.currentState?.value);
-                              },
-                              child: Text('Login',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ),
-                          SizedBox(height: 30.0),
-                          InkWell(
-                            onTap: () {
-                              print("Hive Signer Activated");
-                              /* showBarModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return HiveAccount();
-                            }); */
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HiveAccount()));
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 10, bottom: 10),
-                              child: Container(
-                                padding: EdgeInsets.all(10.0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  color: Color(0xFFFFFEFE),
+                  child: Container(
+                    padding: EdgeInsets.only(top: 0),
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          left: 32, right: 32, top: 0, bottom: 0),
+                      child: Column(children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                              top: 20, left: 15, right: 15, bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () => {Navigator.of(context).pop()},
+                                child: Image(
+                                  image: AssetImage("assets/icons/close.png"),
+                                  width: 20,
+                                  height: 20,
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/hive.png',
-                                      height: 25.0,
-                                      fit: BoxFit.fitHeight,
+                              ),
+                              InkWell(
+                                onTap: () => {showMsg(context, "", "通知消息！")},
+                                child: SvgPicture.asset(
+                                  "assets/icons/help.svg",
+                                  width: 22,
+                                  height: 22,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        FormBuilder(
+                          key: _formKey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 15.0),
+                              Center(
+                                child: Text(
+                                  'Log in to DTOK',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(22, 24, 35, 1),
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10.0),
+                              Center(
+                                child: Text(
+                                  'Manage your account, check notification. comment on videos, and more',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(22, 24, 35, 1),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 70.0),
+                              FormBuilderTextField(
+                                name: 'email',
+                                initialValue: dto.username,
+                                style: TextStyle(
+                                  color: Color.fromRGBO(22, 24, 35, 1),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: 'Email',
+                                  icon: Icon(
+                                    Icons.email_outlined,
+                                    color: Color.fromRGBO(22, 24, 35, 1),
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 0.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                ),
+                                // validator: FormBuilderValidators.compose([
+                                //   FormBuilderValidators.required(context),
+                                //   //FormBuilderValidators.email(context),
+                                // ]),
+                              ),
+                              const SizedBox(height: 10),
+                              FormBuilderTextField(
+                                name: 'password',
+                                initialValue: dto.password,
+                                style: TextStyle(
+                                  color: Color.fromRGBO(22, 24, 35, 1),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  icon: Icon(
+                                    Icons.lock_outline,
+                                    color: Color.fromRGBO(22, 24, 35, 1),
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 0.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                ),
+                                obscureText: true,
+                                // validator: FormBuilderValidators.compose([
+                                //   FormBuilderValidators.required(context),
+                                //   FormBuilderValidators.minLength(context, 6),
+                                // ]),
+                              ),
+                              const SizedBox(height: 30),
+                              Padding(
+                                padding: EdgeInsets.only(top: 0, bottom: 0),
+                                child: MaterialButton(
+                                  padding: EdgeInsets.all(0.0),
+                                  minWidth: width,
+                                  height: 42.5,
+                                  color: Color.fromRGBO(254, 44, 85, 1.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(42.5)),
+                                  onPressed: () {
+                                    //showSnackBar(context);
+                                    /*  Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          type: PageTransitionType.rightToLeft,
+                                          child: Register(signUp))); */
+                                    if (_formKey.currentState
+                                            ?.saveAndValidate() ??
+                                        false) {
+                                      loginAsync(_formKey.currentState!.value);
+                                      print('Valid');
+                                    } else {
+                                      print('Invalid');
+                                    }
+                                    print(_formKey.currentState?.value);
+                                  },
+                                  child: Text('Log in',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                              SizedBox(height: 30.0),
+                              InkWell(
+                                onTap: () {
+                                  print("Hive Signer Activated");
+                                  /* showBarModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return HiveAccount();
+                                }); */
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HiveAccount()));
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      color: Color(0xFFFFFEFE),
                                     ),
-                                    SizedBox(width: 10.0),
-                                    Text(
-                                      'Log in with Hive',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Colors.red[900],
-                                        fontWeight: FontWeight.w500,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset(
+                                          'assets/hive.png',
+                                          height: 25.0,
+                                          fit: BoxFit.fitHeight,
+                                        ),
+                                        SizedBox(width: 10.0),
+                                        Text(
+                                          'Log in with Hive',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.red[900],
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {},
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      color: Color(0xFF3B5998),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset(
+                                          'assets/facebook.png',
+                                          height: 25.0,
+                                          fit: BoxFit.fitHeight,
+                                        ),
+                                        SizedBox(width: 10.0),
+                                        Text(
+                                          'Log in with Facebook',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {},
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      color: Colors.white,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset(
+                                          'assets/google.png',
+                                          height: 25.0,
+                                          fit: BoxFit.fitHeight,
+                                        ),
+                                        SizedBox(width: 10.0),
+                                        Text(
+                                          'Log in with Google',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () => {},
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                          width: 1.0,
+                                          color:
+                                              Color.fromRGBO(22, 24, 35, 0.12)),
+                                    ),
+                                  ),
+                                  child: Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              right: BorderSide(
+                                                  width: 1.0,
+                                                  color: Color.fromRGBO(
+                                                      22, 24, 35, 0.12)),
+                                            ),
+                                          ),
+                                          child: SvgPicture.asset(
+                                            "assets/icons/line.svg",
+                                            width: 44,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      Expanded(
+                                        flex: 9,
+                                        child: Center(
+                                          child: Text("Continue with Line"),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ),
+                              )
+                            ],
                           ),
-                          InkWell(
-                            onTap: () {},
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 10, bottom: 10),
-                              child: Container(
-                                padding: EdgeInsets.all(10.0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  color: Color(0xFF3B5998),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/facebook.png',
-                                      height: 25.0,
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                    SizedBox(width: 10.0),
-                                    Text(
-                                      'Log in with Facebook',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 10, bottom: 10),
-                              child: Container(
-                                padding: EdgeInsets.all(10.0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  color: Colors.white,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/google.png',
-                                      height: 25.0,
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                    SizedBox(width: 10.0),
-                                    Text(
-                                      'Log in with Google',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ]),
                     ),
                   ),
                 ),

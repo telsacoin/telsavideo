@@ -10,6 +10,8 @@ typedef AvatarWidgetBuilder<T> = PreferredSize Function(
 );
 typedef ContentBuilder<T> = Widget Function(BuildContext context, T value);
 
+typedef FavoriteBuilder<T> = Widget Function(BuildContext context, T value);
+
 class CommentTreeWidget<R, C> extends StatefulWidget {
   // ignore: constant_identifier_names
   static const ROUTE_NAME = 'CommentTreeWidget';
@@ -19,20 +21,21 @@ class CommentTreeWidget<R, C> extends StatefulWidget {
 
   final AvatarWidgetBuilder<R>? avatarRoot;
   final ContentBuilder<R>? contentRoot;
+  final FavoriteBuilder<R>? favoriteRoot;
 
   final AvatarWidgetBuilder<C>? avatarChild;
   final ContentBuilder<C>? contentChild;
+  final FavoriteBuilder<C>? favoriteChild;
   final TreeThemeData treeThemeData;
 
-  const CommentTreeWidget(
-    this.root,
-    this.replies, {
-    this.treeThemeData = const TreeThemeData(lineWidth: 1),
-    this.avatarRoot,
-    this.contentRoot,
-    this.avatarChild,
-    this.contentChild,
-  });
+  const CommentTreeWidget(this.root, this.replies,
+      {this.treeThemeData = const TreeThemeData(lineWidth: 1),
+      this.avatarRoot,
+      this.contentRoot,
+      this.favoriteRoot,
+      this.avatarChild,
+      this.contentChild,
+      this.favoriteChild});
 
   @override
   _CommentTreeWidgetState<R, C> createState() =>
@@ -48,8 +51,9 @@ class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
       child: Column(
         children: [
           RootCommentWidget(
-            avatarRoot,
-            widget.contentRoot!(context, widget.root),
+            avatar: avatarRoot,
+            content: widget.contentRoot!(context, widget.root),
+            favorite: widget.favoriteRoot!(context, widget.root),
           ),
           ...widget.replies.map(
             (e) => CommentChildWidget(
@@ -57,6 +61,7 @@ class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
               avatar: widget.avatarChild!(context, e),
               avatarRoot: avatarRoot.preferredSize,
               content: widget.contentChild!(context, e),
+              favorite: widget.favoriteChild!(context, e),
             ),
           )
         ],

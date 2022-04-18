@@ -8,7 +8,7 @@ import 'package:marquee_widget/marquee_widget.dart';
 import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/common/icons.dart';
 import 'package:telsavideo/common/utils.dart';
-import 'package:telsavideo/components/api.dart';
+import 'package:telsavideo/components/core.dart';
 import 'package:telsavideo/models/dto/comment/comment_item_digg_dto.dart';
 import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
 import 'package:telsavideo/screens/home/home_bottom_video_comment.dart';

@@ -20,7 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/appBehaviour/my_behaviour.dart';
 import 'package:telsavideo/screens/settings/security/theme.dart';
 import 'package:telsavideo/screens/splashScreen.dart';
-import 'components/api.dart';
+import 'components/core.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

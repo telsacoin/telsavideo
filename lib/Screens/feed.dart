@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telsavideo/screens/login/login.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:telsavideo/components/api.dart';
+import 'package:telsavideo/components/core.dart';
 import 'package:telsavideo/screens/videolist.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telsavideo/screens/login_copy.dart';
