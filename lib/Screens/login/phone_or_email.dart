@@ -1,38 +1,25 @@
-import 'dart:ffi';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:libphonenumber/libphonenumber.dart';
-//import 'package:country_codes/country_codes.dart';
-// ignore: unused_import
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:page_transition/page_transition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telsavideo/api/api.dart';
 import 'package:telsavideo/components/core.dart';
-import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/http/base/base_domain.dart';
 import 'package:telsavideo/http/util.dart';
 import 'package:telsavideo/models/dto/signin/signin_dto.dart';
-import 'package:telsavideo/models/dto/signup/signup_dto.dart';
 import 'package:telsavideo/models/vo/signin/signin_vo.dart';
 import 'package:telsavideo/screens/home/home.dart';
-import 'package:telsavideo/screens/login/hiveaccount.dart';
-import 'package:telsavideo/screens/signup/register.dart';
-import 'package:telsavideo/screens/signup/signup.dart';
 
-class Login extends StatefulWidget {
+class PhoneOrEmail extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  State<StatefulWidget> createState() => _PhoneOrEmailState();
 }
 
-class _LoginState extends State<Login> {
+class _PhoneOrEmailState extends State<PhoneOrEmail> {
+  final _formKey = GlobalKey<FormBuilderState>();
+
   DateTime? currentBackPressTime;
   String phoneNumber = '';
   String? phoneIsoCode;
@@ -43,24 +30,11 @@ class _LoginState extends State<Login> {
   Locale locale = CountryCodes.getDeviceLocale()!; */
   String initialCountry = 'US';
   // PhoneNumber number = PhoneNumber(isoCode: 'CN');
-  SignUpDto signUp = new SignUpDto();
+  // SignUp signUp = new SignUp();
   // void onPhoneNumberChange(PhoneNumber number) {
   //   signUp.mobile = number.phoneNumber;
   //   print(signUp.mobile);
   // }
-
-  Future<void> checkAuth() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var isLoggedIn = (prefs.getBool('isLoggedIn') == null)
-        ? false
-        : prefs.getBool('isLoggedIn');
-
-    if (isLoggedIn!) {
-      // wrong call in wrong place!
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
-    }
-  }
 
   Future<void> loginAsync(Map<String, dynamic> params) async {
     dto.username = params["email"];
@@ -75,7 +49,6 @@ class _LoginState extends State<Login> {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
   }
 
-  final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -181,15 +154,118 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 30.0),
-                              InkWell(
-                                onTap: () => {
-                                  Navigator.push(
+                              SizedBox(height: 70.0),
+                              FormBuilderTextField(
+                                name: 'email',
+                                initialValue: dto.username,
+                                style: TextStyle(
+                                  color: Color.fromRGBO(22, 24, 35, 1),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: 'Email',
+                                  icon: Icon(
+                                    Icons.email_outlined,
+                                    color: Color.fromRGBO(22, 24, 35, 1),
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 0.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                ),
+                                // validator: FormBuilderValidators.compose([
+                                //   FormBuilderValidators.required(context),
+                                //   //FormBuilderValidators.email(context),
+                                // ]),
+                              ),
+                              const SizedBox(height: 10),
+                              FormBuilderTextField(
+                                name: 'password',
+                                initialValue: dto.password,
+                                style: TextStyle(
+                                  color: Color.fromRGBO(22, 24, 35, 1),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  icon: Icon(
+                                    Icons.lock_outline,
+                                    color: Color.fromRGBO(22, 24, 35, 1),
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 0.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1)),
+                                  ),
+                                ),
+                                obscureText: true,
+                                // validator: FormBuilderValidators.compose([
+                                //   FormBuilderValidators.required(context),
+                                //   FormBuilderValidators.minLength(context, 6),
+                                // ]),
+                              ),
+                              const SizedBox(height: 30),
+                              Padding(
+                                padding: EdgeInsets.only(top: 0, bottom: 0),
+                                child: MaterialButton(
+                                  padding: EdgeInsets.all(0.0),
+                                  minWidth: width,
+                                  height: 42.5,
+                                  color: Color.fromRGBO(254, 44, 85, 1.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(42.5)),
+                                  onPressed: () {
+                                    //showSnackBar(context);
+                                    /*  Navigator.push(
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.rightToLeft,
-                                          child: Register(null)))
-                                },
+                                          child: Register(signUp))); */
+                                    if (_formKey.currentState
+                                            ?.saveAndValidate() ??
+                                        false) {
+                                      loginAsync(_formKey.currentState!.value);
+                                      print('Valid');
+                                    } else {
+                                      print('Invalid');
+                                    }
+                                    print(_formKey.currentState?.value);
+                                  },
+                                  child: Text('Log in',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                              SizedBox(height: 15.0),
+                              InkWell(
+                                onTap: () => {},
                                 child: Container(
                                   margin: EdgeInsets.only(bottom: 12),
                                   decoration: BoxDecoration(
@@ -511,6 +587,244 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
+              /*  Scaffold(
+                backgroundColor: Colors.transparent,
+                body: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: <Widget>[
+                    SizedBox(height: 30.0),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.0, left: 20.0),
+                      child: Text(
+                        'Welcome back',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        'Login in your account',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 70.0),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200]!.withOpacity(0.3),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        child: InternationalPhoneNumberInput(
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          autoValidate: false,
+                          selectorTextStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          initialValue: number,
+                          textFieldController: controller,
+                          onInputChanged: onPhoneNumberChange,
+                          inputBorder: InputBorder.none,
+                          inputDecoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 20.0),
+                            hintText: 'Phone Number',
+                            hintStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            border: InputBorder.none,
+                          ),
+                          selectorType: PhoneInputSelectorType.DIALOG,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 30.0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30.0),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: Register(signUp)));
+                        },
+                        child: Container(
+                          height: 50.0,
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.bottomRight,
+                              stops: [0.1, 0.5, 0.9],
+                              colors: [
+                                /* Colors.red[300]!.withOpacity(0.8),
+                                Colors.red[500]!.withOpacity(0.8),
+                                Colors.red[800]!.withOpacity(0.8), */
+                                kButtomColor.withOpacity(0.8),
+                                kButtomColor.withOpacity(0.8),
+                                kButtomColor.withOpacity(0.8),
+                              ],
+                            ),
+                          ),
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Text(
+                      'We\'ll send OTP for Verification',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(height: 30.0),
+                    InkWell(
+                      onTap: () {
+                        print("Hive Signer Activated");
+                        /* showBarModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return HiveAccount();
+                            }); */
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HiveAccount()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Color(0xFFFFFEFE),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Image.asset(
+                                'assets/hive.png',
+                                height: 25.0,
+                                fit: BoxFit.fitHeight,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Log in with Hive',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.red[900],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Color(0xFF3B5998),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Image.asset(
+                                'assets/facebook.png',
+                                height: 25.0,
+                                fit: BoxFit.fitHeight,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Log in with Facebook',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Image.asset(
+                                'assets/google.png',
+                                height: 25.0,
+                                fit: BoxFit.fitHeight,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Log in with Google',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ), */
               onWillPop: () async {
                 bool exitStatus = onWillPop();
                 if (exitStatus) {
@@ -520,7 +834,6 @@ class _LoginState extends State<Login> {
               },
             ),
           ),
-          Positioned(bottom: 0, child: _loginFooter(width))
         ],
       ),
     );
@@ -528,57 +841,5 @@ class _LoginState extends State<Login> {
 
   onWillPop() {
     return true;
-  }
-
-  void showSnackBar(BuildContext context) {
-    final snackBar = SnackBar(
-      content: const Text('Login successed!'),
-      backgroundColor: const Color(0xffae00f0),
-      behavior: SnackBarBehavior.floating,
-      duration: const Duration(seconds: 2),
-      action: SnackBarAction(
-          label: 'Done',
-          textColor: Colors.white,
-          onPressed: () {
-            print('Done pressed!');
-          }),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  /// add the footer
-  _loginFooter(double width) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(color: Color.fromRGBO(22, 24, 35, 0.3)),
-      width: width,
-      height: 61,
-      child: InkWell(
-        onTap: () => {},
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Don’t have an account? ",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                  color: Colors.black),
-            ),
-            Padding(
-                padding: EdgeInsets.zero,
-                child: Text(
-                  "Sign up",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
-                      color: Colors.red),
-                ))
-          ],
-        ),
-      ),
-    );
   }
 }
