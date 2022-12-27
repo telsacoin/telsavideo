@@ -27,7 +27,7 @@
    ```
 2. 获取依赖包
    ```
-   fluter pub get
+   flutter pub get
    ```
 3. 启动您的应用
    ```
