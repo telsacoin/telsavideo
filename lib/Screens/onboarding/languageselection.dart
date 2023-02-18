@@ -92,7 +92,7 @@ class _SelectLanguageState extends State<SelectLanguage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () {
                           setState(() {
                             if (selectedLanguages.contains(v['id'])) {

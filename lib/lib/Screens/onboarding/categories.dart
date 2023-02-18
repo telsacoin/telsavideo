@@ -79,7 +79,7 @@ class _OnboardingCategoriesState extends State<OnboardingCategories> {
                 fontSize: SizeConfig.safeBlockHorizontal! * 4),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () async {
                 if (selectedCategories.length == 0) {
                   Navigator.of(context).pushNamedAndRemoveUntil(

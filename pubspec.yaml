@@ -111,6 +111,7 @@ dependencies:
   flutter_easyloading: ^3.0.0
   image_picker: ^0.8.4+10
   video_thumbnail: ^0.5.3
+  package_info_plus_web: ^2.0.0
 
 dev_dependencies:
   stack_trace: ^1.10.0

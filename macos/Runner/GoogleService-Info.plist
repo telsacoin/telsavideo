@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>165025931859-gnd7eqh8h2bedkbqg1l1tju9kh247lmr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.165025931859-gnd7eqh8h2bedkbqg1l1tju9kh247lmr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>165025931859-l8npthdrgheseevn8furv4igl25patc3.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAwQ2kWYjWYN0WYcyE_kECTawz6fFwuDG8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>165025931859</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.telsavideo</string>
+	<key>PROJECT_ID</key>
+	<string>dtok-438fb</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dtok-438fb.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:165025931859:ios:98663ecdd18b70d8885ca6</string>
+	<key>DATABASE_URL</key>
+	<string>https://dtok-438fb-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
