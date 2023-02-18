@@ -71,7 +71,7 @@ class BuildFeedState extends State<BuildFeed> {
                                 child: new Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    new RaisedButton(
+                                    new TextButton(
                                       onPressed: () {
                                         Navigator.push(
                                             context,
@@ -92,9 +92,10 @@ class BuildFeedState extends State<BuildFeed> {
                                           )
                                         ],
                                       ),
-                                      color: Colors.blueAccent,
+                                      style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blueAccent),
                                     ),
-                                    new FlatButton(
+                                    new TextButton(
                                         onPressed: () {
                                           launch("https://signup.steemit.com/");
                                         },
@@ -104,7 +105,7 @@ class BuildFeedState extends State<BuildFeed> {
                                               color:
                                                   theme(selectedTheme)["text"]),
                                         )),
-                                    new FlatButton(
+                                    new TextButton(
                                         onPressed: () {
                                           launch(
                                               "https://video.telsacoin.io/#faq1");
@@ -220,8 +221,10 @@ class BuildFeedState extends State<BuildFeed> {
                                 userData["result"] != null
                             ? new Opacity(
                                 opacity: 0.9,
-                                child: new FlatButton(
-                                  color: theme(selectedTheme)["background"],
+                                child: new TextButton(
+                                  style: TextButton.styleFrom(
+                                      backgroundColor:
+                                          theme(selectedTheme)["background"]),
                                   onPressed: () {
                                     print("pressed");
                                   },

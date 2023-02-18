@@ -107,7 +107,7 @@ class RateWidgetState extends State<RateWidget> {
                       child: Material(
                         color: Colors.lightBlue,
                         borderRadius: BorderRadius.circular(20.0),
-                        child: new FlatButton(
+                        child: new TextButton(
                           onPressed: () {
                             switch (tree) {
                               case 0:
@@ -151,7 +151,7 @@ class RateWidgetState extends State<RateWidget> {
                       child: Material(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20.0),
-                        child: new FlatButton(
+                        child: new TextButton(
                           onPressed: () {
                             switch (tree) {
                               // first positive
@@ -206,7 +206,7 @@ class RateWidgetState extends State<RateWidget> {
           children: <Widget>[
             Container(
               width: 45.0,
-              child: FlatButton(
+              child: TextButton(
                 onPressed: () {
                   setState(() {
                     hide = true;

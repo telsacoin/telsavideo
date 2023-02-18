@@ -43,8 +43,10 @@ class _SubscriptionState extends State<Subscription>
             SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
-              child: RaisedButton(
-                color: Color.fromRGBO(252, 1, 86, 1),
+              child: TextButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Color.fromRGBO(252, 1, 86, 1))),
                 child: Text(
                   'Sign In',
                   style: TextStyle(color: Colors.white),
