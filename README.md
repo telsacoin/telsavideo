@@ -2,7 +2,7 @@
 <h1 align="center"><a href="https://telsacoin.io/">DTOK</a></h1>
 
 
-#####  [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io//blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | [Donate](https://liberapay.com/telsacoin/donate)
+#####  [DTIK Admin](https://github.com/telsacoin/admin) | [Website](https://telsacoin.io/) | [Blog](https://telsacoin.io/blog) | [Telegram](https://t.me/tslacoingoup) | [Twitter](https://twitter.com/tlsacoin) | [Documentation](https://docs.telsacoin.io/) | [Donate](https://liberapay.com/telsacoin/donate)
 
 **[English](readme.md) | [中文](readme_cn.md)**
 
@@ -124,24 +124,49 @@ source ~/.bash_profile
 adb uninstall "com.telsa.dtok"
 ```
 
-# how to setup build apk
+# How to setup build apk
 https://github.com/marketplace/actions/flutter-action
 
-# upgrade gradlew
+# Upgrade gradlew
 ```bash
 ./gradlew wrapper --gradle-version 7
 ```
 
-# ios build
+# Ios build
 ```bash
 flutter clean \
         && rm ios/Podfile.lock pubspec.lock \
         && rm -rf ios/Pods ios/Runner.xcworkspace
 ```
 
-# upgrade package
+
+
+# My setup: VS Code, Flutter
+
+## If you don't have Podfile.lock file and pod update doesn't help, try this:
+
+1. Go to ios/Pods/Local Podspecs directory in your project
+2. Check every json file to find highest required ios version. Mine was  "ios": "10.0" in some of them
+3. Go back to ios/ directory
+4. Open Podfile file
+5. Uncomment # platform :ios, '9.0' and replace 9.0 with version from 2. step, for example 10.0.
+    - platform :ios, '9.0' > platform :ios, '10.0'
+6. Run pod install and the error should be gone
+
+
+# Upgrade package
 ```bash
 flutter pub upgrade --major-versions
+```
+
+# Install SDKMAN
+```
+curl -s "https://get.sdkman.io" | bash
+```
+
+# Install JDK 11
+```
+sdk install java  11.0.18-amzn
 ```
 
 
