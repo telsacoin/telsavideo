@@ -22,7 +22,7 @@ class SteemApiAuth {
   final List<SteemApiScope>? scopes = [];
 
   SteemApiAuth(this.clientId, this.clientSecret,
-      {this.redirectUri, Iterable<SteemApiScope> scopes: const []}) {
+      {this.redirectUri, Iterable<SteemApiScope> scopes = const []}) {
     this.scopes!.addAll(scopes);
   }
 

@@ -36,7 +36,7 @@ abstract class SteemRelationshipsApiUser {
   /// You will need to include an [action] as a parameter to specify the action you wish to perform.
   /// Valid actions: 'follow', 'unfollow'
   /// `what` is set to 'blog' by default, unless a value is provided
-  Future<bool> modify(String action, String target, String me, {String what});
+  Future<bool> modify(String action, String target, String me, {String? what});
 
   Future<bool> ignore(String target, String me);
 }

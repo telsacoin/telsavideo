@@ -45,13 +45,11 @@ class ThemeProvider with ChangeNotifier {
   ThemeData themeData() {
     return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      accentColor: Colors.blue,
-      primarySwatch: isLightTheme ? Colors.grey : Colors.grey,
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: isLightTheme ? Colors.grey : Colors.grey,
+      ).copyWith(secondary: Colors.blue),
       primaryColor: isLightTheme ? Colors.white : kPrimaryColor,
-      //  primaryColor: isLightTheme ? Colors.white : kPrimaryColor,
       brightness: isLightTheme ? Brightness.light : Brightness.dark,
-      backgroundColor: isLightTheme ? Color(0xFFFFFFFF) : kPrimaryColor,
-
       scaffoldBackgroundColor: isLightTheme ? Color(0xFFFFFFFF) : kPrimaryColor,
       canvasColor: isLightTheme ? Color(0xffffffff) : kPrimaryColor,
     );
@@ -210,7 +208,6 @@ class _ZAnimatedToggleState extends State<ZAnimatedToggle> {
 //             //   //     ),
 //             //   //   ),
 //             //   // ),
-//             // ),
 //        //   ),
 //         //  )]
 //           // AnimatedAlign(

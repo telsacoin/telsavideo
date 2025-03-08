@@ -1,5 +1,6 @@
 import 'package:telsavideo/api/category.dart';
 import 'package:telsavideo/services/requestor.dart';
+import 'package:telsavideo/models/category.dart';
 
 // TODO: Finish implementation
 
@@ -13,10 +14,33 @@ class SteemCategoriesApiImpl implements SteemCategoriesApi {
 
   SteemCategoriesApiImpl(this.requestor);
 
-/*
   @override
-  Future<Category> getTrendingCategories({String after, int limit});
-  */
+  Future<List<Category>> getTrendingCategories(
+      {String? after, int? limit}) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Category>> getBestCategories({String? after, int? limit}) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Category>> getActiveCategories(
+      {String? after, int? limit}) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Category>> getRecentCategories(
+      {String? after, int? limit}) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Category>> search(String query) async {
+    throw UnimplementedError();
+  }
 
 /*
   @override
@@ -37,5 +61,4 @@ class SteemCategoriesApiImpl implements SteemCategoriesApi {
   @override
   //FFuture<List<Category>> search(String query);
   */
-
 }

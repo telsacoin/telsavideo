@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
-import 'package:dio/adapter.dart';
+import 'package:dio/io.dart';
 import 'package:telsavideo/screens/home/home.dart';
 import 'package:telsavideo/services/interceptor.dart' as postreq;
 import 'package:telsavideo/common/SizeConfig.dart';
@@ -107,7 +107,7 @@ class _HiveAccountState extends State<HiveAccount> {
     map['username'] = prefs.getString('username');
     //print(registrationToken);
 
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
         return true;
@@ -146,7 +146,7 @@ class _HiveAccountState extends State<HiveAccount> {
     map['username'] = prefs.getString('username');
     map['code'] = prefs.getString('code');
 
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
         return true;
@@ -175,7 +175,7 @@ class _HiveAccountState extends State<HiveAccount> {
     map['user_id'] = prefs.getString('userId');
     map['code'] = prefs.getString('code');
 
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
         return true;

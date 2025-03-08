@@ -38,6 +38,9 @@ class HttpError {
   ///网络请求取消
   static const String CANCEL = "CANCEL";
 
+  ///网络连接错误
+  static const String CONNECTION_ERROR = "CONNECTION_ERROR";
+
   String? code;
 
   String? message;
@@ -47,29 +50,37 @@ class HttpError {
   HttpError.dioError(DioError error) {
     message = error.message;
     switch (error.type) {
-      case DioErrorType.connectTimeout:
+      case DioExceptionType.connectionTimeout:
         code = CONNECT_TIMEOUT;
         message = "网络连接超时，请检查网络设置";
         break;
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.receiveTimeout:
         code = RECEIVE_TIMEOUT;
         message = "服务器异常，请稍后重试！";
         break;
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.sendTimeout:
         code = SEND_TIMEOUT;
         message = "网络连接超时，请检查网络设置";
         break;
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         code = HTTP_ERROR;
         message = "服务器异常，请稍后重试！";
         break;
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         code = CANCEL;
         message = "请求已被取消，请重新请求";
         break;
-      case DioErrorType.other:
+      case DioExceptionType.badCertificate:
+        code = SSL_ERROR;
+        message = "证书验证失败";
+        break;
+      case DioExceptionType.unknown:
         code = UNKNOWN;
         message = "网络异常，请稍后重试！";
+        break;
+      case DioExceptionType.connectionError:
+        code = CONNECTION_ERROR;
+        message = "网络连接错误，请检查网络设置";
         break;
     }
   }

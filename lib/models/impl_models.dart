@@ -11,7 +11,7 @@ class SteemResponse {
   dynamic data;
 
   SteemResponse(
-      {required this.meta, required this.pagination, this.data: const {}});
+      {required this.meta, required this.pagination, this.data = const {}});
 
   factory SteemResponse.fromJson(Map<String, dynamic> map) =>
       _$SteemResponseFromJson(map);

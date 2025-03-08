@@ -613,12 +613,12 @@ class _RecordVideoState extends State<RecordVideo>
 
   Widget _exposureModeControlRowWidget() {
     final ButtonStyle styleAuto = TextButton.styleFrom(
-      primary: controller?.value.exposureMode == ExposureMode.auto
+      foregroundColor: controller?.value.exposureMode == ExposureMode.auto
           ? Colors.orange
           : Colors.blue,
     );
     final ButtonStyle styleLocked = TextButton.styleFrom(
-      primary: controller?.value.exposureMode == ExposureMode.locked
+      foregroundColor: controller?.value.exposureMode == ExposureMode.locked
           ? Colors.orange
           : Colors.blue,
     );
@@ -698,12 +698,12 @@ class _RecordVideoState extends State<RecordVideo>
 
   Widget _focusModeControlRowWidget() {
     final ButtonStyle styleAuto = TextButton.styleFrom(
-      primary: controller?.value.focusMode == FocusMode.auto
+      foregroundColor: controller?.value.focusMode == FocusMode.auto
           ? Colors.orange
           : Colors.blue,
     );
     final ButtonStyle styleLocked = TextButton.styleFrom(
-      primary: controller?.value.focusMode == FocusMode.locked
+      foregroundColor: controller?.value.focusMode == FocusMode.locked
           ? Colors.orange
           : Colors.blue,
     );

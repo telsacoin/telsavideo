@@ -25,7 +25,7 @@ abstract class SteemRelationshipsApi {
   ///
   /// https://api.steemjs.com/get_followers?following=NAME&startFollower=NULL&followType=TYPE&limit=LIMIT
   Future<List<Relationship>> getFollowers(String following,
-      {int limit, String startFollower, String followType});
+      {int? limit, String? startFollower, String? followType});
 
   SteemRelationshipsApiUser toUser(String username);
 }
