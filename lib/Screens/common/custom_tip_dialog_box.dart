@@ -12,7 +12,7 @@ class CustomTipDialogBox extends StatefulWidget {
 }
 
 class _CustomTipDialogBoxState extends State<CustomTipDialogBox> {
-  Time? time;
+  TimeOfDay? time;
 
   @override
   void initState() {

@@ -243,50 +243,17 @@ class RegisterState extends State<Register> {
                           //   ]),
                         ),
                         const SizedBox(height: 10),
-                        FormBuilderField<bool>(
-                          name: 'term',
+                        FormBuilderCheckbox(
+                          name: 'accept_terms',
+                          initialValue: true,
+                          title: Text(
+                            'Accept Terms?',
+                            style: TextStyle(color: Colors.white),
+                          ),
                           // validator: FormBuilderValidators.compose([
                           //   FormBuilderValidators.required(context),
                           //   FormBuilderValidators.equal(context, true),
                           // ]),
-                          initialValue: true,
-                          decoration: InputDecoration(
-                            labelText: 'Accept Terms?',
-                            labelStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          builder: (FormFieldState<bool?> field) {
-                            return InputDecorator(
-                              decoration: InputDecoration(
-                                errorText: field.errorText,
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white.withOpacity(0.65)),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white.withOpacity(0.65)),
-                                ),
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white.withOpacity(0.65)),
-                                ),
-                              ),
-                              child: SwitchListTile(
-                                title: Text(
-                                  'I have read and accept the terms of service.',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                onChanged: (bool value) {
-                                  field.didChange(value);
-                                },
-                                value: field.value ?? true,
-                              ),
-                            );
-                          },
                         ),
                         const SizedBox(height: 10),
                         MaterialButton(

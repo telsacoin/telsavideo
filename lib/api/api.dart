@@ -3,7 +3,6 @@ import 'dart:core';
 import 'package:telsavideo/api/http_manager.dart';
 import 'package:telsavideo/constants.dart';
 import 'package:telsavideo/http/http_constant.dart';
-import 'package:telsavideo/http/response/result.dart';
 import 'package:telsavideo/models/dto/comment/comment_item_digg_dto.dart';
 import 'package:telsavideo/models/dto/comment/comment_item_list_dto.dart';
 import 'package:telsavideo/models/dto/comment/comment_list_reply_dto.dart';
@@ -14,6 +13,7 @@ import 'package:telsavideo/models/dto/discover/discover_music_dto.dart';
 import 'package:telsavideo/models/dto/discover/discover_user_dto.dart';
 import 'package:telsavideo/models/dto/message/notification_make_read_dto.dart';
 import 'package:telsavideo/models/dto/recommend/itemlist_dto.dart';
+import 'package:telsavideo/models/dto/signin/captcha_Image_dto.dart';
 import 'package:telsavideo/models/dto/signin/signin_dto.dart';
 import 'package:telsavideo/models/dto/signup/signup_dto.dart';
 import 'package:telsavideo/models/vo/comment/comment_item_digg_vo.dart';
@@ -26,12 +26,24 @@ import 'package:telsavideo/models/vo/discover/discover_user_vo.dart';
 import 'package:telsavideo/models/vo/message/notification_make_read_vo.dart';
 import 'package:telsavideo/models/vo/message/notification_vo.dart';
 import 'package:telsavideo/models/vo/recommend/itemlist_vo.dart';
+import 'package:telsavideo/models/vo/signin/captcha_image_vo.dart';
 import 'package:telsavideo/models/vo/signin/signin_vo.dart';
 import 'package:telsavideo/models/vo/signup/signup.dart';
 
 class Api {
   /// the app interface
   static String api = apiPortail;
+
+  ///captcha image
+  static Future<CaptchaImageVo> getCaptchaImageResponse(
+      CaptchaImageDto? dto) async {
+    Map<String, dynamic> params = new HashMap();
+    var result = await HttpManager.getInstance().get(
+        url: Api.api + HttpConstant.captchaImage,
+        cancelTokenTag: "cancelTokenTag",
+        param: params);
+    return CaptchaImageVo.fromJson(result);
+  }
 
   ///signin the app
   static Future<SignInVo> postLoginResponse(SignInDto? dto) async {

@@ -44,15 +44,14 @@ class _SubscriptionState extends State<Subscription>
               width: double.infinity,
               child: ElevatedButton(
                 style: ButtonStyle(
-                    iconColor: MaterialStateProperty.all(
-                        Color.fromRGBO(252, 1, 86, 1))),
+                    iconColor:
+                        WidgetStateProperty.all(Color.fromRGBO(252, 1, 86, 1))),
                 child: Text(
                   'Sign In',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  Scaffold.of(context)
-                      .showBottomSheet<void>((BuildContext context) {
+                  Scaffold.of(context).showBottomSheet((BuildContext context) {
                     return Login();
                   });
                 },

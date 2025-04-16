@@ -1,7 +1,10 @@
 /// HTTP Constant
 class HttpConstant {
   /// the base ul
-  static const baseUrl = "http://47.95.209.198:8181/";
+  static const baseUrl = "https://api.greatbear.vip/";
+
+  ///captchaImage
+  static const captchaImage = "/captchaImage";
 
   /// login
   static const login = "/api/signin";

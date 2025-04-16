@@ -27,8 +27,8 @@ class HttpManager {
     if (null == _dio) {
       BaseOptions options = BaseOptions(
         baseUrl: HttpConstant.baseUrl,
-        connectTimeout: CONNECT_TIMEOUT,
-        receiveTimeout: RECEIVE_TIMEOUT,
+        connectTimeout: Duration(milliseconds: CONNECT_TIMEOUT),
+        receiveTimeout: Duration(milliseconds: RECEIVE_TIMEOUT),
       );
       _dio = Dio(options);
 
@@ -42,8 +42,8 @@ class HttpManager {
 
     if (null == _dioUpload) {
       BaseOptions options = BaseOptions(
-        connectTimeout: CONNECT_TIMEOUT,
-        receiveTimeout: RECEIVE_TIMEOUT,
+        connectTimeout: Duration(milliseconds: CONNECT_TIMEOUT),
+        receiveTimeout: Duration(milliseconds: RECEIVE_TIMEOUT),
       );
 
       _dioUpload = Dio(options);
@@ -89,7 +89,7 @@ class HttpManager {
       String? method,
       String? cancelTokenTag,
       Map<String, dynamic>? params,
-      data,
+      dynamic data,
       Options? options}) async {
     //EasyLoading.show();
     ConnectivityResult connectivityResult =

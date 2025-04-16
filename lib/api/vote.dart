@@ -18,7 +18,7 @@ abstract class SteemVotesApiPost {
 
   /// Upvote the post as the currently authenticated user
   Future<bool> upvote(String voter, String author, String permlink,
-      {int weight});
+      {int? weight});
 
   /// Remove an upvote on the post by the currently authenticated user
   Future<bool> unvote(String voter, String author, String permlink);

@@ -30,7 +30,7 @@ abstract class SteemUsersApi {
 
   /// Get a list of users matching the query
   /// https://api.steemjs.com/lookup_accounts?lowerBoundName=username&limit=LIMIT
-  Future<List<String>> search(String query, {int limit});
+  Future<List<String>> search(String query, {int? limit});
 }
 
 /// An abstraction to extract information about the owner of the access token
@@ -48,5 +48,5 @@ abstract class SteemUsersApiSelf {
 
   /// Get a list of recent posts published by the users followed by the authenticated user
   /// https://api.steemjs.com/get_feed?account=ACCOUNT&limit=16
-  Future<List<Post>> getFeed(String account, {int limit});
+  Future<List<Post>> getFeed(String account, {int? limit});
 }

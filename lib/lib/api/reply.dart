@@ -19,7 +19,7 @@ abstract class SteemCommentsApiPost {
   /// https://steemconnect.com/sign/comment?parent_author=AUTHOR&parent_permlink=PARENT_PERMLINK&author=AUTHOR&permlink=REPLY_PERMLINK&title=TITLE&body=BODY&json_metadata=VALUE
   Future<bool> createComment(String parentAuthor, String parentPermlink,
       String author, String permlink, String title, String body,
-      {String jsonMetadata});
+      {String? jsonMetadata});
 
   /// Remove a comment either on the authenticated user's post object or authored by the authenticated user
   /// https://steemconnect.com/sign/delete_comment?author=value&permlink=value

@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
-import 'package:dio/adapter.dart';
 import 'package:telsavideo/screens/home/home.dart';
 import 'package:telsavideo/services/interceptor.dart' as postreq;
 import 'package:telsavideo/common/SizeConfig.dart';
@@ -11,6 +10,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:dio/io.dart';
 
 import '../../constants.dart';
 
@@ -107,7 +107,7 @@ class _HiveAccountState extends State<HiveAccount> {
     map['username'] = prefs.getString('username');
     //print(registrationToken);
 
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
         return true;
@@ -146,7 +146,7 @@ class _HiveAccountState extends State<HiveAccount> {
     map['username'] = prefs.getString('username');
     map['code'] = prefs.getString('code');
 
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
         return true;
@@ -175,7 +175,7 @@ class _HiveAccountState extends State<HiveAccount> {
     map['user_id'] = prefs.getString('userId');
     map['code'] = prefs.getString('code');
 
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
         return true;
@@ -299,6 +299,18 @@ class _HiveAccountState extends State<HiveAccount> {
                   onConsoleMessage: (controller, consoleMessage) {
                     log(consoleMessage.message);
                   },
+                  onLoadStart: (controller, url) {
+                    setState(() async {
+                      // setState 不能接受 async 函数
+                      this.url = url.toString();
+                      urlController.text = this.url;
+
+                      // 将异步代码移出 setState
+                      if (url != null) {
+                        _handleLoadStart(url);
+                      }
+                    });
+                  },
                 );
               },
             ),
@@ -306,6 +318,38 @@ class _HiveAccountState extends State<HiveAccount> {
         ],
       ),
     );
+  }
+
+  // 添加新方法处理异步逻辑
+  Future<void> _handleLoadStart(Uri url) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    url.queryParameters.forEach((key, value) {
+      if (key == 'access_token' || key == 'username' || key == 'code') {
+        if (key == 'username' &&
+            prefs.getString('access_token') != null &&
+            prefs.getString('code') != null) {
+          prefs.setString('HiveUserName', value);
+          print(
+              "*************************************************************************************");
+          print(prefs.getString('code'));
+          print(
+              '*************************************************************************************');
+        } else {
+          prefs.setString(key, value);
+        }
+
+        print(prefs.getString(key));
+        if (prefs.getString('code') != null) {
+          print('this is the code : ${prefs.getString('code')}');
+        }
+        if (prefs.getString('userId') != null) {
+          registerHiveUser();
+        } else {
+          hiveAuth();
+        }
+      }
+    });
   }
 }
 
@@ -390,45 +434,12 @@ class _HiveAccountState extends State<HiveAccount> {
     print(i);
   },
   onLoadStart: (controller, url) {
-    setState(() async {
+    setState(() async {  // setState 不能接受 async 函数
       this.url = url.toString();
       urlController.text = this.url;
-
-      SharedPreferences prefs =
-          await SharedPreferences.getInstance();
-
-      var uri = Uri.parse(url.toString());
-      uri.queryParameters.forEach((key, value) {
-        if (key == 'access_token' ||
-            key == 'username' ||
-            key == 'code') {
-          if (key == 'username' &&
-              prefs.getString('access_token') != null &&
-              prefs.getString('code') != null) {
-            prefs.setString('HiveUserName', value);
-            print(
-                "*************************************************************************************");
-            print(prefs.getString('code'));
-            print(
-                '*************************************************************************************');
-            // registerHiveUser();
-
-          } else {
-            prefs.setString('$key', value);
-          }
-
-          print(prefs.getString(key));
-          if (prefs.getString('code') != null) {
-            print(
-                'this is the code : ${prefs.getString('code')}');
-          }
-          if (prefs.getString('userId') != null) {
-            registerHiveUser();
-          } else {
-            hiveAuth();
-          }
-        }
-      });
+      
+      // 将异步代码移出 setState
+      _handleLoadStart(url);
     });
   },
 ); */

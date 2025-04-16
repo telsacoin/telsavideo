@@ -131,7 +131,7 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                   } else if (snapshot.hasData) {
                     final datas = snapshot.data!;
                     return Scrollbar(
-                        isAlwaysShown: true,
+                        thumbVisibility: true,
                         controller: scrollController,
                         radius: Radius.circular(5.0),
                         child: ListView.builder(
@@ -200,7 +200,7 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                                               data.userName!,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .caption!
+                                                  .bodySmall!
                                                   .copyWith(
                                                       fontWeight:
                                                           FontWeight.w600,
@@ -215,7 +215,7 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                                               '${data.content}',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .caption!
+                                                  .bodySmall!
                                                   .copyWith(
                                                       fontWeight:
                                                           FontWeight.w300,
@@ -228,7 +228,7 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                                           ? DefaultTextStyle(
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .caption!
+                                                  .bodySmall!
                                                   .copyWith(
                                                       color: Colors.grey[700],
                                                       fontWeight:
@@ -275,7 +275,7 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                                           "${data.diggCount}",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .caption!
+                                              .bodySmall!
                                               .copyWith(
                                                   fontWeight: FontWeight.w600,
                                                   color: Color.fromRGBO(
@@ -317,8 +317,8 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                                               data.userName!,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .caption
-                                                  ?.copyWith(
+                                                  .bodySmall!
+                                                  .copyWith(
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       color: Colors.black),
@@ -330,8 +330,8 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                                               '${data.content}',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .caption
-                                                  ?.copyWith(
+                                                  .bodySmall!
+                                                  .copyWith(
                                                       fontWeight:
                                                           FontWeight.w300,
                                                       color: Colors.black),
@@ -343,7 +343,7 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                                           ? DefaultTextStyle(
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .caption!
+                                                  .bodySmall!
                                                   .copyWith(
                                                       color: Colors.grey[700],
                                                       fontWeight:
@@ -386,7 +386,7 @@ class _HomeBottomVideoCommentState extends State<HomeBottomVideoComment> {
                                           "${data.diggCount}",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .caption!
+                                              .bodySmall!
                                               .copyWith(
                                                   fontWeight: FontWeight.w600,
                                                   color: Color.fromRGBO(
