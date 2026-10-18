@@ -372,7 +372,7 @@ broadcastVote(
       ]
     ]
   });
-  toast(context, "Voted sucessfully");
+  toast(context, "Voted successfully");
   return (response.data);
 }
 
@@ -406,7 +406,7 @@ broadcastComment(
       ]
     ]
   });
-  toast(context, "Commented sucessfully");
+  toast(context, "Commented successfully");
   return (response.data);
 }
 
